@@ -1,0 +1,24 @@
+<style>
+  .sticky {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+</style>
+
+
+<div class="sticky">
+   <mat-toolbar color='primary' class='mat-elevation-z8'>
+     <mat-toolbar-row>
+       <span style="margin-left: 15px;">Evoucher</span>
+     </mat-toolbar-row>
+     <mat-toolbar-row style="height: 80%">
+       <a mat-button routerLink='faculty' routerLinkActive='active'>Faculties</a>
+       <a mat-button routerLink='organization' routerLinkActive='active'>Organizations</a> 
+       <a mat-button routerLink='voucher' routerLinkActive='active'>Vouchers</a>
+       <a mat-button routerLink='student' routerLinkActive='active'>Students</a>
+     </mat-toolbar-row>
+   </mat-toolbar>
+</div>
+
+<router-outlet></router-outlet>

@@ -1,0 +1,28 @@
+<mat-table [dataSource]="vouchers" class="mat-elevation-z8">
+    <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef>Voucher Id</mat-header-cell>
+        <mat-cell *matCellDef="let cell">{{cell.voucher_id}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Voucher Name</mat-header-cell>
+        <mat-cell *matCellDef="let cell">{{cell.name}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="posted_date">
+        <mat-header-cell *matHeaderCellDef>Posted Date</mat-header-cell>
+        <mat-cell *matCellDef="let cell">{{cell.posted_date}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="expiry_date">
+        <mat-header-cell *matHeaderCellDef>Expiry Date</mat-header-cell>
+        <mat-cell *matCellDef="let cell">{{cell.expiry_date}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+        <mat-cell *matCellDef="let cell">{{cell.description}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="claims_left">
+        <mat-header-cell *matHeaderCellDef>Claims Left</mat-header-cell>
+        <mat-cell *matCellDef="let cell">{{cell.claims_left}}</mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
+    <mat-row *matRowDef="let cell; columns: tableColumns;"></mat-row>
+</mat-table>

@@ -1,0 +1,16 @@
+<mat-table [dataSource]="students" class="mat-elevation-z8">
+    <ng-container matColumnDef="nusnet_id">
+        <mat-header-cell *matHeaderCellDef>Nusnet Id</mat-header-cell>
+        <mat-cell *matCellDef="let cell">{{cell.nusnet_id}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Student Name</mat-header-cell>
+        <mat-cell *matCellDef="let cell">{{cell.name}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="year">
+        <mat-header-cell *matHeaderCellDef>Year</mat-header-cell>
+        <mat-cell *matCellDef="let cell">{{cell.year}}</mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
+    <mat-row *matRowDef="let cell; columns: tableColumns;"></mat-row>
+</mat-table>

@@ -1,0 +1,8 @@
+<mat-table [dataSource]="faculties" class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Faculty Name</mat-header-cell>
+        <mat-cell *matCellDef="let cell">{{cell.name}}</mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
+    <mat-row *matRowDef="let cell; columns: tableColumns;"></mat-row>
+</mat-table>

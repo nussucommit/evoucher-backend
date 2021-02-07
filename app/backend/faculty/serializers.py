@@ -7,4 +7,4 @@ class FacultySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Faculty
-        fields = ('name')
+        fields = "__all__"
