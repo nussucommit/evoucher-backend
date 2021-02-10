@@ -1,28 +1,37 @@
-<mat-table [dataSource]="vouchers" class="mat-elevation-z8">
-    <ng-container matColumnDef="id">
-        <mat-header-cell *matHeaderCellDef>Voucher Id</mat-header-cell>
-        <mat-cell *matCellDef="let cell">{{cell.voucher_id}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef>Voucher Name</mat-header-cell>
-        <mat-cell *matCellDef="let cell">{{cell.name}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="posted_date">
-        <mat-header-cell *matHeaderCellDef>Posted Date</mat-header-cell>
-        <mat-cell *matCellDef="let cell">{{cell.posted_date}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="expiry_date">
-        <mat-header-cell *matHeaderCellDef>Expiry Date</mat-header-cell>
-        <mat-cell *matCellDef="let cell">{{cell.expiry_date}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="description">
-        <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
-        <mat-cell *matCellDef="let cell">{{cell.description}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="claims_left">
-        <mat-header-cell *matHeaderCellDef>Claims Left</mat-header-cell>
-        <mat-cell *matCellDef="let cell">{{cell.claims_left}}</mat-cell>
-    </ng-container>
-    <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
-    <mat-row *matRowDef="let cell; columns: tableColumns;"></mat-row>
-</mat-table>
+<div class= "container" style="padding-top:15px; padding-left: 30px; padding-right: 30px; padding-bottom: 20px;">
+    <mat-table [dataSource]="vouchers" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef>Voucher Id</mat-header-cell>
+            <mat-cell *matCellDef="let cell">{{cell.voucher_id}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef>Voucher Name</mat-header-cell>
+            <mat-cell *matCellDef="let cell">{{cell.name}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="posted_date">
+            <mat-header-cell *matHeaderCellDef>Posted Date</mat-header-cell>
+            <mat-cell *matCellDef="let cell">{{cell.posted_date}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="expiry_date">
+            <mat-header-cell *matHeaderCellDef>Expiry Date</mat-header-cell>
+            <mat-cell *matCellDef="let cell">{{cell.expiry_date}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="description">
+            <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+            <mat-cell *matCellDef="let cell">{{cell.description}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="claims_left">
+            <mat-header-cell *matHeaderCellDef>Claims Left</mat-header-cell>
+            <mat-cell *matCellDef="let cell">{{cell.claims_left}}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
+        <mat-row *matRowDef="let cell; columns: tableColumns;"></mat-row>
+    </mat-table>
+    <div class="mat-elevation-z8" style="display: flex; background-color: white; flex-direction: row-reverse;">
+        <mat-form-field style="padding-right: 1%; width: 7%;">
+          <input #page matInput type="number" min="1" [max]="paginator.getNumberOfPages()" [value]="paginator.pageIndex + 1" (change)="onInputPageChange(page.value)">
+        </mat-form-field>
+        <p style="padding-right: 1%; margin: auto 0; font-size: 12px; color: #777777;">Page: </p>
+        <mat-paginator [length]="resultsLength" [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>
+    </div>
+</div>

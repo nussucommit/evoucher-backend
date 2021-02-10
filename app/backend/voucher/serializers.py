@@ -8,4 +8,4 @@ class VoucherSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Voucher
-        fields = ('id', 'posted_date', 'expiry_date', 'name', 'description', 'claims_left', 'student')
+        fields = '__all__'

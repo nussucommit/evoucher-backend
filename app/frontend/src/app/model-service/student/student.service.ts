@@ -11,8 +11,8 @@ export class StudentService {
 
   constructor(private http: HttpClient) { }
 
-  getStudentList(): Observable<any> {
-    return this.http.get(`${this.baseUrlStudent}`);
+  getStudentList(filterParams: any): Observable<any> {
+    return this.http.get(`${this.baseUrlStudent}`, { params: filterParams });
   }
 
   getStudentById(id: string): Observable<object> {
