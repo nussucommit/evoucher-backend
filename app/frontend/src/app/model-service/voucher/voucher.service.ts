@@ -19,7 +19,7 @@ export class VoucherService {
     return this.http.get(`${this.baseUrlVoucher}/${id}`);
   }
 
-  createVocher(voucher: any): Observable<object> {
+  createVoucher(voucher: any): Observable<object> {
     return this.http.post(`${this.baseUrlVoucher}`, voucher);
   }
   

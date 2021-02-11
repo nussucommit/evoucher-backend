@@ -1,7 +1,16 @@
+<div class = "row" style="margin-top: 10px">
+    <div class="column-left"><h1 style = "padding-top: 10px; padding-left: 20px;">Voucher List</h1></div>
+    <div class = "column-right">
+        <button mat-raised-button style="float: right" color="primary" (click)= "openEditDialog(undefined, 'create')">
+            Add Voucher
+        </button>
+    </div>
+</div>
+
 <mat-table [dataSource]="vouchers" class="mat-elevation-z8">
     <ng-container matColumnDef="id">
         <mat-header-cell *matHeaderCellDef>Voucher Id</mat-header-cell>
-        <mat-cell *matCellDef="let cell">{{cell.voucher_id}}</mat-cell>
+        <mat-cell *matCellDef="let cell">{{cell.id}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef>Voucher Name</mat-header-cell>

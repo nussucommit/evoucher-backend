@@ -1,1 +1,45 @@
-<p>voucher-details works!</p>
+<div style="padding:20px; width: 300px; margin: auto">
+    <h1 mat-dialog-title style="padding-top: 10px">{{getDialogTitle()}}</h1>
+    <form mat-dialog-content [formGroup]="voucherForm">
+        <mat-form-field style = "margin-top: 10px;" appearance="standard">
+            <mat-label>Voucher ID</mat-label>
+            <input matInput class="form-control" formControlName="id">
+            <mat-error>This field is required.</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field style = "margin-top: 10px;" appearance="standard">
+            <mat-label>Posted Date</mat-label>
+            <input matInput type = "datetime-local" formControlName="posted_date">
+            <mat-error>This field is required.</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field style = "margin-top: 10px;" appearance="standard">
+            <mat-label>Expiry Date</mat-label>
+            <input matInput type = "datetime-local" formControlName="expiry_date">
+            <mat-error>This field is required.</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field style = "margin-top: 10px;" appearance="standard">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name">
+            <mat-error>This field is required.</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field style = "margin-top: 10px;" appearance="standard">
+            <mat-label>Description</mat-label>
+            <input matInput formControlName="description">
+            <mat-error>This field is required.</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field style = "margin-top: 10px;" appearance="standard">
+            <mat-label>Claims Left</mat-label>
+            <input matInput type="number" min="1" value="1" pattern= "\d+" formControlName="claims_left">
+            <mat-error>Please enter a positive number.</mat-error>
+        </mat-form-field>
+        <br>
+    </form>
+    <mat-dialog-actions align="end">
+        <button mat-button [mat-dialog-close]="true">Cancel</button>
+        <button mat-raised-button [disabled]="!voucherForm.valid" type="submit" color="primary" (click)="onSubmit()">Submit</button>
+    </mat-dialog-actions>
+</div>
