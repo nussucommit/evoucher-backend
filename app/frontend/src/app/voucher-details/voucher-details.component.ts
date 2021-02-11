@@ -41,7 +41,9 @@ export class VoucherDetailsComponent implements OnInit {
   getDialogTitle() {
     if (this.voucherData.mode === 'create') {
       return 'Create Voucher';
-    } 
+    }  else if (this.voucherData.mode === 'edit') {
+      return 'Edit Voucher';
+    }
   }
 
   onSubmit() {
@@ -49,7 +51,15 @@ export class VoucherDetailsComponent implements OnInit {
     const data = this.voucherForm.value;
     if (this.voucherData.mode === 'create') {
       this.voucherService.createVoucher(data).subscribe();
-    } 
+    } else if (this.voucherData.mode === 'edit') {
+      const dataCopy = {...data};
+      const finalData: Voucher = Object.assign(dataCopy, {id: this.voucherData.voucher.id}) as Voucher;
+      this.voucherService.updateVoucher(this.voucherData.voucher.id, finalData).subscribe();
+    }
+  }
+
+  onDelete() {
+    this.dialogRef.close({delete: true});
   }
 
 }

@@ -1,0 +1,7 @@
+<h1 mat-dialog-title>Delete {{dialogSource}}</h1>
+<mat-label mat-dialog-content>Are you sure you want to remove {{dialogSource}}? This action is irreversible.</mat-label>
+
+<div mat-dialog-actions align="end">
+    <button mat-button (click)="closeDialog('yes')">Yes</button>
+    <button mat-button (click)="closeDialog('no')">No</button>
+</div>

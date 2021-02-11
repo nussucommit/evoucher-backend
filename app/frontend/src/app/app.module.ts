@@ -7,8 +7,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from  '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatRippleModule} from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +23,7 @@ import { StudentListComponent } from './student-list/student-list.component';
 import { StudentDetailsComponent } from './student-details/student-details.component';
 import { VoucherListComponent } from './voucher-list/voucher-list.component';
 import { VoucherDetailsComponent } from './voucher-details/voucher-details.component';
+import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,8 @@ import { VoucherDetailsComponent } from './voucher-details/voucher-details.compo
     StudentListComponent,
     StudentDetailsComponent,
     VoucherListComponent,
-    VoucherDetailsComponent
+    VoucherDetailsComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +47,9 @@ import { VoucherDetailsComponent } from './voucher-details/voucher-details.compo
     MatToolbarModule,
     MatButtonModule,
     MatDialogModule,
+    MatRippleModule,
     MatFormFieldModule,
+    MatPaginatorModule,
     MatInputModule,
     MatTableModule
   ],
