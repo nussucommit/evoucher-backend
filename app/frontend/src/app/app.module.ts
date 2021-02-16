@@ -7,10 +7,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from  '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatDialogModule} from "@angular/material/dialog";
-import {MatRippleModule} from '@angular/material/core';
+import {MAT_DATE_LOCALE, MatRippleModule} from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -53,8 +55,12 @@ import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-di
     MatInputModule,
     MatTableModule,
     MatPaginatorModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'en-SG' },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

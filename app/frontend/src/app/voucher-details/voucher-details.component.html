@@ -9,13 +9,19 @@
         <br>
         <mat-form-field style = "margin-top: 10px;" appearance="standard">
             <mat-label>Posted Date</mat-label>
-            <input matInput type = "datetime-local" formControlName="posted_date">
+            <input matInput required class="form-control" [min]="todayDate"
+            [matDatepicker]="postedpicker" formControlName="posted_date">
+            <mat-datepicker-toggle matSuffix [for]="postedpicker"></mat-datepicker-toggle>
+            <mat-datepicker #postedpicker></mat-datepicker>
             <mat-error>This field is required.</mat-error>
         </mat-form-field>
         <br>
         <mat-form-field style = "margin-top: 10px;" appearance="standard">
             <mat-label>Expiry Date</mat-label>
-            <input matInput type = "datetime-local" formControlName="expiry_date">
+            <input matInput required class="form-control" [min]="voucherForm.controls.posted_date.value"
+            [matDatepicker]="expirypicker" formControlName="expiry_date">
+            <mat-datepicker-toggle matSuffix [for]="expirypicker"></mat-datepicker-toggle>
+            <mat-datepicker #expirypicker></mat-datepicker>
             <mat-error>This field is required.</mat-error>
         </mat-form-field>
         <br>

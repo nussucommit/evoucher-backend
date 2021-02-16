@@ -15,6 +15,7 @@ export class VoucherDetailsComponent implements OnInit {
   voucherForm: FormGroup;
   
   hasData: boolean;
+  todayDate:Date = new Date();
 
   constructor(
     public dialogRef: MatDialogRef<VoucherDetailsComponent>,
