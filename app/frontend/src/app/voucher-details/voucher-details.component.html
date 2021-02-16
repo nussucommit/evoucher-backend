@@ -22,7 +22,7 @@
             [matDatepicker]="expirypicker" formControlName="expiry_date">
             <mat-datepicker-toggle matSuffix [for]="expirypicker"></mat-datepicker-toggle>
             <mat-datepicker #expirypicker></mat-datepicker>
-            <mat-error>This field is required.</mat-error>
+            <mat-error>This date has to be later than the posted date.</mat-error>
         </mat-form-field>
         <br>
         <mat-form-field style = "margin-top: 10px;" appearance="standard">
