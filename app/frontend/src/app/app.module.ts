@@ -10,7 +10,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatRippleModule} from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -51,7 +51,8 @@ import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-di
     MatFormFieldModule,
     MatPaginatorModule,
     MatInputModule,
-    MatTableModule
+    MatTableModule,
+    MatPaginatorModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

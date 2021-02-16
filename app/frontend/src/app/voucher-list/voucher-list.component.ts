@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,15 +9,23 @@ import { VoucherService } from '../model-service/voucher/voucher.service';
 import { VoucherDetailsComponent } from '../voucher-details/voucher-details.component';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
+import {merge, of as observableOf} from 'rxjs';
+
+import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+
 @Component({
   selector: 'app-voucher-list',
   templateUrl: './voucher-list.component.html',
   styleUrls: ['./voucher-list.component.scss']
 })
-export class VoucherListComponent implements OnInit {
+export class VoucherListComponent implements AfterViewInit {
 
   vouchers = new MatTableDataSource<Voucher>();
-  tableColumns: String[] = ['id', 'posted_date', 'expiry_date', 'name', 'description', 'claims_left'];
+  tableColumns: String[] = ['name'];
+
+  resultsLength = 0;
+  isLoadingResults = true;
+  isRateLimitReached = false;
 
   formDialogOpened = false;
 
@@ -29,16 +37,60 @@ export class VoucherListComponent implements OnInit {
     private dialog: MatDialog,
   ) { }
 
-  ngOnInit(): void {
-    this.reloadData();
+  ngAfterViewInit() {
+    this.paginator.page
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          this.isLoadingResults = true;
+          return this.voucherService.getVoucherList({page: this.paginator.pageIndex + 1, page_size: this.paginator.pageSize});
+        }),
+        map(data => {
+          this.isLoadingResults = false;
+          this.isRateLimitReached = false;
+          this.resultsLength = data.count;
+
+          return data.results;
+        }),
+        catchError(() => {
+          this.isLoadingResults = false;
+          this.isRateLimitReached = true;
+          return observableOf([]);
+        })
+      ).subscribe(data => {
+        console.log(data);
+        this.vouchers.data = data
+      });
+  }
+
+  onInputPageChange(pageNumber: number) {
+    this.paginator.pageIndex = Math.min(pageNumber - 1, this.paginator.getNumberOfPages() - 1);
   }
 
   reloadData() {
-    this.voucherService.getVoucherList()
-      .subscribe(
-        (data: Voucher[]) => {
-          this.vouchers.data = data;
-        }
+    (this.paginator.page)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          this.isLoadingResults = true;
+          return this.voucherService.getVoucherList({page: this.paginator.pageIndex + 1, page_size: this.paginator.pageSize});
+        }),
+        map(data => {
+          this.isLoadingResults = false;
+          this.isRateLimitReached = false;
+          this.resultsLength = data.count;
+
+          return data.results;
+        }),
+        catchError(() => {
+          this.isLoadingResults = false;
+          this.isRateLimitReached = true;
+          return observableOf([]);
+        })
+      ).subscribe(
+          (data: Voucher[]) => {
+            this.vouchers.data = data;
+          }
       );
   }
 

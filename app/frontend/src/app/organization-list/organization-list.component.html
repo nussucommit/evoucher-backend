@@ -1,8 +1,18 @@
-<mat-table [dataSource]="organizations" class="mat-elevation-z8">
-    <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef>Organization Name</mat-header-cell>
-        <mat-cell *matCellDef="let cell">{{cell.name}}</mat-cell>
-    </ng-container>
-    <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
-    <mat-row *matRowDef="let cell; columns: tableColumns;"></mat-row>
-</mat-table>
+<div class= "container" style="padding-top:15px; padding-left: 30px; padding-right: 30px; padding-bottom: 20px;">
+    <mat-table [dataSource]="organizations" class="mat-elevation-z8">
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef>Organization Name</mat-header-cell>
+            <mat-cell *matCellDef="let cell">{{cell.name}}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
+        <mat-row *matRowDef="let cell; columns: tableColumns;"></mat-row>
+    </mat-table>
+    <div class="mat-elevation-z8" style="display: flex; background-color: white; flex-direction: row-reverse;">
+        <mat-form-field style="padding-right: 1%; width: 7%;">
+            <input #page matInput type="number" min="1" [max]="paginator.getNumberOfPages()"
+              [value]="paginator.pageIndex + 1" (change)="onInputPageChange(page.value)">
+          </mat-form-field>
+          <p style="padding-right: 1%; margin: auto 0; font-size: 12px; color: #777777;">Page: </p>
+        <mat-paginator [length]="resultsLength" [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>
+    </div>
+</div>

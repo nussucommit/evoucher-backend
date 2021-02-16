@@ -5,11 +5,14 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 from voucher.models import Voucher
 from voucher.serializers import VoucherSerializer
 
+from evoucher.pagination_settings import PaginationSettings
+
 
 class CreateVoucherList(generics.ListCreateAPIView):
     queryset = Voucher.objects.all()
     serializer_class = VoucherSerializer
-    permission_classes = (AllowAny,) #IsAuthenticatedOrReadOnly,) to change after adding admin page
+    pagination_class = PaginationSettings
+    permission_classes = (AllowAny,) #IsAuthenticatedOrReadOnly,) to change
 
 
 class VoucherList(generics.ListAPIView):

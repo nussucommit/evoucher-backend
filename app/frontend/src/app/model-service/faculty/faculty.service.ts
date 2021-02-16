@@ -11,8 +11,8 @@ export class FacultyService {
   
   constructor(private http: HttpClient) { }
 
-  getFacultyList(): Observable<any> {
-    return this.http.get(`${this.baseUrlFaculty}`);
+  getFacultyList(filterParams: any): Observable<any> {
+    return this.http.get(`${this.baseUrlFaculty}`, { params: filterParams });
   }
 
   getFaculyById(id: number): Observable<object> {

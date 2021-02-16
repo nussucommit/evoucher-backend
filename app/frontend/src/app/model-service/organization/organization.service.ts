@@ -11,8 +11,8 @@ export class OrganizationService {
 
   constructor(private http: HttpClient) { }
 
-  getOrganizationList(): Observable<any> {
-    return this.http.get(`${this.baseUrlOrganization}`);
+  getOrganizationList(filterParams: any): Observable<any> {
+    return this.http.get(`${this.baseUrlOrganization}`, { params: filterParams });
   }
 
   getOrganizationById(id: number): Observable<object> {

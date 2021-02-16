@@ -11,8 +11,8 @@ export class VoucherService {
 
   constructor(private http: HttpClient) { }
 
-  getVoucherList(): Observable<any> {
-    return this.http.get(`${this.baseUrlVoucher}`);
+  getVoucherList(filterParams: any): Observable<any> {
+    return this.http.get(`${this.baseUrlVoucher}`, { params: filterParams });
   }
 
   getVoucherById(id: string): Observable<object> {

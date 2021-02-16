@@ -13,7 +13,7 @@ class StudentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Student
-        fields = ('nusnet_id', 'name', 'year', 'faculties', 'organizations', 'vouchers')
+        fields = '__all__'
 
 
 class InFacultySerializer(serializers.ModelSerializer):
