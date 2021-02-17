@@ -16,7 +16,7 @@ import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 export class StudentListComponent implements AfterViewInit {
 
   students = new MatTableDataSource<Student>();
-  tableColumns: String[] = ['name'];
+  tableColumns: String[] = ['nusnet_id', 'name', 'year'];
 
   resultsLength = 0;
   isLoadingResults = true;
