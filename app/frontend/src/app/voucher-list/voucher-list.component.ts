@@ -21,7 +21,7 @@ import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 export class VoucherListComponent implements AfterViewInit {
 
   vouchers = new MatTableDataSource<Voucher>();
-  tableColumns: String[] = ['id', 'name', 'posted_date', 'expiry_date', 'description', 'claims_left'];
+  tableColumns: String[] = ['voucher_id', 'name', 'available_date', 'expiry_date', 'description', 'claims_left'];
 
   resultsLength = 0;
   isLoadingResults = true;

@@ -10,17 +10,17 @@
 
 <div class= "container" style="padding-top:15px; padding-left: 30px; padding-right: 30px; padding-bottom: 20px;">
     <mat-table [dataSource]="vouchers" class="mat-elevation-z8">
-        <ng-container matColumnDef="id">
+        <ng-container matColumnDef="voucher_id">
             <mat-header-cell *matHeaderCellDef>Voucher Id</mat-header-cell>
-            <mat-cell *matCellDef="let cell">{{cell.id}}</mat-cell>
+            <mat-cell *matCellDef="let cell">{{cell.voucher_id}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="name">
             <mat-header-cell *matHeaderCellDef>Voucher Name</mat-header-cell>
             <mat-cell *matCellDef="let cell">{{cell.name}}</mat-cell>
         </ng-container>
-        <ng-container matColumnDef="posted_date">
-            <mat-header-cell *matHeaderCellDef>Posted Date</mat-header-cell>
-            <mat-cell *matCellDef="let cell">{{cell.posted_date|date: 'dd/MM/yyyy'}}</mat-cell>
+        <ng-container matColumnDef="available_date">
+            <mat-header-cell *matHeaderCellDef>Available Date</mat-header-cell>
+            <mat-cell *matCellDef="let cell">{{cell.available_date|date: 'dd/MM/yyyy'}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="expiry_date">
             <mat-header-cell *matHeaderCellDef>Expiry Date</mat-header-cell>
