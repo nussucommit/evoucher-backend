@@ -3,22 +3,22 @@
     <form mat-dialog-content [formGroup]="voucherForm">
         <mat-form-field style = "margin-top: 10px;" appearance="standard">
             <mat-label>Voucher ID</mat-label>
-            <input matInput class="form-control" formControlName="id">
+            <input matInput class="form-control" formControlName="voucher_id">
             <mat-error>This field is required.</mat-error>
         </mat-form-field>
         <br>
         <mat-form-field style = "margin-top: 10px;" appearance="standard">
-            <mat-label>Posted Date</mat-label>
+            <mat-label>Available Date</mat-label>
             <input matInput required class="form-control" [min]="todayDate"
-            [matDatepicker]="postedpicker" formControlName="posted_date">
-            <mat-datepicker-toggle matSuffix [for]="postedpicker"></mat-datepicker-toggle>
-            <mat-datepicker #postedpicker></mat-datepicker>
+            [matDatepicker]="availablepicker" formControlName="available_date">
+            <mat-datepicker-toggle matSuffix [for]="availablepicker"></mat-datepicker-toggle>
+            <mat-datepicker #availablepicker></mat-datepicker>
             <mat-error>This field is required.</mat-error>
         </mat-form-field>
         <br>
         <mat-form-field style = "margin-top: 10px;" appearance="standard">
             <mat-label>Expiry Date</mat-label>
-            <input matInput required class="form-control" [min]="voucherForm.controls.posted_date.value"
+            <input matInput required class="form-control" [min]="voucherForm.controls.available_date.value"
             [matDatepicker]="expirypicker" formControlName="expiry_date">
             <mat-datepicker-toggle matSuffix [for]="expirypicker"></mat-datepicker-toggle>
             <mat-datepicker #expirypicker></mat-datepicker>

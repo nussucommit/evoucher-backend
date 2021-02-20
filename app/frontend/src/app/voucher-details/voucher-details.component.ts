@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Voucher } from '../model-service/voucher/voucher';
 import { VoucherService } from '../model-service/voucher/voucher.service';
@@ -30,8 +31,8 @@ export class VoucherDetailsComponent implements OnInit {
     this.hasData = this.voucher ? true : false;
 
     this.voucherForm = this.formBuilder.group({
-      id: [{value: this.voucher ? this.voucher.id : '', disabled: this.voucher ? true : false}, Validators.required],
-      posted_date: [this.voucher ? this.voucher.posted_date : '', Validators.required],
+      voucher_id: [{value: this.voucher ? this.voucher.voucher_id : '', disabled: this.voucher ? true : false}, Validators.required],
+      available_date: [this.voucher ? this.voucher.posted_date : '', Validators.required],
       expiry_date: [this.voucher ? this.voucher.expiry_date : '', Validators.required],
       name: [this.voucher ? this.voucher.name : '', Validators.required],
       description: [this.voucher ? this.voucher.description : '', Validators.required],
@@ -50,6 +51,7 @@ export class VoucherDetailsComponent implements OnInit {
   onSubmit() {
     this.dialogRef.close();
     const data = this.voucherForm.value;
+    data.posted_date = this.todayDate;
     if (this.voucherData.mode === 'create') {
       this.voucherService.createVoucher(data).subscribe();
     } else if (this.voucherData.mode === 'edit') {
