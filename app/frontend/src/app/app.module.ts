@@ -13,6 +13,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +28,8 @@ import { StudentDetailsComponent } from './student-details/student-details.compo
 import { VoucherListComponent } from './voucher-list/voucher-list.component';
 import { VoucherDetailsComponent } from './voucher-details/voucher-details.component';
 import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-dialog.component';
+import { VoucherPreviewComponent } from './voucher-preview/voucher-preview.component';
+import { StudentHomeComponent } from './student-home/student-home.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +42,9 @@ import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-di
     StudentDetailsComponent,
     VoucherListComponent,
     VoucherDetailsComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    VoucherPreviewComponent,
+    StudentHomeComponent
   ],
   imports: [
     BrowserModule,
@@ -57,6 +63,8 @@ import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-di
     MatPaginatorModule,
     MatDatepickerModule,
     MatMomentDateModule,
+    MatGridListModule,
+    MatCardModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-SG' },
