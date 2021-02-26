@@ -39,4 +39,7 @@ export class StudentHomeComponent implements OnInit {
     })
   }
 
+  tileOnClick(voucher) {
+    console.log(voucher);
+  }
 }
