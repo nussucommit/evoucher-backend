@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Voucher } from '../model-service/voucher/voucher';
 import { VoucherService } from '../model-service/voucher/voucher.service';
+import { VoucherPreviewComponent } from '../voucher-preview/voucher-preview.component';
 
 @Component({
   selector: 'app-student-home',
@@ -13,8 +15,11 @@ export class StudentHomeComponent implements OnInit {
   currentPage = 1;
   totalNumber: number;
 
+  isPreviewDialogOpened = false;
+
   constructor(
-    private voucherService: VoucherService
+    private voucherService: VoucherService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -40,6 +45,12 @@ export class StudentHomeComponent implements OnInit {
   }
 
   tileOnClick(voucher) {
-    console.log(voucher);
+    if (!this.isPreviewDialogOpened) {
+      this.isPreviewDialogOpened = true;
+      // subsequently you will need to pass the image as a variable
+      const dialogRef = this.dialog.open(VoucherPreviewComponent, 
+        { data: { voucher, mode: 'claim', imageUrl: '../../assets/placeholder.jpg' } });
+      dialogRef.afterClosed().subscribe(() => this.isPreviewDialogOpened = false);
+    }
   }
 }
