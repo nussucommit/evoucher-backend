@@ -11,6 +11,10 @@ export class VoucherService {
 
   constructor(private http: HttpClient) { }
 
+  filterVouchers(filterParams: any): Observable<any> {
+    return this.http.get(`${this.baseUrlVoucher}/` ,{params : filterParams});
+  }
+
   getVoucherList(filterParams: any): Observable<any> {
     return this.http.get(`${this.baseUrlVoucher}`, { params: filterParams });
   }
@@ -34,4 +38,5 @@ export class VoucherService {
   deleteAllVoucher(): Observable<any> {
     return this.http.delete(`${this.baseUrlVoucher}`);
   }
+
 }

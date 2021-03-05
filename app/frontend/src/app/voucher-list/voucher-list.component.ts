@@ -22,10 +22,16 @@ export class VoucherListComponent implements AfterViewInit {
 
   vouchers = new MatTableDataSource<Voucher>();
   tableColumns: String[] = ['voucher_id', 'name', 'available_date', 'expiry_date', 'description', 'claims_left'];
+  filterCategories: String[] = ['Organizations', 'Faculty', 'Available', 'Start', 'End'];
 
+  
+  
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
+
+  
+  categorizedFilter: { [id: string]: string } = {};
 
   formDialogOpened = false;
 
@@ -67,6 +73,10 @@ export class VoucherListComponent implements AfterViewInit {
     this.paginator.pageIndex = Math.min(pageNumber - 1, this.paginator.getNumberOfPages() - 1);
   }
 
+  onChange(att: any) {
+    console.log(att.target.id + " " + att.target.value);
+  }
+
   reloadData() {
     (this.paginator.page)
       .pipe(
@@ -79,7 +89,7 @@ export class VoucherListComponent implements AfterViewInit {
           this.isLoadingResults = false;
           this.isRateLimitReached = false;
           this.resultsLength = data.count;
-
+          
           return data.results;
         }),
         catchError(() => {

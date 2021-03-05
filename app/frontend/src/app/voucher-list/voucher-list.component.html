@@ -1,47 +1,76 @@
 <div class = "row" style="margin-top: 10px">
     <div class="column-left"><h1 style = "padding-top: 10px; padding-left: 30px;">Voucher List</h1></div>
-    <div class = "column-right" style = "padding-top: 10px; padding-left: 30px;">
-        <button mat-raised-button color="primary" (click)= "openEditDialog(undefined, 'create')">
-            Add Voucher
+    
+</div>
+
+<div style="display: flex; flex-direction: row; padding-top: 10px; padding-left: 30px; ">
+    <div>
+        <div  style="margin-top: 15px; margin-bottom: 15px;">
+            Filter Category
+        </div>
+        <div *ngFor="let category of filterCategories">
+            <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+            <label for="vehicle3">{{category}}</label><br>
+            <select  style="width: 200px; margin-bottom: 4px;"  (change)="onChange($event)"  id={{category}}>
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="opel">Opel</option>
+                <option value="audi">Audi</option>
+            </select>
+        </div>
+        <button style="margin-top: 10px;" mat-raised-button color="primary">
+            Submit
         </button>
     </div>
-</div>
 
-
-<div class= "container" style="padding-top:15px; padding-left: 30px; padding-right: 30px; padding-bottom: 20px;">
-    <mat-table [dataSource]="vouchers" class="mat-elevation-z8">
-        <ng-container matColumnDef="voucher_id">
-            <mat-header-cell *matHeaderCellDef>Voucher Id</mat-header-cell>
-            <mat-cell *matCellDef="let cell">{{cell.voucher_id}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="name">
-            <mat-header-cell *matHeaderCellDef>Voucher Name</mat-header-cell>
-            <mat-cell *matCellDef="let cell">{{cell.name}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="available_date">
-            <mat-header-cell *matHeaderCellDef>Available Date</mat-header-cell>
-            <mat-cell *matCellDef="let cell">{{cell.available_date|date: 'dd/MM/yyyy'}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="expiry_date">
-            <mat-header-cell *matHeaderCellDef>Expiry Date</mat-header-cell>
-            <mat-cell *matCellDef="let cell">{{cell.expiry_date|date: 'dd/MM/yyyy'}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="description">
-            <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
-            <mat-cell *matCellDef="let cell">{{cell.description}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="claims_left">
-            <mat-header-cell *matHeaderCellDef>Claims Left</mat-header-cell>
-            <mat-cell *matCellDef="let cell">{{cell.claims_left}}</mat-cell>
-        </ng-container>
-        <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
-        <mat-row matRipple *matRowDef = "let cell; columns: tableColumns;" (click)="openEditDialog(cell, 'edit')"></mat-row>
-    </mat-table>
-    <div class="mat-elevation-z8" style="display: flex; background-color: white; flex-direction: row-reverse;">
-        <mat-form-field style="padding-right: 1%; width: 7%;">
-          <input #page matInput type="number" min="0" [max]="paginator.getNumberOfPages()" [value]="paginator.pageIndex + 1" (change)="onInputPageChange(page.value)">
-        </mat-form-field>
-        <p style="padding-right: 1%; margin: auto 0; font-size: 12px; color: #777777;">Page: </p>
-        <mat-paginator [length]="resultsLength" [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>
+    <div>
+        <div class = "column-right" style = "padding-left: 30px;">
+            <button mat-raised-button color="primary" (click)= "openEditDialog(undefined, 'create')">
+                Add Voucher
+            </button>
+            <button style="margin-left:15px;" mat-raised-button color="primary">
+                Filter
+            </button>
+        </div>
+        <div class= "container" style="padding-top:15px; padding-left: 30px; padding-right: 30px; padding-bottom: 20px; width: 1400px;">
+            <mat-table [dataSource]="vouchers" class="mat-elevation-z8">
+                <ng-container matColumnDef="voucher_id">
+                    <mat-header-cell *matHeaderCellDef>Voucher Id</mat-header-cell>
+                    <mat-cell *matCellDef="let cell">{{cell.voucher_id}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef>Voucher Name</mat-header-cell>
+                    <mat-cell *matCellDef="let cell">{{cell.name}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="available_date">
+                    <mat-header-cell *matHeaderCellDef>Available Date</mat-header-cell>
+                    <mat-cell *matCellDef="let cell">{{cell.available_date|date: 'dd/MM/yyyy'}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="expiry_date">
+                    <mat-header-cell *matHeaderCellDef>Expiry Date</mat-header-cell>
+                    <mat-cell *matCellDef="let cell">{{cell.expiry_date|date: 'dd/MM/yyyy'}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="description">
+                    <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+                    <mat-cell *matCellDef="let cell">{{cell.description}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="claims_left">
+                    <mat-header-cell *matHeaderCellDef>Claims Left</mat-header-cell>
+                    <mat-cell *matCellDef="let cell">{{cell.claims_left}}</mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
+                <mat-row matRipple *matRowDef = "let cell; columns: tableColumns;" (click)="openEditDialog(cell, 'edit')"></mat-row>
+            </mat-table>
+            <div class="mat-elevation-z8" style="display: flex; background-color: white; flex-direction: row-reverse;">
+                <mat-form-field style="padding-right: 1%; width: 7%;">
+                  <input #page matInput type="number" min="0" [max]="paginator.getNumberOfPages()" [value]="paginator.pageIndex + 1" (change)="onInputPageChange(page.value)">
+                </mat-form-field>
+                <p style="padding-right: 1%; margin: auto 0; font-size: 12px; color: #777777;">Page: </p>
+                <mat-paginator [length]="resultsLength" [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
     </div>
+    
 </div>
+
+
