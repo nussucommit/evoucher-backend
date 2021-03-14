@@ -9,29 +9,29 @@
 
 
 <div class= "container" style="padding-top:15px; padding-left: 30px; padding-right: 30px; padding-bottom: 20px;">
-    <mat-table [dataSource]="vouchers" class="mat-elevation-z8">
+    <mat-table [dataSource]="vouchers" matSort class="mat-elevation-z8">
         <ng-container matColumnDef="voucher_id">
-            <mat-header-cell *matHeaderCellDef>Voucher Id</mat-header-cell>
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Voucher Id</mat-header-cell>
             <mat-cell *matCellDef="let cell">{{cell.voucher_id}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="name">
-            <mat-header-cell *matHeaderCellDef>Voucher Name</mat-header-cell>
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Voucher Name</mat-header-cell>
             <mat-cell *matCellDef="let cell">{{cell.name}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="available_date">
-            <mat-header-cell *matHeaderCellDef>Available Date</mat-header-cell>
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Available Date</mat-header-cell>
             <mat-cell *matCellDef="let cell">{{cell.available_date|date: 'dd/MM/yyyy'}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="expiry_date">
-            <mat-header-cell *matHeaderCellDef>Expiry Date</mat-header-cell>
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Expiry Date</mat-header-cell>
             <mat-cell *matCellDef="let cell">{{cell.expiry_date|date: 'dd/MM/yyyy'}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="description">
-            <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Description</mat-header-cell>
             <mat-cell *matCellDef="let cell">{{cell.description}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="claims_left">
-            <mat-header-cell *matHeaderCellDef>Claims Left</mat-header-cell>
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Claims Left</mat-header-cell>
             <mat-cell *matCellDef="let cell">{{cell.claims_left}}</mat-cell>
         </ng-container>
         <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>

@@ -11,6 +11,7 @@ import {MAT_DATE_LOCALE, MatRippleModule} from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort'
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
@@ -54,6 +55,7 @@ import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-di
     MatPaginatorModule,
     MatInputModule,
     MatTableModule,
+    MatSortModule,
     MatPaginatorModule,
     MatDatepickerModule,
     MatMomentDateModule,

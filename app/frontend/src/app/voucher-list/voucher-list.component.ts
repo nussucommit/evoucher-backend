@@ -18,7 +18,7 @@ import {catchError, map, startWith, switchMap} from 'rxjs/operators';
   templateUrl: './voucher-list.component.html',
   styleUrls: ['./voucher-list.component.scss']
 })
-export class VoucherListComponent implements AfterViewInit {
+export class VoucherListComponent implements AfterViewInit, OnInit {
 
   vouchers = new MatTableDataSource<Voucher>();
   tableColumns: String[] = ['voucher_id', 'name', 'available_date', 'expiry_date', 'description', 'claims_left'];
@@ -36,6 +36,10 @@ export class VoucherListComponent implements AfterViewInit {
     private voucherService: VoucherService,
     private dialog: MatDialog,
   ) { }
+
+  ngOnInit() {
+    this.vouchers.sort = this.sort;
+  }
 
   ngAfterViewInit() {
     this.paginator.page
