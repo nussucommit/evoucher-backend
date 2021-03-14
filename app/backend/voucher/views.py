@@ -1,9 +1,11 @@
-from rest_framework import generics
+from rest_framework import status, generics, filters
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
 
 # Create your views here.
 from voucher.models import Voucher
 from voucher.serializers import VoucherSerializer
+from django.db.models import Q
+from datetime import datetime, timedelta
 
 from evoucher.pagination_settings import PaginationSettings
 
@@ -22,33 +24,41 @@ class CreateVoucherList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         queryset = Voucher.objects.all()
-        name = self.request.query_params.get('name', None)
-        fromDate = self.request.query_params.get('fromDate', None)
-        toDate = self.request.query_params.get('toDate', None)
-        status = self.request.query_params.get('status', None)
-
-        available_date = self.request.query_params.get('available', None)
-        expiry_date = self.request.query_params.get('expiry_date',None)
-        name = self.request.query_params.get('name', None)
+        organization = self.request.query_params.get('Organization', None)
+        faculty = self.request.query_params.get('Faculty', None)
+        endDate = self.request.query_params.get('Available', None)
+        orderBy = self.request.query_params.get('OrderBy',None)
 
         q = Q()
-        if name and name != 'null':
-            q &= Q(name__icontains=name.lower())
-        if fromDate and fromDate != 'null':
-            q &= Q(time_booked__gte=fromDate)
-        if toDate and toDate != 'null':
-            toDateObj = datetime.strptime(toDate, '%Y-%m-%d %H:%M') + timedelta(days=1)
-            q &= Q(time_booked__lte=toDateObj)
-        if status and status != 'null':
-            q &= Q(status__icontains=status.lower())
-
-        return queryset.filter(q)
+        if faculty and faculty != 'null':
+            q &= Q(name__icontains=faculty.lower())
+        if organization and organization != 'null':
+            q &= Q(name__icontains=organization.lower())
+        if endDate and endDate != 'null':
+            toDateObj = datetime.strptime(endDate, '%Y-%m-%d %H:%M') + timedelta(days=1)
+            print(toDateObj)
+            q &= Q(expiry_date__gte=toDateObj)
+        if orderBy and orderBy != 'null':
+            return queryset.filter(q).order_by(orderBy)
+        else:
+            return queryset.filter(q)
 
 class VoucherList(generics.ListAPIView):
     queryset = Voucher.objects.all()
     serializer_class = VoucherSerializer
     permission_classes = (AllowAny,) #(IsAuthenticated,)
 
+class CreateVoucher(generics.CreateAPIView):
+    queryset = Voucher.objects.all()
+    serializer_class = VoucherSerializer
+    permission_classes = ()
+    def create(self, request, *args, **kwargs):
+        try:
+            return super().create(request, *args, **kwargs)
+        except:
+            voucher_id = self.request.data['voucher_source']
+            Voucher.objects.get(pk=voucher_id).delete()
+            return JsonResponse({'message': 'An error occured.'}, status=status.HTTP_400_BAD_REQUEST)
 
 class VoucherDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Voucher.objects.all()

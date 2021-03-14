@@ -22,16 +22,15 @@ export class VoucherListComponent implements AfterViewInit {
 
   vouchers = new MatTableDataSource<Voucher>();
   tableColumns: String[] = ['voucher_id', 'name', 'available_date', 'expiry_date', 'description', 'claims_left'];
-  filterCategories: String[] = ['Organizations', 'Faculty', 'Available', 'Start', 'End'];
+  filterCategories: String[] = ['Organization', 'Faculty'];
 
+  filterForm: FormGroup;
   
-  
+  displayFilter = false;
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
-
-  
-  categorizedFilter: { [id: string]: string } = {};
+  edit : boolean;
 
   formDialogOpened = false;
 
@@ -41,32 +40,48 @@ export class VoucherListComponent implements AfterViewInit {
   constructor(
     private voucherService: VoucherService,
     private dialog: MatDialog,
+    private formBuilder: FormBuilder,
   ) { }
 
-  ngAfterViewInit() {
-    this.paginator.page
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          return this.voucherService.getVoucherList({page: this.paginator.pageIndex + 1, page_size: this.paginator.pageSize});
-        }),
-        map(data => {
-          this.isLoadingResults = false;
-          this.isRateLimitReached = false;
-          this.resultsLength = data.count;
+  ngOnInit() {
+    this.edit = false;
+    this.filterForm = this.formBuilder.group({
+      Organization: ['', ''],
+      Faculty: ['','' ],
+      Available: ['',''],
+      OrderBy:['',''],
+    });
+  }
 
-          return data.results;
-        }),
-        catchError(() => {
-          this.isLoadingResults = false;
-          this.isRateLimitReached = true;
-          return observableOf([]);
-        })
-      ).subscribe(data => {
-        console.log(data);
-        this.vouchers.data = data
-      });
+  setDisplayFilter() {
+    this.displayFilter = this.displayFilter ? false : true;
+  }
+  
+  ngAfterViewInit() {
+    // this.paginator.page
+    //   .pipe(
+    //     startWith({}),
+    //     switchMap(() => {
+    //       this.isLoadingResults = true;
+    //       return this.voucherService.getVoucherList({page: this.paginator.pageIndex + 1, page_size: this.paginator.pageSize});
+    //     }),
+    //     map(data => {
+    //       this.isLoadingResults = false;
+    //       this.isRateLimitReached = false;
+    //       this.resultsLength = data.count;
+
+    //       return data.results;
+    //     }),
+    //     catchError(() => {
+    //       this.isLoadingResults = false;
+    //       this.isRateLimitReached = true;
+    //       return observableOf([]);
+    //     })
+    //   ).subscribe(data => {
+    //     console.log(data);
+    //     this.vouchers.data = data
+    //   });
+    this.reloadData();
   }
 
   onInputPageChange(pageNumber: number) {
@@ -77,13 +92,31 @@ export class VoucherListComponent implements AfterViewInit {
     console.log(att.target.id + " " + att.target.value);
   }
 
+  onSubmit() {
+    console.log(this.filterForm.value.Available.format("YYYY-MM-DD HH:mm"));
+    this.reloadData();
+  }
+ 
+  parseFilterForm(filterForm: FormGroup) {
+    let filterParams = { ...this.filterForm.value }
+    if (filterForm.value.Available) {
+      filterParams.Available = filterParams.Available.format("YYYY-MM-DD HH:mm");
+    }
+    filterParams = Object.assign(filterParams,
+      {
+        page: this.paginator.pageIndex + 1,
+        page_size: this.paginator.pageSize
+      });
+    return filterParams;
+  }
+
   reloadData() {
     (this.paginator.page)
       .pipe(
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.voucherService.getVoucherList({page: this.paginator.pageIndex + 1, page_size: this.paginator.pageSize});
+          return this.voucherService.getVoucherList(this.parseFilterForm(this.filterForm));
         }),
         map(data => {
           this.isLoadingResults = false;
@@ -116,6 +149,11 @@ export class VoucherListComponent implements AfterViewInit {
         this.reloadData();
       });
     }
+  }
+
+  updateOrderBy() {
+    console.log(this.filterForm.value.OrderBy);
+    this.reloadData()
   }
 
   confirmDelete(id: string) {
