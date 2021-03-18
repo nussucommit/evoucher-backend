@@ -7,4 +7,5 @@ export class Voucher {
     name: string;
     description: string;
     claims_left: number;
+    image: string;
 }

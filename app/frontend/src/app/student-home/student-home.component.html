@@ -3,9 +3,8 @@
 
     <mat-grid-list cols="5" [gutterSize]="20">
         <mat-grid-tile *ngFor="let voucher of voucherData" class="mat-elevation-z8" (click)="tileOnClick(voucher)">
-            <div style="position: absolute; top: 0">
-                <!--Replace this image with something else if you do not want to see the what face all the time-->
-                <img src="../../assets/placeholder.jpg" style="width: 100%;">
+            <div style="position: absolute; top: 0;">
+                <img src={{voucher.image}} style="width: 100%; height: auto;">
                 <div style="margin-left: 20px">
                     <p>{{voucher.name}}</p>
                     <div>
