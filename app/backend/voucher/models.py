@@ -10,6 +10,7 @@ class Voucher(models.Model):
     description = models.TextField(blank=True)
     claims_left = models.PositiveIntegerField(blank=False)
     image = models.ImageField(upload_to='assets')
+    code_list = models.FileField(upload_to='codes', blank=True, null=True)
 
     def __string__(self):
         return "{}: {}".format(self.voucher_id, self.name)

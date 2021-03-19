@@ -48,6 +48,12 @@
             <mat-error>Please enter a positive number.</mat-error>
         </mat-form-field>
         <br>
+        <div>
+            <mat-label>Voucher Code List</mat-label>
+            <input type="file" name="code_list" class="form-control" formControlName="code_list"
+                (change)="onFileChange($event)">
+        </div>
+        <br>
     </form>
     <mat-dialog-actions align="end">
         <button mat-button [mat-dialog-close]="true">Cancel</button>

@@ -40,6 +40,7 @@ export class VoucherDetailsComponent implements OnInit {
       name: [this.voucher ? this.voucher.name : '', Validators.required],
       description: [this.voucher ? this.voucher.description : '', Validators.required],
       image: ['', Validators.required],
+      code_list: [''],
       claims_left: [this.voucher ? this.voucher.claims_left : '', Validators.required]
     });
   }
@@ -57,6 +58,7 @@ export class VoucherDetailsComponent implements OnInit {
     const data = this.voucherForm.value;
     data.posted_date = this.todayDate;
     if (this.voucherData.mode === 'create') {
+      console.log(data);
       this.voucherService.createVoucher(this.toFormData(data)).subscribe();
     } else if (this.voucherData.mode === 'edit') {
       const dataCopy = {...data};
@@ -86,6 +88,13 @@ export class VoucherDetailsComponent implements OnInit {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       this.voucherForm.get('image').setValue(file);
+    }
+  }
+
+  onFileChange(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.voucherForm.get('code_list').setValue(file);
     }
   }
 }
