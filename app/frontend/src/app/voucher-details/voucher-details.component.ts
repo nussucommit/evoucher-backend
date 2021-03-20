@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Voucher } from '../model-service/voucher/voucher';
@@ -20,6 +20,7 @@ export class VoucherDetailsComponent implements OnInit {
   todayDate:Date = new Date();
 
   imageToUpload: any;
+  fileToUpload: any;
 
   constructor(
     public dialogRef: MatDialogRef<VoucherDetailsComponent>,
@@ -40,9 +41,9 @@ export class VoucherDetailsComponent implements OnInit {
       name: [this.voucher ? this.voucher.name : '', Validators.required],
       description: [this.voucher ? this.voucher.description : '', Validators.required],
       image: ['', Validators.required],
-      code_list: [''],
       claims_left: [this.voucher ? this.voucher.claims_left : '', Validators.required]
     });
+    this.voucherForm.addControl('code_list', new FormControl(null));
   }
 
   getDialogTitle() {
@@ -79,22 +80,27 @@ export class VoucherDetailsComponent implements OnInit {
       if (key.includes('date')) {
         value = moment(value).format();
       }
-      formData.append(key, value);
+      if (key.includes('image')) {
+        formData.append(key, this.imageToUpload, this.imageToUpload.name);
+      }
+      if (key.includes('code_list')) {
+        formData.append(key, this.fileToUpload, this.fileToUpload.name);
+      }
+      formData.append(key,value);
+      
     }
     return formData;
   }
 
   onImageChange(event) {
     if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.voucherForm.get('image').setValue(file);
+      this.imageToUpload = event.target.files[0];
     }
   }
 
   onFileChange(event) {
     if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.voucherForm.get('code_list').setValue(file);
+      this.fileToUpload = event.target.files[0];
     }
   }
 }
