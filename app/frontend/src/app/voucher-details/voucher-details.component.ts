@@ -89,6 +89,7 @@ export class VoucherDetailsComponent implements OnInit {
       formData.append(key,value);
       
     }
+    console.log(formData);
     return formData;
   }
 

@@ -22,10 +22,15 @@ export class VoucherListComponent implements AfterViewInit, OnInit {
 
   vouchers = new MatTableDataSource<Voucher>();
   tableColumns: String[] = ['voucher_id', 'name', 'available_date', 'expiry_date', 'description', 'claims_left'];
+  filterCategories: String[] = ['Organization', 'Faculty'];
 
+  filterForm: FormGroup;
+  
+  displayFilter = false;
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
+  edit : boolean;
 
   formDialogOpened = false;
 
@@ -35,40 +40,46 @@ export class VoucherListComponent implements AfterViewInit, OnInit {
   constructor(
     private voucherService: VoucherService,
     private dialog: MatDialog,
+    private formBuilder: FormBuilder,
   ) { }
 
   ngOnInit() {
-    this.vouchers.sort = this.sort;
+    this.edit = false;
+    this.filterForm = this.formBuilder.group({
+      Organization: ['', ''],
+      Faculty: ['','' ],
+      Available: ['',''],
+      OrderBy:['',''],
+    });
   }
-
+  setDisplayFilter() {
+    this.displayFilter = this.displayFilter ? false : true;
+  }
+  
   ngAfterViewInit() {
-    this.paginator.page
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          return this.voucherService.getVoucherList({page: this.paginator.pageIndex + 1, page_size: this.paginator.pageSize});
-        }),
-        map(data => {
-          this.isLoadingResults = false;
-          this.isRateLimitReached = false;
-          this.resultsLength = data.count;
-
-          return data.results;
-        }),
-        catchError(() => {
-          this.isLoadingResults = false;
-          this.isRateLimitReached = true;
-          return observableOf([]);
-        })
-      ).subscribe(data => {
-        console.log(data);
-        this.vouchers.data = data
-      });
+    this.reloadData();
   }
 
   onInputPageChange(pageNumber: number) {
     this.paginator.pageIndex = Math.min(pageNumber - 1, this.paginator.getNumberOfPages() - 1);
+  }
+
+  onSubmit() {
+    console.log(this.filterForm.value.Available.format("YYYY-MM-DD HH:mm"));
+    this.reloadData();
+  }
+ 
+  parseFilterForm(filterForm: FormGroup) {
+    let filterParams = { ...this.filterForm.value }
+    if (filterForm.value.Available) {
+      filterParams.Available = filterParams.Available.format("YYYY-MM-DD HH:mm");
+    }
+    filterParams = Object.assign(filterParams,
+      {
+        page: this.paginator.pageIndex + 1,
+        page_size: this.paginator.pageSize
+      });
+    return filterParams;
   }
 
   reloadData() {
@@ -77,13 +88,13 @@ export class VoucherListComponent implements AfterViewInit, OnInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.voucherService.getVoucherList({page: this.paginator.pageIndex + 1, page_size: this.paginator.pageSize});
+          return this.voucherService.getVoucherList(this.parseFilterForm(this.filterForm));
         }),
         map(data => {
           this.isLoadingResults = false;
           this.isRateLimitReached = false;
           this.resultsLength = data.count;
-
+          
           return data.results;
         }),
         catchError(() => {
@@ -110,6 +121,10 @@ export class VoucherListComponent implements AfterViewInit, OnInit {
         this.reloadData();
       });
     }
+  }
+
+  updateOrderBy() {
+    this.reloadData()
   }
 
   confirmDelete(id: string) {

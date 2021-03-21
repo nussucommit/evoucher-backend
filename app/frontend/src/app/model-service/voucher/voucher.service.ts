@@ -17,7 +17,7 @@ export class VoucherService {
   }
 
   getVoucherList(filterParams: any): Observable<any> {
-    return this.http.get(`${this.baseUrlVoucher}`, { params: filterParams });
+    return this.http.get(`${this.baseUrlVoucher}/`, { params: filterParams });
   }
 
   getVoucherById(id: string): Observable<object> {
@@ -25,7 +25,7 @@ export class VoucherService {
   }
 
   createVoucher(voucher: any): Observable<object> {
-    return this.http.post(`${this.baseUrlVoucher}`, voucher);
+    return this.http.post(`${this.baseUrlVoucher}/`, voucher);
   }
 
   updateVoucher(id: string, voucher: any): Observable<object> {
@@ -39,4 +39,5 @@ export class VoucherService {
   deleteAllVoucher(): Observable<any> {
     return this.http.delete(`${this.baseUrlVoucher}`);
   }
+
 }
