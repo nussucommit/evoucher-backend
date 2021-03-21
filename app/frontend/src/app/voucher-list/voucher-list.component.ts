@@ -58,29 +58,6 @@ export class VoucherListComponent implements AfterViewInit {
   }
   
   ngAfterViewInit() {
-    // this.paginator.page
-    //   .pipe(
-    //     startWith({}),
-    //     switchMap(() => {
-    //       this.isLoadingResults = true;
-    //       return this.voucherService.getVoucherList({page: this.paginator.pageIndex + 1, page_size: this.paginator.pageSize});
-    //     }),
-    //     map(data => {
-    //       this.isLoadingResults = false;
-    //       this.isRateLimitReached = false;
-    //       this.resultsLength = data.count;
-
-    //       return data.results;
-    //     }),
-    //     catchError(() => {
-    //       this.isLoadingResults = false;
-    //       this.isRateLimitReached = true;
-    //       return observableOf([]);
-    //     })
-    //   ).subscribe(data => {
-    //     console.log(data);
-    //     this.vouchers.data = data
-    //   });
     this.reloadData();
   }
 
