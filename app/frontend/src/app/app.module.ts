@@ -1,7 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { RefreshInterceptor } from './api-auth/refresh.interceptor';
+import { JwtInterceptor } from './api-auth/jwt.interceptor';
+import { ComponentBridgingService } from './model-service/componentbridging.service';
+import { LoginService } from './model-service/users/login.service';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from  '@angular/material/button';
@@ -31,6 +35,7 @@ import { VoucherDetailsComponent } from './voucher-details/voucher-details.compo
 import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-dialog.component';
 import { VoucherPreviewComponent } from './voucher-preview/voucher-preview.component';
 import { StudentHomeComponent } from './student-home/student-home.component';
+import { LoginFormComponent } from './login-form/login-form.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +50,8 @@ import { StudentHomeComponent } from './student-home/student-home.component';
     VoucherDetailsComponent,
     ConfirmationDialogComponent,
     VoucherPreviewComponent,
-    StudentHomeComponent
+    StudentHomeComponent,
+    LoginFormComponent
   ],
   imports: [
     BrowserModule,
@@ -70,6 +76,9 @@ import { StudentHomeComponent } from './student-home/student-home.component';
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-SG' },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: RefreshInterceptor, multi: true },
+    ComponentBridgingService
   ],
   bootstrap: [AppComponent]
 })
