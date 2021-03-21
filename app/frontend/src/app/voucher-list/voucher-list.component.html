@@ -1,4 +1,4 @@
-<div class = "row" style="margin-top: 10px">
+<div class = "row" style="margin-left: 30px; margin-top: 10px">
     <div class="column-left"><h1 style = "padding-top: 10px; padding-left: 30px;">Voucher List</h1></div>
     
 </div>
@@ -34,7 +34,7 @@
     </div>
 
     <div style="width: 100%; height: auto;">
-        <div class = "column-right" style = "padding-left: 30px; display:flex;">
+        <div style ="padding-left: 30px; display:flex;">
             <button mat-raised-button color="primary" (click)= "openEditDialog(undefined, 'create')">
                 Add Voucher
             </button>
@@ -56,29 +56,29 @@
         </div>
         <div>
             <div class= "container" style="padding-top:15px; padding-left: 30px; padding-right: 30px; padding-bottom: 20px; width: 95%;">
-                <mat-table [dataSource]="vouchers" class="mat-elevation-z8">
+                <mat-table [dataSource]="vouchers" matSort class="mat-elevation-z8">
                     <ng-container matColumnDef="voucher_id">
-                        <mat-header-cell *matHeaderCellDef>Voucher Id</mat-header-cell>
+                        <mat-header-cell mat-sort-header *matHeaderCellDef>Voucher Id</mat-header-cell>
                         <mat-cell *matCellDef="let cell">{{cell.voucher_id}}</mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="name">
-                        <mat-header-cell *matHeaderCellDef>Voucher Name</mat-header-cell>
+                        <mat-header-cell mat-sort-header *matHeaderCellDef>Voucher Name</mat-header-cell>
                         <mat-cell *matCellDef="let cell">{{cell.name}}</mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="available_date">
-                        <mat-header-cell *matHeaderCellDef>Available Date</mat-header-cell>
+                        <mat-header-cell mat-sort-header *matHeaderCellDef>Available Date</mat-header-cell>
                         <mat-cell *matCellDef="let cell">{{cell.available_date|date: 'dd/MM/yyyy'}}</mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="expiry_date">
-                        <mat-header-cell *matHeaderCellDef>Expiry Date</mat-header-cell>
+                        <mat-header-cell mat-sort-header *matHeaderCellDef>Expiry Date</mat-header-cell>
                         <mat-cell *matCellDef="let cell">{{cell.expiry_date|date: 'dd/MM/yyyy'}}</mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="description">
-                        <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+                        <mat-header-cell mat-sort-header *matHeaderCellDef>Description</mat-header-cell>
                         <mat-cell *matCellDef="let cell">{{cell.description}}</mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="claims_left">
-                        <mat-header-cell *matHeaderCellDef>Claims Left</mat-header-cell>
+                        <mat-header-cell mat-sort-header *matHeaderCellDef>Claims Left</mat-header-cell>
                         <mat-cell *matCellDef="let cell">{{cell.claims_left}}</mat-cell>
                     </ng-container>
                     <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
@@ -91,11 +91,9 @@
                     <p style="padding-right: 1%; margin: auto 0; font-size: 12px; color: #777777;">Page: </p>
                     <mat-paginator [length]="resultsLength" [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>
                 </div>
-            </div>
+            </div> 
         </div>
         
-    </div>
-    
 </div>
 
 

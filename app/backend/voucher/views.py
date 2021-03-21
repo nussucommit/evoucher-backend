@@ -35,7 +35,7 @@ class CreateVoucherList(generics.ListCreateAPIView):
         if organization and organization != 'null':
             q &= Q(name__icontains=organization.lower())
         if endDate and endDate != 'null':
-            toDateObj = datetime.strptime(endDate, '%Y-%m-%d %H:%M') + timedelta(days=1)
+            toDateObj = datetime.strptime(endDate, '%Y-%m-%d %H:%M') - timedelta(days=1)
             print(toDateObj)
             q &= Q(expiry_date__gte=toDateObj)
         if orderBy and orderBy != 'null':
@@ -47,18 +47,6 @@ class VoucherList(generics.ListAPIView):
     queryset = Voucher.objects.all()
     serializer_class = VoucherSerializer
     permission_classes = (AllowAny,) #(IsAuthenticated,)
-
-class CreateVoucher(generics.CreateAPIView):
-    queryset = Voucher.objects.all()
-    serializer_class = VoucherSerializer
-    permission_classes = ()
-    def create(self, request, *args, **kwargs):
-        try:
-            return super().create(request, *args, **kwargs)
-        except:
-            voucher_id = self.request.data['voucher_source']
-            Voucher.objects.get(pk=voucher_id).delete()
-            return JsonResponse({'message': 'An error occured.'}, status=status.HTTP_400_BAD_REQUEST)
 
 class VoucherDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Voucher.objects.all()

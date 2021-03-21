@@ -1,0 +1,47 @@
+<div>
+    <h1 mat-dialog-title>{{voucherData.voucher.name}}</h1>
+    <p style="font-size: 14px;">Provided by</p>
+    <p style="font-size: 14px;">Promotion ends on {{voucherData.voucher.expiry_date | date: 'dd MMMM yyyy'}}</p>
+
+    <div mat-dialog-content>
+        <div align="center">
+            <img [src]="voucherData.imageUrl" style="width: 80%;">
+        </div>
+        <p style="white-space: pre;">{{voucherData.voucher.description}}</p>
+
+        <div *ngIf="voucherData.mode === 'claim'; else editMode">
+            <hr style="width: 100%;">
+            <p style="font-size: 12px; white-space: pre;">
+                Enter your NUS email address (e.g. e0123456@u.nus.edu) to claim this voucher. Please note the following:
+                <br>
+                <br>
+                1. Once the submit button is clicked, a link will be sent to your email. You may need to check your junk
+                folder.
+                <br>
+                2. The link will expire in 24 hours. Please claim the voucher as soon as possible.
+                <br>
+                3. All vouchers can be redeemed at most once.
+            </p>
+            <form [formGroup]="emailForm" (ngSubmit)="onClaim()">
+                <mat-form-field style="width: 100%;">
+                    <mat-label>Email address</mat-label>
+                    <input matInput required class="form-control" formControlName="email">
+                </mat-form-field>
+                <div class="row">
+                    <p style="font-size: 12px; font-style: italic; float: left;">{{claimStatus}}</p>
+                    <div style="float: right;" align="end">
+                        <button mat-raised-button color="primary"
+                            [disabled]="!emailForm.valid || buttonClicked">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <ng-template #editMode>
+            <div align="end">
+                <!--Fill in the necessary redirection and functionalities here-->
+                <button mat-button>Edit</button>
+                <button mat-button>Delete</button>
+            </div>
+        </ng-template>
+    </div>
+</div>

@@ -1,9 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Voucher } from '../model-service/voucher/voucher';
 import { VoucherService } from '../model-service/voucher/voucher.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-voucher-details',
@@ -17,6 +18,9 @@ export class VoucherDetailsComponent implements OnInit {
   
   hasData: boolean;
   todayDate:Date = new Date();
+
+  imageToUpload: any;
+  fileToUpload: any;
 
   constructor(
     public dialogRef: MatDialogRef<VoucherDetailsComponent>,
@@ -36,8 +40,10 @@ export class VoucherDetailsComponent implements OnInit {
       expiry_date: [this.voucher ? this.voucher.expiry_date : '', Validators.required],
       name: [this.voucher ? this.voucher.name : '', Validators.required],
       description: [this.voucher ? this.voucher.description : '', Validators.required],
+      image: ['', Validators.required],
       claims_left: [this.voucher ? this.voucher.claims_left : '', Validators.required]
     });
+    this.voucherForm.addControl('code_list', new FormControl(null));
   }
 
   getDialogTitle() {
@@ -53,11 +59,13 @@ export class VoucherDetailsComponent implements OnInit {
     const data = this.voucherForm.value;
     data.posted_date = this.todayDate;
     if (this.voucherData.mode === 'create') {
-      this.voucherService.createVoucher(data).subscribe();
+      console.log(data);
+      this.voucherService.createVoucher(this.toFormData(data)).subscribe();
     } else if (this.voucherData.mode === 'edit') {
       const dataCopy = {...data};
-      const finalData: Voucher = Object.assign(dataCopy, {id: this.voucherData.voucher.id}) as Voucher;
-      this.voucherService.updateVoucher(this.voucherData.voucher.id, finalData).subscribe();
+      console.log(dataCopy);
+      const finalData: Voucher = Object.assign(dataCopy, {voucher_id: this.voucherData.voucher.voucher_id}) as Voucher;
+      this.voucherService.updateVoucher(this.voucherData.voucher.id, this.toFormData(finalData)).subscribe();
     }
   }
 
@@ -65,4 +73,35 @@ export class VoucherDetailsComponent implements OnInit {
     this.dialogRef.close({delete: true});
   }
 
+  toFormData(formValue) {
+    const formData = new FormData();
+    for (const key of Object.keys(formValue)){
+      let value = formValue[key];
+      if (key.includes('date')) {
+        value = moment(value).format();
+      }
+      if (key.includes('image')) {
+        formData.append(key, this.imageToUpload, this.imageToUpload.name);
+      }
+      if (key.includes('code_list')) {
+        formData.append(key, this.fileToUpload, this.fileToUpload.name);
+      }
+      formData.append(key,value);
+      
+    }
+    console.log(formData);
+    return formData;
+  }
+
+  onImageChange(event) {
+    if (event.target.files.length > 0) {
+      this.imageToUpload = event.target.files[0];
+    }
+  }
+
+  onFileChange(event) {
+    if (event.target.files.length > 0) {
+      this.fileToUpload = event.target.files[0];
+    }
+  }
 }

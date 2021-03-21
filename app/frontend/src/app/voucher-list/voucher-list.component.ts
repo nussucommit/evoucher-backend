@@ -18,7 +18,7 @@ import {catchError, map, startWith, switchMap} from 'rxjs/operators';
   templateUrl: './voucher-list.component.html',
   styleUrls: ['./voucher-list.component.scss']
 })
-export class VoucherListComponent implements AfterViewInit {
+export class VoucherListComponent implements AfterViewInit, OnInit {
 
   vouchers = new MatTableDataSource<Voucher>();
   tableColumns: String[] = ['voucher_id', 'name', 'available_date', 'expiry_date', 'description', 'claims_left'];
@@ -52,7 +52,6 @@ export class VoucherListComponent implements AfterViewInit {
       OrderBy:['',''],
     });
   }
-
   setDisplayFilter() {
     this.displayFilter = this.displayFilter ? false : true;
   }
@@ -63,10 +62,6 @@ export class VoucherListComponent implements AfterViewInit {
 
   onInputPageChange(pageNumber: number) {
     this.paginator.pageIndex = Math.min(pageNumber - 1, this.paginator.getNumberOfPages() - 1);
-  }
-
-  onChange(att: any) {
-    console.log(att.target.id + " " + att.target.value);
   }
 
   onSubmit() {
@@ -129,7 +124,6 @@ export class VoucherListComponent implements AfterViewInit {
   }
 
   updateOrderBy() {
-    console.log(this.filterForm.value.OrderBy);
     this.reloadData()
   }
 

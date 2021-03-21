@@ -1,52 +1,64 @@
 <div style="padding:20px; width: 300px; margin: auto">
     <h1 mat-dialog-title style="padding-top: 10px">{{getDialogTitle()}}</h1>
     <form mat-dialog-content [formGroup]="voucherForm">
-        <mat-form-field style = "margin-top: 10px;" appearance="standard">
+        <mat-form-field style="margin-top: 10px;" appearance="standard">
             <mat-label>Voucher ID</mat-label>
             <input matInput class="form-control" formControlName="voucher_id">
             <mat-error>This field is required.</mat-error>
         </mat-form-field>
         <br>
-        <mat-form-field style = "margin-top: 10px;" appearance="standard">
+        <mat-form-field style="margin-top: 10px;" appearance="standard">
             <mat-label>Available Date</mat-label>
-            <input matInput required class="form-control" [min]="todayDate"
-            [matDatepicker]="availablepicker" formControlName="available_date">
+            <input matInput required class="form-control" [min]="todayDate" [matDatepicker]="availablepicker"
+                formControlName="available_date">
             <mat-datepicker-toggle matSuffix [for]="availablepicker"></mat-datepicker-toggle>
             <mat-datepicker #availablepicker></mat-datepicker>
             <mat-error>This field is required.</mat-error>
         </mat-form-field>
         <br>
-        <mat-form-field style = "margin-top: 10px;" appearance="standard">
+        <mat-form-field style="margin-top: 10px;" appearance="standard">
             <mat-label>Expiry Date</mat-label>
             <input matInput required class="form-control" [min]="voucherForm.controls.available_date.value"
-            [matDatepicker]="expirypicker" formControlName="expiry_date">
+                [matDatepicker]="expirypicker" formControlName="expiry_date">
             <mat-datepicker-toggle matSuffix [for]="expirypicker"></mat-datepicker-toggle>
             <mat-datepicker #expirypicker></mat-datepicker>
             <mat-error>This date has to be later than the posted date.</mat-error>
         </mat-form-field>
         <br>
-        <mat-form-field style = "margin-top: 10px;" appearance="standard">
+        <mat-form-field style="margin-top: 10px;" appearance="standard">
             <mat-label>Name</mat-label>
             <input matInput formControlName="name">
             <mat-error>This field is required.</mat-error>
         </mat-form-field>
         <br>
-        <mat-form-field style = "margin-top: 10px;" appearance="standard">
+        <mat-form-field style="margin-top: 10px;" appearance="standard">
             <mat-label>Description</mat-label>
             <textarea matInput formControlName="description"></textarea>
             <mat-error>This field is required.</mat-error>
         </mat-form-field>
         <br>
-        <mat-form-field style = "margin-top: 10px;" appearance="standard">
+        <div>
+            <mat-label>Voucher Image</mat-label>
+            <input type="file" name="image" class="form-control" formControlName="image"
+                (change)="onImageChange($event)" required>
+        </div>
+        <mat-form-field style="margin-top: 10px;" appearance="standard">
             <mat-label>Claims Left</mat-label>
-            <input matInput type="number" min="1" value="1" pattern= "\d+" formControlName="claims_left">
+            <input matInput type="number" min="1" value="1" pattern="\d+" formControlName="claims_left">
             <mat-error>Please enter a positive number.</mat-error>
         </mat-form-field>
+        <br>
+        <div>
+            <mat-label>Voucher Code List</mat-label>
+            <input type="file" name="code_list" class="form-control" formControlName="code_list"
+                (change)="onFileChange($event)">
+        </div>
         <br>
     </form>
     <mat-dialog-actions align="end">
         <button mat-button [mat-dialog-close]="true">Cancel</button>
         <button mat-button *ngIf="hasData" (click)="onDelete()">Delete</button>
-        <button mat-raised-button [disabled]="!voucherForm.valid" type="submit" color="primary" (click)="onSubmit()">Submit</button>
+        <button mat-raised-button [disabled]="!voucherForm.valid" type="submit" color="primary"
+            (click)="onSubmit()">Submit</button>
     </mat-dialog-actions>
 </div>

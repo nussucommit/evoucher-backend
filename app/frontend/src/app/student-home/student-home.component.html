@@ -1,0 +1,25 @@
+<div style="margin: 30px">
+    <p>Click or tap on the tiles for more details.</p>
+
+    <mat-grid-list cols="5" [gutterSize]="20">
+        <mat-grid-tile *ngFor="let voucher of voucherData" class="mat-elevation-z8" (click)="tileOnClick(voucher)">
+            <div style="position: absolute; top: 0;">
+                <img src={{voucher.image}} alt="image" style="width: 100%; height: auto;">
+                <div style="margin-left: 20px">
+                    <p>{{voucher.name}}</p>
+                    <div>
+                        <span style="font-size: 12px; align-items:flex-end;">Provided by </span>
+                        <!--Add organizations here thanks :)-->
+                        <br>
+                        <span style="font-size: 12px; align-items:flex-end;">Promotion ends on {{voucher.expiry_date | date: 'dd
+                            MMMM yyyy'}}</span>
+                    </div>
+                </div>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+
+    <p style="font-style: italic; color: #777777;">(Showing 1 - {{voucherData.length}} of {{totalNumber}})</p>
+    <button style="margin-top: 10px; margin-bottom: 10px;" (click)="loadMore()"
+        [disabled]="voucherData.length === totalNumber" mat-raised-button>Load More...</button>
+</div>

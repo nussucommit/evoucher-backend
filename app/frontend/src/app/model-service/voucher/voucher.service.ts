@@ -11,6 +11,11 @@ export class VoucherService {
 
   constructor(private http: HttpClient) { }
 
+  // this method shall return vouchers that are not expired to reduce data sending overhead.
+  getVouchersWithoutFilter(page: number): Observable<any> {
+    return this.http.get(`${this.baseUrlVoucher}`, { params: { page: page + '', page_size: '10' } });
+  }
+
   getVoucherList(filterParams: any): Observable<any> {
     return this.http.get(`${this.baseUrlVoucher}/`, { params: filterParams });
   }
@@ -20,9 +25,9 @@ export class VoucherService {
   }
 
   createVoucher(voucher: any): Observable<object> {
-    return this.http.post(`${this.baseUrlVoucher}/add`, voucher);
+    return this.http.post(`${this.baseUrlVoucher}/`, voucher);
   }
-  
+
   updateVoucher(id: string, voucher: any): Observable<object> {
     return this.http.put(`${this.baseUrlVoucher}/${id}`, voucher);
   }
