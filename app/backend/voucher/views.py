@@ -9,13 +9,6 @@ from datetime import datetime, timedelta
 
 from evoucher.pagination_settings import PaginationSettings
 
-
-# class CreateVoucherList(generics.ListCreateAPIView):
-#     queryset = Voucher.objects.all()
-#     serializer_class = VoucherSerializer
-#     pagination_class = PaginationSettings
-#     permission_classes = (AllowAny,) #IsAuthenticatedOrReadOnly,) to change
-
 class CreateVoucherList(generics.ListCreateAPIView):
     serializer_class = VoucherSerializer
     filter_backends = [filters.OrderingFilter]
