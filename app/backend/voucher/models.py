@@ -7,6 +7,8 @@ class Voucher(models.Model):
     available_date = models.DateTimeField(blank=False)
     expiry_date = models.DateTimeField(blank=False)
     name = models.CharField(max_length=128, blank=False)
+    organization = models.CharField(max_length=32, blank=False)
+    voucher_type = models.CharField(max_length=32, blank=False)
     description = models.TextField(blank=True)
     claims_left = models.PositiveIntegerField(blank=False)
     image = models.ImageField(upload_to='assets')
