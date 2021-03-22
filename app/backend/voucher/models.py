@@ -1,4 +1,5 @@
 from django.db import models
+from organization.models import Organization
 
 # Create your models here.
 class Voucher(models.Model):
@@ -26,3 +27,7 @@ class Code(models.Model):
 
     class Meta:
         ordering = ['code']
+
+class BelongToOrganization(models.Model):
+    voucher = models.ForeignKey(Voucher, on_delete=models.CASCADE)
+    organization_name = models.ForeignKey(Organization, on_delete=models.CASCADE)
