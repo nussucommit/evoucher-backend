@@ -32,6 +32,10 @@ export class VoucherService {
     return this.http.put(`${this.baseUrlVoucher}/${id}`, voucher);
   }
 
+  patchVoucher(id: string, voucher: any): Observable<object> {
+    return this.http.patch(`${this.baseUrlVoucher}/${id}`, voucher);
+  }
+
   deleteVoucher(id: string): Observable<any> {
     return this.http.delete(`${this.baseUrlVoucher}/${id}`);
   }

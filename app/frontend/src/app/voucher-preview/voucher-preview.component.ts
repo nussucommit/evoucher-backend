@@ -56,7 +56,7 @@ export class VoucherPreviewComponent implements OnInit {
       message = "There is no voucher left";
     }
     this.voucherData.voucher.counter++;
-    this.voucherService.updateVoucher(this.voucherData.voucher.id, {...this.voucherData.voucher}).subscribe();
+    this.voucherService.patchVoucher(this.voucherData.voucher.id, {"counter": this.voucherData.voucher.counter}).subscribe();
     this.claimStatus = message;
   }
 
