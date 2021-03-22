@@ -41,7 +41,6 @@ export class VoucherDetailsComponent implements OnInit {
       name: [this.voucher ? this.voucher.name : '', Validators.required],
       description: [this.voucher ? this.voucher.description : '', Validators.required],
       image: ['', Validators.required],
-      claims_left: [this.voucher ? this.voucher.claims_left : '', Validators.required]
     });
     this.voucherForm.addControl('code_list', new FormControl(null));
   }
@@ -58,8 +57,8 @@ export class VoucherDetailsComponent implements OnInit {
     this.dialogRef.close();
     const data = this.voucherForm.value;
     data.posted_date = this.todayDate;
+    data.counter = 0;
     if (this.voucherData.mode === 'create') {
-      console.log(data);
       this.voucherService.createVoucher(this.toFormData(data)).subscribe();
     } else if (this.voucherData.mode === 'edit') {
       const dataCopy = {...data};

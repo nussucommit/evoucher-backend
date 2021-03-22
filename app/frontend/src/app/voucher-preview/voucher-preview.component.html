@@ -5,7 +5,7 @@
 
     <div mat-dialog-content>
         <div align="center">
-            <img [src]="voucherData.imageUrl" style="width: 80%;">
+            <img src={{voucherData.voucher.image}} style="width: 80%;">  
         </div>
         <p style="white-space: pre;">{{voucherData.voucher.description}}</p>
 
@@ -26,9 +26,9 @@
                 <mat-form-field style="width: 100%;">
                     <mat-label>Email address</mat-label>
                     <input matInput required class="form-control" formControlName="email">
-                </mat-form-field>
+                </mat-form-field>   
                 <div class="row">
-                    <p style="font-size: 12px; font-style: italic; float: left;">{{claimStatus}}</p>
+                    <p style="font-size: 20px; font-style: italic; float: left;">{{claimStatus}}</p>
                     <div style="float: right;" align="end">
                         <button mat-raised-button color="primary"
                             [disabled]="!emailForm.valid || buttonClicked">Submit</button>

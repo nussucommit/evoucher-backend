@@ -6,7 +6,7 @@ export class Voucher {
     expiry_date: Date;
     name: string;
     description: string;
-    claims_left: number;
+    counter: number;
     image: string;
     code_list: string;
 }

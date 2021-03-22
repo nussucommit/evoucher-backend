@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { HttpClient } from '@angular/common/http';
+import { VoucherService } from '../model-service/voucher/voucher.service';
 
 @Component({
   selector: 'app-voucher-preview',
@@ -12,12 +14,25 @@ export class VoucherPreviewComponent implements OnInit {
   emailForm: FormGroup;
   claimStatus: string;
   buttonClicked = false;
+  codeArray: string[];
 
   constructor(
     public dialogRef: MatDialogRef<VoucherPreviewComponent>,
     @Inject(MAT_DIALOG_DATA) public voucherData: any,
-    private formBuilder: FormBuilder
-  ) { }
+    private formBuilder: FormBuilder,
+    private http: HttpClient,
+    public voucherService: VoucherService
+  ) { 
+    this.http.get(this.voucherData.voucher.code_list, {responseType: 'text'})
+    .subscribe(
+        data => {
+            this.codeArray = data.split(",");
+        },
+        error => {
+            console.log(error);
+        }
+    );
+  }
 
   ngOnInit(): void {
     this.emailForm = this.formBuilder.group({
@@ -34,7 +49,15 @@ export class VoucherPreviewComponent implements OnInit {
     this.buttonClicked = true;
     this.emailForm.disable();
     // conduct your check here.
-    this.claimStatus = "A link has been sent to your email account. You may need to check your junk folder."
+    let message;
+    if (this.voucherData.voucher.counter < this.codeArray.length) {
+      message = "Your voucher code is: " + this.codeArray[this.voucherData.voucher.counter];
+    } else {
+      message = "There is no voucher left";
+    }
+    this.voucherData.voucher.counter++;
+    this.voucherService.patchVoucher(this.voucherData.voucher.id, {"counter": this.voucherData.voucher.counter}).subscribe();
+    this.claimStatus = message;
   }
 
   onEdit() {
