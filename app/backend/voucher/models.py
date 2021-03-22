@@ -8,9 +8,19 @@ class Voucher(models.Model):
     expiry_date = models.DateTimeField(blank=False)
     name = models.CharField(max_length=128, blank=False)
     description = models.TextField(blank=True)
-    claims_left = models.PositiveIntegerField(blank=False)
+    counter = models.PositiveIntegerField(blank=False)
     image = models.ImageField(upload_to='assets')
     code_list = models.FileField(upload_to='codes', blank=True, null=True)
 
     def __string__(self):
         return "{}: {}".format(self.voucher_id, self.name)
+
+class Code(models.Model):
+    code = models.CharField(max_length=128)
+    voucher = models.ForeignKey(Voucher, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.code
+
+    class Meta:
+        ordering = ['code']
