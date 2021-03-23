@@ -1,3 +1,4 @@
+import { Organization } from './../model-service/organization/organization';
 import { Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
@@ -21,8 +22,10 @@ import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 export class VoucherListComponent implements AfterViewInit, OnInit {
 
   vouchers = new MatTableDataSource<Voucher>();
-  tableColumns: String[] = ['voucher_id', 'name', 'available_date', 'expiry_date', 'description', 'claims_left'];
+  tableColumns: String[] = ['voucher_id', 'name', 'available_date', 'expiry_date', 'organization' ,'voucher_type' ,'description', 'claims_left'];
   filterCategories: String[] = ['Organization', 'Faculty'];
+  organizationList: any;
+  typeList:any;
 
   filterForm: FormGroup;
   
@@ -65,7 +68,7 @@ export class VoucherListComponent implements AfterViewInit, OnInit {
   }
 
   onSubmit() {
-    console.log(this.filterForm.value.Available.format("YYYY-MM-DD HH:mm"));
+    console.log(this.filterForm.value.Organization);
     this.reloadData();
   }
  
@@ -107,6 +110,14 @@ export class VoucherListComponent implements AfterViewInit, OnInit {
             this.vouchers.data = data;
           }
       );
+
+    this.voucherService.getOrganizationInVoucher().subscribe(data => {
+      console.log(data);
+      this.organizationList = data;
+    })
+
+    
+    
   }
 
   openEditDialog(voucher: any, mode: string) {
@@ -124,6 +135,7 @@ export class VoucherListComponent implements AfterViewInit, OnInit {
   }
 
   updateOrderBy() {
+    console.log(this.filterForm.value.OrderBy);
     this.reloadData()
   }
 

@@ -5,19 +5,29 @@
 
 <div style="display: flex; flex-direction: row; padding-top: 10px; padding-left: 30px; ">
     <div *ngIf="displayFilter" >
-        <div  style="margin-top: 15px; margin-bottom: 15px;">
-            Filter Category
-        </div>
-        <div *ngFor="let category of filterCategories"  [formGroup]="filterForm">
-            <label for="vehicle3">{{category}}</label><br>
-            <select  style="width: 200px; margin-bottom: 4px;" [formControlName]="category" value="event.target.value" >
-                <option value="volvo">Volvo</option>
-                <option value="saab">Saab</option>
-                <option value="opel">Opel</option>
-                <option value="audi">Audi</option>
-            </select>
-        </div>
         <form mat-dialog-content [formGroup]="filterForm">
+            <div  style="margin-top: 15px; margin-bottom: 15px;">
+                Filter Category
+            </div>
+        
+            <mat-form-field style="margin-top: 10px;" appearance="standard">
+                <mat-label>Organization</mat-label>
+                <mat-select  formControlName="Organization">
+                    <div *ngFor="let category of organizationList">
+                        <mat-option value="{{category.organization}}">{{category.organization}}</mat-option>
+                    </div>
+                </mat-select>
+            </mat-form-field>
+            
+            <mat-form-field style="margin-top: 10px;" appearance="standard">
+                <mat-label>Voucher Type</mat-label>
+                <mat-select  formControlName="Organization">
+                    <div *ngFor="let category of organizationList">
+                        <mat-option value="{{category.organization}}">{{category.organization}}</mat-option>
+                    </div>
+                </mat-select>
+            </mat-form-field>
+
             <mat-form-field style = "margin-top: 10px;" appearance="standard">
                 <mat-label>Expiry Date</mat-label>
                 <input matInput required class="form-control"
@@ -34,24 +44,24 @@
     </div>
 
     <div style="width: 100%; height: auto;">
-        <div style ="padding-left: 30px; display:flex;">
+        <div style ="padding-left: 30px;">
             <button mat-raised-button color="primary" (click)= "openEditDialog(undefined, 'create')">
                 Add Voucher
             </button>
             <button (click)="setDisplayFilter()" style="margin-left:15px;" mat-raised-button color="primary">
                 Filter
             </button>
-            <p style="margin: 10px 15px">Order By :</p>
-            <div style="margin: 5px 8px;" [formGroup]="filterForm" >
-                <select  style="width: 200px; margin-bottom: 4px; padding: 5px 2px; border-radius: 3px;" (change)="updateOrderBy()"  formControlName="OrderBy" >
-                    <option value="voucher_id">Voucher ID</option>
-                    <option value="name">Voucher Name</option>
-                    <option value="available_date">Available Date</option>
-                    <option value="expiry_date">Expiry Date</option>
-                    <option value="description">Description</option>
-                    <option value="claims_left">Claims Left</option>
-                </select>
-            </div>
+            <mat-form-field style="margin-top: 10px; margin-left: 15px;" [formGroup]="filterForm" appearance="standard">
+                <mat-label>Order By</mat-label>
+                <mat-select  (selectionChange)="updateOrderBy()" formControlName="OrderBy"  >
+                    <mat-option value="voucher_id">Voucher ID</mat-option>
+                    <mat-option value="name">Voucher Name</mat-option>
+                    <mat-option value="available_date">Available Date</mat-option>
+                    <mat-option value="expiry_date">Expiry Date</mat-option>
+                    <mat-option value="description">Description</mat-option>
+                    <mat-option value="claims_left">Claims Left</mat-option>
+                </mat-select>
+            </mat-form-field>
             
         </div>
         <div>
@@ -72,6 +82,14 @@
                     <ng-container matColumnDef="expiry_date">
                         <mat-header-cell mat-sort-header *matHeaderCellDef>Expiry Date</mat-header-cell>
                         <mat-cell *matCellDef="let cell">{{cell.expiry_date|date: 'dd/MM/yyyy'}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="organization">
+                        <mat-header-cell mat-sort-header *matHeaderCellDef>Organization</mat-header-cell>
+                        <mat-cell *matCellDef="let cell">{{cell.organization}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="voucher_type">
+                        <mat-header-cell mat-sort-header *matHeaderCellDef>Voucher Type</mat-header-cell>
+                        <mat-cell *matCellDef="let cell">{{cell.voucher_type}}</mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="description">
                         <mat-header-cell mat-sort-header *matHeaderCellDef>Description</mat-header-cell>

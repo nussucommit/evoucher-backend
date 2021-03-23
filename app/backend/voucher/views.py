@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 
 # Create your views here.
 from voucher.models import Voucher
-from voucher.serializers import VoucherSerializer
+from voucher.serializers import VoucherSerializer, OrganizationInVoucher
 from django.db.models import Q
 from datetime import datetime, timedelta
 
@@ -26,7 +26,7 @@ class CreateVoucherList(generics.ListCreateAPIView):
         if faculty and faculty != 'null':
             q &= Q(name__icontains=faculty.lower())
         if organization and organization != 'null':
-            q &= Q(name__icontains=organization.lower())
+            q &= Q(organization=organization)
         if endDate and endDate != 'null':
             toDateObj = datetime.strptime(endDate, '%Y-%m-%d %H:%M') - timedelta(days=1)
             print(toDateObj)
@@ -35,6 +35,11 @@ class CreateVoucherList(generics.ListCreateAPIView):
             return queryset.filter(q).order_by(orderBy)
         else:
             return queryset.filter(q)
+
+class CreateOrganizationInVoucherList(generics.ListCreateAPIView):
+    queryset = Voucher.objects.all()
+    serializer_class = OrganizationInVoucher
+    permission_classes = (AllowAny,) 
 
 class VoucherList(generics.ListAPIView):
     queryset = Voucher.objects.all()
