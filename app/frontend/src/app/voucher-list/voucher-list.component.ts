@@ -53,6 +53,7 @@ export class VoucherListComponent implements AfterViewInit, OnInit {
       Faculty: ['','' ],
       Available: ['',''],
       OrderBy:['',''],
+      VoucherType:['','']
     });
   }
   setDisplayFilter() {
@@ -70,6 +71,15 @@ export class VoucherListComponent implements AfterViewInit, OnInit {
   onSubmit() {
     console.log(this.filterForm.value.Organization);
     this.reloadData();
+  }
+
+  clearFilter() {
+    this.filterForm.value.Organization = '';
+    this.filterForm.value.Faculty = '';
+    this.filterForm.value.VoucherType = '';
+    this.filterForm.value.Available = '';
+    this.reloadData();
+
   }
  
   parseFilterForm(filterForm: FormGroup) {
@@ -116,6 +126,10 @@ export class VoucherListComponent implements AfterViewInit, OnInit {
       this.organizationList = data;
     })
 
+    this.voucherService.getVoucherTypes().subscribe(data => {
+      console.log(data);
+      this.typeList = data;
+    })
     
     
   }

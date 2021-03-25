@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 
 # Create your views here.
 from voucher.models import Voucher
-from voucher.serializers import VoucherSerializer, OrganizationInVoucher
+from voucher.serializers import VoucherSerializer, OrganizationInVoucher, VoucherTypes
 from django.db.models import Q
 from datetime import datetime, timedelta
 
@@ -17,6 +17,7 @@ class CreateVoucherList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         queryset = Voucher.objects.all()
+        vouchertype = self.request.query_params.get('VoucherType', None)
         organization = self.request.query_params.get('Organization', None)
         faculty = self.request.query_params.get('Faculty', None)
         endDate = self.request.query_params.get('Available', None)
@@ -27,6 +28,8 @@ class CreateVoucherList(generics.ListCreateAPIView):
             q &= Q(name__icontains=faculty.lower())
         if organization and organization != 'null':
             q &= Q(organization=organization)
+        if vouchertype and vouchertype != 'null':
+            q &= Q(voucher_type=vouchertype)
         if endDate and endDate != 'null':
             toDateObj = datetime.strptime(endDate, '%Y-%m-%d %H:%M') - timedelta(days=1)
             print(toDateObj)
@@ -39,6 +42,11 @@ class CreateVoucherList(generics.ListCreateAPIView):
 class CreateOrganizationInVoucherList(generics.ListCreateAPIView):
     queryset = Voucher.objects.all()
     serializer_class = OrganizationInVoucher
+    permission_classes = (AllowAny,) 
+
+class VoucherTypeList(generics.ListCreateAPIView):
+    queryset = Voucher.objects.all()
+    serializer_class = VoucherTypes
     permission_classes = (AllowAny,) 
 
 class VoucherList(generics.ListAPIView):

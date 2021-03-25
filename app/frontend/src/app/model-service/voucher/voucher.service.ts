@@ -20,6 +20,10 @@ export class VoucherService {
     return this.http.get(`${this.baseUrlVoucher}/organization`);
   }
 
+  getVoucherTypes(): Observable<any> {
+    return this.http.get(`${this.baseUrlVoucher}/type`);
+  }
+
   getVoucherList(filterParams: any): Observable<any> {
     return this.http.get(`${this.baseUrlVoucher}/`, { params: filterParams });
   }

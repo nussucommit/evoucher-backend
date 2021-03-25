@@ -19,11 +19,13 @@
                 </mat-select>
             </mat-form-field>
             
+            <br>
+
             <mat-form-field style="margin-top: 10px;" appearance="standard">
                 <mat-label>Voucher Type</mat-label>
-                <mat-select  formControlName="Organization">
-                    <div *ngFor="let category of organizationList">
-                        <mat-option value="{{category.organization}}">{{category.organization}}</mat-option>
+                <mat-select  formControlName="VoucherType">
+                    <div *ngFor="let type of typeList">
+                        <mat-option value="{{type.voucher_type}}">{{type.voucher_type}}</mat-option>
                     </div>
                 </mat-select>
             </mat-form-field>
@@ -40,6 +42,9 @@
         
         <button style="margin-top: 10px;" (click)="onSubmit()" mat-raised-button color="primary">
             Submit
+        </button>
+        <button style="margin-top: 10px; margin-left: 15px;" (click)="clearFilter()" mat-raised-button color="primary">
+            Clear
         </button>
     </div>
 
