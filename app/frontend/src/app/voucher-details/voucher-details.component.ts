@@ -38,8 +38,6 @@ export class VoucherDetailsComponent implements OnInit {
       voucher_id: [{value: this.voucher ? this.voucher.voucher_id : '', disabled: this.voucher ? true : false}, Validators.required],
       available_date: [this.voucher ? this.voucher.posted_date : '', Validators.required],
       expiry_date: [this.voucher ? this.voucher.expiry_date : '', Validators.required],
-      organization: [this.voucher ? this.voucher.organization : '', Validators.required],
-      voucher_type: [this.voucher ? this.voucher.voucher_type : '', Validators.required],
       name: [this.voucher ? this.voucher.name : '', Validators.required],
       description: [this.voucher ? this.voucher.description : '', Validators.required],
       image: ['', Validators.required],
