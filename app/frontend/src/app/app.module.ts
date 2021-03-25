@@ -6,7 +6,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from  '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MAT_DATE_LOCALE, MatRippleModule} from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
@@ -59,7 +58,6 @@ import { StudentHomeComponent } from './student-home/student-home.component';
     MatDialogModule,
     MatRippleModule,
     MatFormFieldModule,
-    MatSelectModule,
     MatPaginatorModule,
     MatInputModule,
     MatTableModule,
