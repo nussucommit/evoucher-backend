@@ -79,7 +79,7 @@
                     </ng-container>
                     <ng-container matColumnDef="claims_left">
                         <mat-header-cell mat-sort-header *matHeaderCellDef>Claims Left</mat-header-cell>
-                        <mat-cell *matCellDef="let cell">{{cell.claims_left}}</mat-cell>
+                        <mat-cell *matCellDef="let cell">{{cell.counter}}</mat-cell>
                     </ng-container>
                     <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
                     <mat-row matRipple *matRowDef = "let cell; columns: tableColumns;" (click)="openEditDialog(cell, 'edit')"></mat-row>

@@ -41,6 +41,7 @@ export class VoucherDetailsComponent implements OnInit {
       name: [this.voucher ? this.voucher.name : '', Validators.required],
       description: [this.voucher ? this.voucher.description : '', Validators.required],
       image: ['', Validators.required],
+      email_list: ['', Validators.required]
     });
     this.voucherForm.addControl('code_list', new FormControl(null));
   }
@@ -85,6 +86,10 @@ export class VoucherDetailsComponent implements OnInit {
       if (key.includes('code_list')) {
         formData.append(key, this.fileToUpload, this.fileToUpload.name);
       }
+      if (key.includes('email_list')) {
+        formData.append(key, this.fileToUpload, this.fileToUpload.name);
+      }
+
       formData.append(key,value);
       
     }
