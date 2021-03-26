@@ -26,8 +26,8 @@ class CreateVoucherList(generics.ListCreateAPIView):
         q = Q()
         if faculty and faculty != 'null':
             q &= Q(name__icontains=faculty.lower())
-        if organization and organization != 'null':
-            q &= Q(organization=organization)
+        # if organization and organization != 'null':
+        #     q &= Q(organization=organization)
         if vouchertype and vouchertype != 'null':
             q &= Q(voucher_type=vouchertype)
         if endDate and endDate != 'null':

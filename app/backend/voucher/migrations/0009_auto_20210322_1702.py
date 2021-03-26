@@ -11,16 +11,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='voucher',
-            name='organization',
-            field=models.CharField(default=django.utils.timezone.now, max_length=32),
-            preserve_default=False,
-        ),
-        migrations.AddField(
-            model_name='voucher',
-            name='voucher_type',
-            field=models.CharField(default=django.utils.timezone.now, max_length=32),
-            preserve_default=False,
-        ),
     ]
