@@ -1,38 +1,38 @@
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Token } from './tokens';
+import { StudentToken } from './tokens';
 import { HttpClient, HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LoginDetail } from './login-details';
-import { User } from './users';
+import { StudentLoginDetail } from './login-details';
+import { StudentUser } from './users';
 import { Router } from '@angular/router';
-import { ComponentBridgingService } from '../componentbridging.service';
+import { ComponentBridgingService } from '../../componentbridging.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
+export class StudentLoginService {
   private loginApiUrl = "http://localhost:4200/" + 'token';
   private refreshApiUrl = "http://localhost:4200/" + 'token/refresh';
 
-  private currentUserSubject: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
+  private currentUserSubject: BehaviorSubject<StudentUser>;
+  public currentUser: Observable<StudentUser>;
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private bridgingService: ComponentBridgingService
   ) {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUserSubject = new BehaviorSubject<StudentUser>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  login(credentials: LoginDetail) {
-    return this.http.post<Token>(this.loginApiUrl, credentials)
+  login(credentials: StudentLoginDetail) {
+    return this.http.post<StudentToken>(this.loginApiUrl, credentials)
       .pipe(
-        map<Token, boolean>((receivedToken: Token) => {
+        map<StudentToken, boolean>((receivedToken: StudentToken) => {
           const user = {
-            username: credentials.username,
+            email: credentials.email,
             token: receivedToken
           };
           this.storeUser(user);
@@ -45,7 +45,7 @@ export class LoginService {
   logout() {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
-    this.router.navigate(['/admin']);
+    this.router.navigate(['/login']);
   }
 
   attachAccessToken(request: HttpRequest<any>): HttpRequest<any> {
@@ -64,9 +64,9 @@ export class LoginService {
   refreshAccessToken(): Observable<boolean> {
     const currentUser = this.currentUserValue;
 
-    return this.http.post<Token>(this.refreshApiUrl, currentUser.token)
+    return this.http.post<StudentToken>(this.refreshApiUrl, currentUser.token)
       .pipe(
-        map<Token, boolean>((receivedToken: Token) => {
+        map<StudentToken, boolean>((receivedToken: StudentToken) => {
           console.log('Before');
           console.log(this.currentUserValue);
           this.updateAccessToken(receivedToken);
@@ -78,10 +78,10 @@ export class LoginService {
       );
   }
 
-  updateAccessToken(newToken: Token) {
+  updateAccessToken(newToken: StudentToken) {
     const currentUser = this.currentUserValue;
     this.currentUserSubject.next({
-      username: currentUser.username,
+      email: currentUser.email,
       token: {
         access: newToken.access,
         refresh: currentUser.token.refresh,
@@ -89,15 +89,15 @@ export class LoginService {
     });
   }
 
-  get observableUser(): Observable<User> {
+  get observableUser(): Observable<StudentUser> {
     return this.currentUser;
   }
 
-  get currentUserValue(): User {
+  get currentUserValue(): StudentUser {
     return this.currentUserSubject.value;
   }
 
-  private storeUser(user: User) {
+  private storeUser(user: StudentUser) {
     localStorage.setItem('currentUser', JSON.stringify(user));
     this.currentUserSubject.next(user);
   }

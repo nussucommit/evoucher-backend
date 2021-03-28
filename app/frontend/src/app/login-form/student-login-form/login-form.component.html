@@ -1,0 +1,17 @@
+<mat-card class="mat-elevation-z8 container">
+    <h2>Student Login</h2>
+  
+  <form [formGroup]="loginForm">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput type="text" formControlName="email">
+    </mat-form-field>
+  
+    <br>
+    
+    <button mat-raised-button class="full-width" color="primary" type="submit" (click)="onSubmit()">Login</button>
+    <br>
+    <p style="color:black;">{{errorString}}</p>
+  
+  </form>
+  </mat-card>

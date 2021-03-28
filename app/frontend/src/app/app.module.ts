@@ -20,6 +20,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -36,6 +37,7 @@ import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-di
 import { VoucherPreviewComponent } from './voucher-preview/voucher-preview.component';
 import { StudentHomeComponent } from './student-home/student-home.component';
 import { LoginFormComponent } from './login-form/login-form.component';
+import { StudentLoginFormComponent } from './login-form/student-login-form/login-form.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,8 @@ import { LoginFormComponent } from './login-form/login-form.component';
     ConfirmationDialogComponent,
     VoucherPreviewComponent,
     StudentHomeComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    StudentLoginFormComponent
   ],
   imports: [
     BrowserModule,
@@ -72,7 +75,8 @@ import { LoginFormComponent } from './login-form/login-form.component';
     MatDatepickerModule,
     MatMomentDateModule,
     MatGridListModule,
-    MatCardModule
+    MatCardModule,
+    MatIconModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-SG' },

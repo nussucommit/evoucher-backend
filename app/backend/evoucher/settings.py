@@ -76,8 +76,8 @@ REST_FRAMEWORK = {
 ROOT_URLCONF = 'evoucher.urls'
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=10),
-    'REFRESH_TOKEN_LIFETIME': timedelta(seconds=60),
+    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=3000),
+    'REFRESH_TOKEN_LIFETIME': timedelta(seconds=6000),
 }
 
 TEMPLATES = [
