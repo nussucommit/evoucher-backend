@@ -12,16 +12,16 @@ class CreateVoucherList(generics.ListCreateAPIView):
     queryset = Voucher.objects.all()
     serializer_class = VoucherSerializer
     pagination_class = PaginationSettings
-    permission_classes = (AllowAny,) #IsAuthenticatedOrReadOnly,) to change
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
 
 
 class VoucherList(generics.ListAPIView):
     queryset = Voucher.objects.all()
     serializer_class = VoucherSerializer
-    permission_classes = (AllowAny,) #(IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
 
 class VoucherDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Voucher.objects.all()
     serializer_class = VoucherSerializer
-    permission_classes = (AllowAny,) #(IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
