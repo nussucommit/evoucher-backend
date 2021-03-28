@@ -43,13 +43,12 @@
                 (change)="onImageChange($event)" required>
         </div>
         <br>
-        <div>
+        <div *ngIf="this.hasData">
             <mat-label>Voucher Code List</mat-label>
             <input type="file" name="code_list" class="form-control" formControlName="code_list"
                 (change)="onFileChange($event)">
-        </div>
-        <br>
-        <div *ngIf="this.hasData">
+            <br>
+            <br>
             <mat-label>Email List</mat-label>
             <input type="file" name="email_list" class="form-control" formControlName="email_list"
                 (change)="onEmailListChange($event)">

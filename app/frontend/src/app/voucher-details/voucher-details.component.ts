@@ -22,6 +22,7 @@ export class VoucherDetailsComponent implements OnInit {
   imageToUpload: any;
   fileToUpload: any;
   emailListToUpload: any;
+  codeListToUpload: any;
 
   constructor(
     public dialogRef: MatDialogRef<VoucherDetailsComponent>,
@@ -73,6 +74,10 @@ export class VoucherDetailsComponent implements OnInit {
       this.voucherService.uploadEmailList(this.uploadEmailList()).subscribe();
       console.log("asdasdasd");
     }
+    if (this.codeListToUpload != '') {
+      this.voucherService.uploadCodeList(this.uploadCodeList()).subscribe();
+      console.log("asdasdasd");
+    }
   }
 
   onDelete() {
@@ -91,11 +96,6 @@ export class VoucherDetailsComponent implements OnInit {
           formData.append(key, this.imageToUpload, this.imageToUpload.name);
         }
       }
-      if (key.includes('code_list')) {
-        if (this.fileToUpload != '') { 
-          formData.append(key, this.fileToUpload, this.fileToUpload.name);
-        } 
-      }
 
       formData.append(key,value);
       
@@ -106,6 +106,14 @@ export class VoucherDetailsComponent implements OnInit {
   uploadEmailList() {
     const formData = new FormData();
     formData.append('email_list', this.emailListToUpload, this.emailListToUpload.name);
+    formData.append('id', this.voucher.id);
+
+    return formData;
+  }
+
+  uploadCodeList() {
+    const formData = new FormData();
+    formData.append('code_list', this.fileToUpload, this.fileToUpload.name);
     formData.append('id', this.voucher.id);
 
     return formData;

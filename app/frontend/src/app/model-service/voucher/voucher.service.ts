@@ -17,8 +17,11 @@ export class VoucherService {
   }
 
   uploadEmailList(emailListInCsv: any): Observable<any> {
-    console.log(emailListInCsv);
     return this.http.post(`${this.baseUrlVoucher}/addEmails/`, emailListInCsv);
+  }
+
+  uploadCodeList(codeListInCsv: any): Observable<any> {
+    return this.http.post(`${this.baseUrlVoucher}/addCodes/`, codeListInCsv);
   }
 
   getVoucherList(filterParams: any): Observable<any> {
