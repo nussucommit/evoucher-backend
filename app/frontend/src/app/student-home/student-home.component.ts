@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Voucher } from '../model-service/voucher/voucher';
 import { VoucherService } from '../model-service/voucher/voucher.service';
@@ -10,6 +10,26 @@ import { VoucherPreviewComponent } from '../voucher-preview/voucher-preview.comp
   styleUrls: ['./student-home.component.scss']
 })
 export class StudentHomeComponent implements OnInit {
+
+  @ViewChild('theContainer') theContainer;
+  columnNum = 5;
+  tileSize = 250;
+  
+  setColNum(){
+    let width = this.theContainer.nativeElement.offsetWidth;
+    this.columnNum = Math.trunc(width/this.tileSize);
+  }
+
+  //calculating upon loading 
+  ngAfterViewInit() {
+    this.setColNum();
+  }
+
+  //recalculating upon browser window resize
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.setColNum();
+  }
 
   voucherData: Voucher[] = [];
   currentPage = 1;
