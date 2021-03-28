@@ -21,6 +21,7 @@ export class VoucherDetailsComponent implements OnInit {
 
   imageToUpload: any;
   fileToUpload: any;
+  emailListToUpload: any;
 
   constructor(
     public dialogRef: MatDialogRef<VoucherDetailsComponent>,
@@ -40,8 +41,8 @@ export class VoucherDetailsComponent implements OnInit {
       expiry_date: [this.voucher ? this.voucher.expiry_date : '', Validators.required],
       name: [this.voucher ? this.voucher.name : '', Validators.required],
       description: [this.voucher ? this.voucher.description : '', Validators.required],
-      image: ['', Validators.required],
-      email_list: ['', Validators.required]
+      image: [this.voucher ? this.voucher.image : '', Validators.required],
+      email_list: [this.voucher ? this.voucher.email_list : '', Validators.required]
     });
     this.voucherForm.addControl('code_list', new FormControl(null));
   }
@@ -61,11 +62,16 @@ export class VoucherDetailsComponent implements OnInit {
     data.counter = 0;
     if (this.voucherData.mode === 'create') {
       this.voucherService.createVoucher(this.toFormData(data)).subscribe();
+      
     } else if (this.voucherData.mode === 'edit') {
       const dataCopy = {...data};
       console.log(dataCopy);
       const finalData: Voucher = Object.assign(dataCopy, {voucher_id: this.voucherData.voucher.voucher_id}) as Voucher;
       this.voucherService.updateVoucher(this.voucherData.voucher.id, this.toFormData(finalData)).subscribe();
+    }
+    if (this.emailListToUpload != '') {
+      this.voucherService.uploadEmailList(this.uploadEmailList()).subscribe();
+      console.log("asdasdasd");
     }
   }
 
@@ -81,19 +87,27 @@ export class VoucherDetailsComponent implements OnInit {
         value = moment(value).format();
       }
       if (key.includes('image')) {
-        formData.append(key, this.imageToUpload, this.imageToUpload.name);
+        if (this.imageToUpload != '') { 
+          formData.append(key, this.imageToUpload, this.imageToUpload.name);
+        }
       }
       if (key.includes('code_list')) {
-        formData.append(key, this.fileToUpload, this.fileToUpload.name);
-      }
-      if (key.includes('email_list')) {
-        formData.append(key, this.fileToUpload, this.fileToUpload.name);
+        if (this.fileToUpload != '') { 
+          formData.append(key, this.fileToUpload, this.fileToUpload.name);
+        } 
       }
 
       formData.append(key,value);
       
     }
-    console.log(formData);
+    return formData;
+  }
+
+  uploadEmailList() {
+    const formData = new FormData();
+    formData.append('email_list', this.emailListToUpload, this.emailListToUpload.name);
+    formData.append('id', this.voucher.id);
+
     return formData;
   }
 
@@ -106,6 +120,12 @@ export class VoucherDetailsComponent implements OnInit {
   onFileChange(event) {
     if (event.target.files.length > 0) {
       this.fileToUpload = event.target.files[0];
+    }
+  }
+
+  onEmailListChange(event) {
+    if (event.target.files.length > 0) {
+      this.emailListToUpload = event.target.files[0];
     }
   }
 }

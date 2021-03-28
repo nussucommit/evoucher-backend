@@ -25,3 +25,10 @@ class Code(models.Model):
 
     class Meta:
         ordering = ['code']
+
+class Email(models.Model):
+    email = models.CharField(max_length=40)
+    voucher = models.ForeignKey(Voucher, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.email

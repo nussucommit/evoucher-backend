@@ -49,10 +49,10 @@
                 (change)="onFileChange($event)">
         </div>
         <br>
-        <div>
+        <div *ngIf="this.hasData">
             <mat-label>Email List</mat-label>
-            <input type="file" name="email_list" class="form-control" formControlName="code_list"
-                (change)="onFileChange($event)">
+            <input type="file" name="email_list" class="form-control" formControlName="email_list"
+                (change)="onEmailListChange($event)">
         </div>
         <br>
     </form>
