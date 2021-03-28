@@ -35,7 +35,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     private router: Router,
     private bridgingService: ComponentBridgingService
   ) {
-    // console.log(loginService.currentUserValue);
+    console.log(loginService.currentUserValue);
   }
 
   /**

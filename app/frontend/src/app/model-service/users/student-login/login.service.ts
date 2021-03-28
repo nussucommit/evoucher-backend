@@ -12,8 +12,8 @@ import { ComponentBridgingService } from '../../componentbridging.service';
   providedIn: 'root'
 })
 export class StudentLoginService {
-  private loginApiUrl = "http://localhost:4200/" + 'token';
-  private refreshApiUrl = "http://localhost:4200/" + 'token/refresh';
+  private loginApiUrl = "http://localhost:8000/api/" + 'token';
+  private refreshApiUrl = "http://localhost:8000/api/" + 'token/refresh';
 
   private currentUserSubject: BehaviorSubject<StudentUser>;
   public currentUser: Observable<StudentUser>;
@@ -32,7 +32,7 @@ export class StudentLoginService {
       .pipe(
         map<StudentToken, boolean>((receivedToken: StudentToken) => {
           const user = {
-            email: credentials.email,
+            username: credentials.username, //email
             token: receivedToken
           };
           this.storeUser(user);
@@ -81,7 +81,7 @@ export class StudentLoginService {
   updateAccessToken(newToken: StudentToken) {
     const currentUser = this.currentUserValue;
     this.currentUserSubject.next({
-      email: currentUser.email,
+      username: currentUser.username, //email
       token: {
         access: newToken.access,
         refresh: currentUser.token.refresh,

@@ -1,6 +1,6 @@
 import { StudentToken } from './tokens';
 
 export class StudentUser {
-  email: string;
+  username: string; //email
   token: StudentToken;
 }

@@ -13,7 +13,7 @@ class CreateVoucherList(generics.ListCreateAPIView):
     serializer_class = VoucherSerializer
     filter_backends = [filters.OrderingFilter]
     pagination_class = PaginationSettings
-    permission_classes = (AllowAny,) #(IsAuthenticatedOrReadOnly,) 
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
 
     def get_queryset(self):
         queryset = Voucher.objects.all()

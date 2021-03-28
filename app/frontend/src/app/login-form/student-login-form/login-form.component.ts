@@ -22,7 +22,7 @@ export class StudentLoginFormComponent implements OnInit, OnDestroy {
   errorString: string;
 
   loginForm = new FormGroup({
-    email: new FormControl('')
+    username: new FormControl('') //email
   });
 
   errorSubscription: Subscription;
@@ -43,7 +43,7 @@ export class StudentLoginFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
     this.errorSubscription = this.bridgingService.on('error').subscribe(() => {this.setErrorString("An unknown error occured.")});
-    this.authfailSubscription = this.bridgingService.on('authfail').subscribe(() => {this.setErrorString("Your username or password is incorrect.")});
+    this.authfailSubscription = this.bridgingService.on('authfail').subscribe(() => {this.setErrorString("Your email is incorrect.")});
   }
 
   /**
@@ -74,7 +74,8 @@ export class StudentLoginFormComponent implements OnInit, OnDestroy {
    */
   onSubmit(): void {
     this.loginService.login({
-      email: this.form.email.value
+      username: this.form.username.value, //email
+      password: "password" //tochange
     })
       .subscribe((status: boolean) => {
         if (status) {

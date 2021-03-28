@@ -1,3 +1,4 @@
 export interface StudentLoginDetail {
-    email: string;
+    username: string; //email
+    password: string;
   }

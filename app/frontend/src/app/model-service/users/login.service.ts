@@ -12,8 +12,8 @@ import { ComponentBridgingService } from '../componentbridging.service';
   providedIn: 'root'
 })
 export class LoginService {
-  private loginApiUrl = "http://localhost:4200/" + 'token';
-  private refreshApiUrl = "http://localhost:4200/" + 'token/refresh';
+  private loginApiUrl = "http://localhost:8000/api/" + 'token';
+  private refreshApiUrl = "http://localhost:8000/api/" + 'token/refresh';
 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
