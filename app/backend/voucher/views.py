@@ -1,5 +1,5 @@
 from rest_framework import status, generics, filters
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny, IsAdminUser
 
 # Create your views here.
 from voucher.models import Voucher

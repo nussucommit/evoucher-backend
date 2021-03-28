@@ -67,11 +67,11 @@ export class StudentLoginService {
     return this.http.post<StudentToken>(this.refreshApiUrl, currentUser.token)
       .pipe(
         map<StudentToken, boolean>((receivedToken: StudentToken) => {
-          console.log('Before');
-          console.log(this.currentUserValue);
+          //console.log('Before');
+          //console.log(this.currentUserValue);
           this.updateAccessToken(receivedToken);
-          console.log('After');
-          console.log(this.currentUserValue);
+          //console.log('After');
+          //console.log(this.currentUserValue);
           return true;
         }),
         catchError((error) => this.handleError(error))
