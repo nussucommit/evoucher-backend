@@ -34,4 +34,7 @@ class InOrganization(models.Model):
 class Redeems(models.Model):
     voucher = models.ForeignKey(Voucher, related_name='voucher_to_student', on_delete=models.CASCADE)
     student = models.ForeignKey(Student, related_name='student_to_voucher', on_delete=models.CASCADE)
-    date = models.DateTimeField(blank=False)
+    date = models.DateTimeField(blank=True)
+
+    class Meta:
+        unique_together = ('voucher', 'student')
