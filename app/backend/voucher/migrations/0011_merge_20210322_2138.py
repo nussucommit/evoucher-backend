@@ -7,7 +7,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('voucher', '0010_auto_20210322_1505'),
-        ('voucher', '0009_auto_20210322_1702'),
+        ('voucher', '0009_code'),
     ]
 
     operations = [
