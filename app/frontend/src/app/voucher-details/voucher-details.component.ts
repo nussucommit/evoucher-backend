@@ -43,21 +43,21 @@ export class VoucherDetailsComponent implements OnInit {
       expiry_date: [this.voucher ? this.voucher.expiry_date : '', Validators.required],
       name: [this.voucher ? this.voucher.name : '', Validators.required],
       description: [this.voucher ? this.voucher.description : '', Validators.required],
-      image: ['', [Validators.required]],
-      code_list: ['', [Validators.required]],
+      image: ['', [Validators.required, this.imageCheck]],
+      code_list: ['', [Validators.required, this.codeCheck]],
     });
     this.voucherForm.addControl('code_list', new FormControl(null));
   }
 
-  /*
+  
   imageCheck(control: AbstractControl): any {
-    return new RegExp('.+\.(png|jpg|jpeg)$').test(control.value) ? null : { image: true };
+    return new RegExp('.+\.(png|PNG|jpg|jpeg|JPG|JPEG)$').test(control.value) ? null : { image: true };
   }
 
   codeCheck(control: AbstractControl): any {
-    return new RegExp('.+\.csv$').test(control.value) ? null : { code: true };
+    return new RegExp('.+\.csv$').test(control.value) ? null : { code_list: true };
   }
-  */
+  
 
   getDialogTitle() {
     if (this.voucherData.mode === 'create') {
@@ -108,28 +108,28 @@ export class VoucherDetailsComponent implements OnInit {
   }
 
   onImageChange(event) {
-    const fileName = event.target.files[0].name;
+    /*const fileName = event.target.files[0].name;
     const fileExtension = fileName.split('.').pop();
     if (this.validImageTypes.indexOf(fileExtension) > -1) {
       this.voucherForm.controls['image'].setErrors(null);
     } else {
       this.voucherForm.controls['image'].setErrors({ image: true });
-    }
-    /*if (event.target.files.length > 0) {
-      this.imageToUpload = event.target.files[0];
     }*/
+    if (event.target.files.length > 0) {
+      this.imageToUpload = event.target.files[0];
+    }
   }
 
   onFileChange(event) {
-    const fileName = event.target.files[0].name;
+    /*const fileName = event.target.files[0].name;
     const fileExtension = fileName.split('.').pop();
     if (this.validFileTypes.indexOf(fileExtension) > -1) {
       this.voucherForm.controls['code_list'].setErrors(null);
     } else {
       this.voucherForm.controls['code_list'].setErrors({ code_list: true });
-    }
-    /*if (event.target.files.length > 0) {
-      this.fileToUpload = event.target.files[0];
     }*/
+    if (event.target.files.length > 0) {
+      this.fileToUpload = event.target.files[0];
+    }
   }
 }

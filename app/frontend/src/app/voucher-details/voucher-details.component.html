@@ -41,15 +41,9 @@
             <mat-label>Voucher Image</mat-label>
             <div 
                 class="alert alert-warning" 
-                *ngIf="voucherForm.controls.image.errors?.required && voucherForm.controls.image.touched required"
-                style="color: red; font-size: 12px;">
-                Please Upload File
-            </div>
-            <div 
-                class="alert alert-warning" 
                 *ngIf="voucherForm.controls.image.errors?.image"
                 style="color: red; font-size: 12px;">
-                Unacceptable File Type
+                Please upload png/jpg/jpeg file
             </div>
             <input type="file" name="image" class="form-control" formControlName="image"
                 (change)="onImageChange($event)" required>
@@ -59,15 +53,9 @@
             <mat-label>Voucher Code List</mat-label>
             <div 
                 class="alert alert-warning" 
-                *ngIf="voucherForm.controls.code_list.errors?.required && voucherForm.controls.code_list.touched required"
-                style="color: red; font-size: 12px;">
-                Please Upload File
-            </div>
-            <div 
-                class="alert alert-warning" 
                 *ngIf="voucherForm.controls.code_list.errors?.code_list"
                 style="color: red; font-size: 12px;">
-                Unacceptable File Type
+                please upload csv file
             </div>
             <input type="file" name="code_list" class="form-control" formControlName="code_list"
                 (change)="onFileChange($event)">
