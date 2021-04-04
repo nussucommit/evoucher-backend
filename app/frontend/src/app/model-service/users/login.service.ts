@@ -33,7 +33,8 @@ export class LoginService {
         map<Token, boolean>((receivedToken: Token) => {
           const user = {
             username: credentials.username,
-            token: receivedToken
+            token: receivedToken,
+            is_admin: true,
           };
           this.storeUser(user);
           return true;
@@ -85,7 +86,9 @@ export class LoginService {
       token: {
         access: newToken.access,
         refresh: currentUser.token.refresh,
-      }
+        is_admin: true
+      },
+      is_admin: true
     });
   }
 

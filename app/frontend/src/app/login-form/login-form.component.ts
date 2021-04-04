@@ -35,7 +35,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     private router: Router,
     private bridgingService: ComponentBridgingService
   ) {
-    console.log(loginService.currentUserValue);
+    //console.log(loginService.currentUserValue);
   }
 
   /**
@@ -76,7 +76,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     this.loginService.login({
       username: this.form.username.value,
-      password: this.form.password.value
+      password: this.form.password.value,
+      is_admin: true
     })
       .subscribe((status: boolean) => {
         if (status) {

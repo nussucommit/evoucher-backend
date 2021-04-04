@@ -33,7 +33,8 @@ export class StudentLoginService {
         map<StudentToken, boolean>((receivedToken: StudentToken) => {
           const user = {
             username: credentials.username, //email
-            token: receivedToken
+            token: receivedToken,
+            is_admin: false
           };
           this.storeUser(user);
           return true;
@@ -85,7 +86,9 @@ export class StudentLoginService {
       token: {
         access: newToken.access,
         refresh: currentUser.token.refresh,
-      }
+        is_admin: false
+      },
+      is_admin: false
     });
   }
 
