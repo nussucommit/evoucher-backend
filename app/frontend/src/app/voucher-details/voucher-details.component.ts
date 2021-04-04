@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Voucher } from '../model-service/voucher/voucher';
@@ -22,6 +22,9 @@ export class VoucherDetailsComponent implements OnInit {
   imageToUpload: any;
   fileToUpload: any;
 
+  validImageTypes = ['png', 'jpg', 'jpeg'];
+  validFileTypes = ['csv'];
+
   constructor(
     public dialogRef: MatDialogRef<VoucherDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public voucherData: any,
@@ -40,10 +43,21 @@ export class VoucherDetailsComponent implements OnInit {
       expiry_date: [this.voucher ? this.voucher.expiry_date : '', Validators.required],
       name: [this.voucher ? this.voucher.name : '', Validators.required],
       description: [this.voucher ? this.voucher.description : '', Validators.required],
-      image: ['', Validators.required],
+      image: ['', [Validators.required]],
+      code_list: ['', [Validators.required]],
     });
     this.voucherForm.addControl('code_list', new FormControl(null));
   }
+
+  /*
+  imageCheck(control: AbstractControl): any {
+    return new RegExp('.+\.(png|jpg|jpeg)$').test(control.value) ? null : { image: true };
+  }
+
+  codeCheck(control: AbstractControl): any {
+    return new RegExp('.+\.csv$').test(control.value) ? null : { code: true };
+  }
+  */
 
   getDialogTitle() {
     if (this.voucherData.mode === 'create') {
@@ -59,6 +73,7 @@ export class VoucherDetailsComponent implements OnInit {
     data.posted_date = this.todayDate;
     data.counter = 0;
     if (this.voucherData.mode === 'create') {
+      console.log(data)
       this.voucherService.createVoucher(this.toFormData(data)).subscribe();
     } else if (this.voucherData.mode === 'edit') {
       const dataCopy = {...data};
@@ -93,14 +108,28 @@ export class VoucherDetailsComponent implements OnInit {
   }
 
   onImageChange(event) {
-    if (event.target.files.length > 0) {
-      this.imageToUpload = event.target.files[0];
+    const fileName = event.target.files[0].name;
+    const fileExtension = fileName.split('.').pop();
+    if (this.validImageTypes.indexOf(fileExtension) > -1) {
+      this.voucherForm.controls['image'].setErrors(null);
+    } else {
+      this.voucherForm.controls['image'].setErrors({ image: true });
     }
+    /*if (event.target.files.length > 0) {
+      this.imageToUpload = event.target.files[0];
+    }*/
   }
 
   onFileChange(event) {
-    if (event.target.files.length > 0) {
-      this.fileToUpload = event.target.files[0];
+    const fileName = event.target.files[0].name;
+    const fileExtension = fileName.split('.').pop();
+    if (this.validFileTypes.indexOf(fileExtension) > -1) {
+      this.voucherForm.controls['code_list'].setErrors(null);
+    } else {
+      this.voucherForm.controls['code_list'].setErrors({ code_list: true });
     }
+    /*if (event.target.files.length > 0) {
+      this.fileToUpload = event.target.files[0];
+    }*/
   }
 }

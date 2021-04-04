@@ -17,7 +17,7 @@ class Voucher(models.Model):
 
 class Code(models.Model):
     code = models.CharField(max_length=128)
-    voucher = models.ForeignKey(Voucher, on_delete=models.CASCADE)
+    voucher = models.ForeignKey(Voucher, on_delete=models.CASCADE, related_name="codes")
 
     def __str__(self):
         return self.code
