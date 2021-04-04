@@ -17,10 +17,13 @@ export class AuthGuard implements CanActivate {
     if (currentUser) {
         if (currentUser.is_admin) {
           return true;
+        } else if (!currentUser.is_admin) {
+            this.router.navigate(['/admin'], { queryParams: { returnUrl: state.url }});
+            return false;
         }
     }
 
-    this.router.navigate(['/admin'], { queryParams: { returnUrl: state.url }});
+    this.router.navigate(['/'], { queryParams: { returnUrl: state.url }});
     return false;
   }
 }
