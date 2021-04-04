@@ -1,5 +1,4 @@
 from django.db import models
-from view_table.models import ViewTable
 from organization.models import Organization
 
 # Create your models here.
