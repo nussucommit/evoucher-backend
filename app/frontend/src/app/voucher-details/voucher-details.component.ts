@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, AbstractControl, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Voucher } from '../model-service/voucher/voucher';
@@ -42,9 +42,18 @@ export class VoucherDetailsComponent implements OnInit {
       voucher_type: [this.voucher ? this.voucher.voucher_type : '', Validators.required],
       name: [this.voucher ? this.voucher.name : '', Validators.required],
       description: [this.voucher ? this.voucher.description : '', Validators.required],
-      image: ['', Validators.required],
+      image: ['', [Validators.required, this.imageCheck]],
+      code_list: ['', [Validators.required, this.codeCheck]],
     });
     this.voucherForm.addControl('code_list', new FormControl(null));
+  }
+
+  imageCheck(control: AbstractControl): any {
+    return new RegExp('.+\.(png|PNG|jpg|jpeg|JPG|JPEG)$').test(control.value) ? null : { image: true };
+  }
+
+  codeCheck(control: AbstractControl): any {
+    return new RegExp('.+\.csv$').test(control.value) ? null : { code_list: true };
   }
 
   getDialogTitle() {
