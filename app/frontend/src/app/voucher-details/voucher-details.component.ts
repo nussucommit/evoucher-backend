@@ -82,10 +82,14 @@ export class VoucherDetailsComponent implements OnInit {
     if (this.voucherData.mode === 'create') {
       this.voucherService.createVoucher(this.toFormData(data)).subscribe();
     } else if (this.voucherData.mode === 'edit') {
-      const dataCopy = {...data};
+      /*const dataCopy = {...data};
       console.log(dataCopy);
       const finalData: Voucher = Object.assign(dataCopy, {voucher_id: this.voucherData.voucher.voucher_id}) as Voucher;
       this.voucherService.updateVoucher(this.voucherData.voucher.id, this.toFormData(finalData)).subscribe();
+      */
+      console.log(data);
+      delete data.image;
+      this.voucherService.patchVoucher(this.voucherData.voucher.id, this.toFormData(data)).subscribe();
     }
   }
 
