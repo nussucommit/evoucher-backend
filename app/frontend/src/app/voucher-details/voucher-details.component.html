@@ -57,7 +57,7 @@
         </mat-form-field>
 
         <br>
-        <div>
+        <div *ngIf="voucherData.mode==='create'">
             <mat-label>Voucher Image</mat-label>
             <div 
                 class="alert alert-warning" 

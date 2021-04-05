@@ -36,7 +36,7 @@ export class VoucherDetailsComponent implements OnInit {
 
     this.voucherForm = this.formBuilder.group({
       voucher_id: [{value: this.voucher ? this.voucher.voucher_id : '', disabled: this.voucher ? true : false}, Validators.required],
-      available_date: [this.voucher ? this.voucher.posted_date : '', Validators.required],
+      available_date: [this.voucher ? this.voucher.available_date : '', Validators.required],
       expiry_date: [this.voucher ? this.voucher.expiry_date : '', Validators.required],
       organization: [this.voucher ? this.voucher.organization : '', Validators.required],
       voucher_type: [this.voucher ? this.voucher.voucher_type : '', Validators.required],
@@ -100,7 +100,7 @@ export class VoucherDetailsComponent implements OnInit {
       if (key.includes('date')) {
         value = moment(value).format();
       }
-      if (key.includes('image')) {
+      if (this.voucherData.mode === 'create' && key.includes('image')) {
         formData.append(key, this.imageToUpload, this.imageToUpload.name);
       }
       if (this.voucherData.mode === 'edit' && key.includes('code_list')) {
