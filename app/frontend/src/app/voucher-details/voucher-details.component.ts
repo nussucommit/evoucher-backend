@@ -42,10 +42,12 @@ export class VoucherDetailsComponent implements OnInit {
       voucher_type: [this.voucher ? this.voucher.voucher_type : '', Validators.required],
       name: [this.voucher ? this.voucher.name : '', Validators.required],
       description: [this.voucher ? this.voucher.description : '', Validators.required],
-      image: ['', [Validators.required, this.imageCheck]],
-      code_list: ['', [Validators.required, this.codeCheck]],
+      image: [''],
+      code_list: [''],
     });
     this.voucherForm.addControl('code_list', new FormControl(null));
+
+    this.setFileValidators();
   }
 
   imageCheck(control: AbstractControl): any {
@@ -61,6 +63,14 @@ export class VoucherDetailsComponent implements OnInit {
       return 'Create Voucher';
     }  else if (this.voucherData.mode === 'edit') {
       return 'Edit Voucher';
+    }
+  }
+
+  setFileValidators() {
+    if (this.voucherData.mode == "create") {
+      this.voucherForm.get('image').setValidators([Validators.required, this.imageCheck]);
+    } else {
+      this.voucherForm.get('code_list').setValidators([Validators.required, this.codeCheck]);
     }
   }
 
@@ -93,7 +103,7 @@ export class VoucherDetailsComponent implements OnInit {
       if (key.includes('image')) {
         formData.append(key, this.imageToUpload, this.imageToUpload.name);
       }
-      if (key.includes('code_list')) {
+      if (this.voucherData.mode === 'edit' && key.includes('code_list')) {
         formData.append(key, this.fileToUpload, this.fileToUpload.name);
       }
       formData.append(key,value);
