@@ -21,6 +21,7 @@ export class VoucherDetailsComponent implements OnInit {
 
   imageToUpload: any;
   fileToUpload: any;
+  fileToUpload2: any;
 
   constructor(
     public dialogRef: MatDialogRef<VoucherDetailsComponent>,
@@ -44,6 +45,7 @@ export class VoucherDetailsComponent implements OnInit {
       description: [this.voucher ? this.voucher.description : '', Validators.required],
       image: [''],
       code_list: [''],
+      email_list: [''],
     });
     this.voucherForm.addControl('code_list', new FormControl(null));
 
@@ -58,6 +60,10 @@ export class VoucherDetailsComponent implements OnInit {
     return new RegExp('.+\.csv$').test(control.value) ? null : { code_list: true };
   }
 
+  emailCheck(control: AbstractControl): any {
+    return new RegExp('.+\.csv').test(control.value) ? null : { email_list: true };
+  }
+
   getDialogTitle() {
     if (this.voucherData.mode === 'create') {
       return 'Create Voucher';
@@ -69,8 +75,9 @@ export class VoucherDetailsComponent implements OnInit {
   setFileValidators() {
     if (this.voucherData.mode == "create") {
       this.voucherForm.get('image').setValidators([Validators.required, this.imageCheck]);
-    } else {
       this.voucherForm.get('code_list').setValidators([Validators.required, this.codeCheck]);
+    } else {
+      this.voucherForm.get('email_list').setValidators([Validators.required, this.emailCheck]);
     }
   }
 
@@ -89,6 +96,7 @@ export class VoucherDetailsComponent implements OnInit {
       */
       console.log(data);
       delete data.image;
+      delete data.code_list;
       this.voucherService.patchVoucher(this.voucherData.voucher.id, this.toFormData(data)).subscribe();
     }
   }
@@ -107,8 +115,11 @@ export class VoucherDetailsComponent implements OnInit {
       if (this.voucherData.mode === 'create' && key.includes('image')) {
         formData.append(key, this.imageToUpload, this.imageToUpload.name);
       }
-      if (this.voucherData.mode === 'edit' && key.includes('code_list')) {
+      if (this.voucherData.mode === 'create' && key.includes('code_list')) {
         formData.append(key, this.fileToUpload, this.fileToUpload.name);
+      }
+      if (this.voucherData.mode === 'edit' && key.includes('email_list')) {
+        formData.append(key, this.fileToUpload2, this.fileToUpload2.name);
       }
       formData.append(key,value);
       
@@ -126,6 +137,12 @@ export class VoucherDetailsComponent implements OnInit {
   onFileChange(event) {
     if (event.target.files.length > 0) {
       this.fileToUpload = event.target.files[0];
+    }
+  }
+
+  onFileChange2(event) {
+    if (event.target.files.length > 0) {
+      this.fileToUpload2 = event.target.files[0];
     }
   }
 }
