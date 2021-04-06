@@ -68,11 +68,11 @@ export class LoginService {
     return this.http.post<Token>(this.refreshApiUrl, currentUser.token)
       .pipe(
         map<Token, boolean>((receivedToken: Token) => {
-          console.log('Before');
-          console.log(this.currentUserValue);
+          //console.log('Before');
+          //console.log(this.currentUserValue);
           this.updateAccessToken(receivedToken);
-          console.log('After');
-          console.log(this.currentUserValue);
+          //console.log('After');
+          //console.log(this.currentUserValue);
           return true;
         }),
         catchError((error) => this.handleError(error))
