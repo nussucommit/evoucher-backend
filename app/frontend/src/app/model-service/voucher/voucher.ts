@@ -11,4 +11,5 @@ export class Voucher {
     counter: number;
     image: string;
     code_list: string;
+    email_list: string;
 }
