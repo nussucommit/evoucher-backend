@@ -46,7 +46,7 @@ export class LoginService {
   logout() {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
-    this.router.navigate(['/admin']);
+    this.router.navigate(['/']);
   }
 
   attachAccessToken(request: HttpRequest<any>): HttpRequest<any> {
