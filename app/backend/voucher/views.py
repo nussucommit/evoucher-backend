@@ -1,13 +1,45 @@
 from rest_framework import status, generics, filters
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny, IsAdminUser
 
 # Create your views here.
-from voucher.models import Voucher
-from voucher.serializers import VoucherSerializer, OrganizationInVoucher, VoucherTypes
-from django.db.models import Q
+from voucher.models import Voucher, Email, Code
+from voucher.serializers import VoucherSerializer, EmailSerializer, OrganizationInVoucher, VoucherTypes
+from django.db.models import Q, Max
 from datetime import datetime, timedelta
+import csv
 
 from evoucher.pagination_settings import PaginationSettings
+
+@api_view(['POST'])
+def upload_email_list(request):
+    
+    voucherID = int(request.data['id'])
+    voucher = Voucher.objects.get(id=voucherID)
+
+    print("haha")
+    file = request.FILES['email_list']
+    decoded_file = file.read().decode('utf-8').splitlines()
+    reader = csv.DictReader(decoded_file)
+
+    for row in reader:
+        Email.objects.create(email=row['\ufeffEmail'], voucher=voucher)
+    return Response(status=status.HTTP_201_CREATED)
+
+@api_view(['POST'])
+def upload_code_list(request):
+    
+    voucherID = int(request.data['id'])
+    voucher = Voucher.objects.get(id=voucherID)
+
+    file = request.FILES['code_list']
+    decoded_file = file.read().decode('utf-8').splitlines()
+    reader = csv.DictReader(decoded_file)
+
+    for row in reader:
+        Code.objects.create(code=row['\ufeffcode'], voucher=voucher)
+    return Response(status=status.HTTP_201_CREATED)
 
 class CreateVoucherList(generics.ListCreateAPIView):
     serializer_class = VoucherSerializer

@@ -69,7 +69,7 @@
                 (change)="onImageChange($event)" required>
         </div>
         <br>
-        <div *ngIf="voucherData.mode==='create'">
+        <div *ngIf="voucherData.mode==='edit'">
             <mat-label>Voucher Code List</mat-label>
             <div 
                 class="alert alert-warning" 
@@ -90,7 +90,7 @@
                 please upload csv file
             </div>
             <input type="file" name="email_list" class="form-control" formControlName="email_list"
-                (change)="onFileChange2($event)" required>
+                (change)="onEmailListChange($event)" required>
         </div>
         <br>
     </form>

@@ -16,6 +16,14 @@ export class VoucherService {
     return this.http.get(`${this.baseUrlVoucher}/`, { params: { page: page + '', page_size: '10' } });
   }
 
+  uploadEmailList(emailListInCsv: any): Observable<any> {
+    return this.http.post(`${this.baseUrlVoucher}/addEmails/`, emailListInCsv);
+  }
+
+  uploadCodeList(codeListInCsv: any): Observable<any> {
+    return this.http.post(`${this.baseUrlVoucher}/addCodes/`, codeListInCsv);
+  }
+
   getOrganizationInVoucher(): Observable<any> {
     return this.http.get(`${this.baseUrlVoucher}/organization`);
   }
