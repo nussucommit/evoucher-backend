@@ -15,3 +15,15 @@ class EmailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Email
         fields = '__all__'
+    
+class OrganizationInVoucher(serializers.ModelSerializer):
+
+    class Meta:
+        model = Voucher
+        fields = ['organization']
+
+class VoucherTypes(serializers.ModelSerializer):
+
+    class Meta:
+        model = Voucher
+        fields = ['voucher_type']

@@ -1,11 +1,11 @@
 from rest_framework import status, generics, filters
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny, IsAdminUser
 
 # Create your views here.
 from voucher.models import Voucher, Email, Code
-from voucher.serializers import VoucherSerializer, EmailSerializer
+from voucher.serializers import VoucherSerializer, EmailSerializer, OrganizationInVoucher, VoucherTypes
 from django.db.models import Q, Max
 from datetime import datetime, timedelta
 import csv
@@ -45,10 +45,11 @@ class CreateVoucherList(generics.ListCreateAPIView):
     serializer_class = VoucherSerializer
     filter_backends = [filters.OrderingFilter]
     pagination_class = PaginationSettings
-    permission_classes = (AllowAny,) 
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
 
     def get_queryset(self):
         queryset = Voucher.objects.all()
+        vouchertype = self.request.query_params.get('VoucherType', None)
         organization = self.request.query_params.get('Organization', None)
         faculty = self.request.query_params.get('Faculty', None)
         endDate = self.request.query_params.get('Available', None)
@@ -57,8 +58,14 @@ class CreateVoucherList(generics.ListCreateAPIView):
         q = Q()
         if faculty and faculty != 'null':
             q &= Q(name__icontains=faculty.lower())
+        # if organization and organization != 'null':
+        #     q &= Q(organization=organization)
+        if vouchertype and vouchertype != 'null':
+            q &= Q(voucher_type=vouchertype)
         if organization and organization != 'null':
-            q &= Q(name__icontains=organization.lower())
+            q &= Q(organization=organization)
+        if vouchertype and vouchertype != 'null':
+            q &= Q(voucher_type=vouchertype)
         if endDate and endDate != 'null':
             toDateObj = datetime.strptime(endDate, '%Y-%m-%d %H:%M') - timedelta(days=1)
             print(toDateObj)
@@ -68,12 +75,22 @@ class CreateVoucherList(generics.ListCreateAPIView):
         else:
             return queryset.filter(q)
 
+class CreateOrganizationInVoucherList(generics.ListCreateAPIView):
+    queryset = Voucher.objects.all()
+    serializer_class = OrganizationInVoucher
+    permission_classes = (AllowAny,) 
+
+class VoucherTypeList(generics.ListCreateAPIView):
+    queryset = Voucher.objects.all()
+    serializer_class = VoucherTypes
+    permission_classes = (AllowAny,) 
+
 class VoucherList(generics.ListAPIView):
     queryset = Voucher.objects.all()
     serializer_class = VoucherSerializer
-    permission_classes = (AllowAny,) #(IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
 class VoucherDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Voucher.objects.all()
     serializer_class = VoucherSerializer
-    permission_classes = (AllowAny,) #(IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)

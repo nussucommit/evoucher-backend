@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, AbstractControl, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Voucher } from '../model-service/voucher/voucher';
@@ -38,12 +38,31 @@ export class VoucherDetailsComponent implements OnInit {
 
     this.voucherForm = this.formBuilder.group({
       voucher_id: [{value: this.voucher ? this.voucher.voucher_id : '', disabled: this.voucher ? true : false}, Validators.required],
-      available_date: [this.voucher ? this.voucher.posted_date : '', Validators.required],
+      available_date: [this.voucher ? this.voucher.available_date : '', Validators.required],
       expiry_date: [this.voucher ? this.voucher.expiry_date : '', Validators.required],
+      organization: [this.voucher ? this.voucher.organization : '', Validators.required],
+      voucher_type: [this.voucher ? this.voucher.voucher_type : '', Validators.required],
       name: [this.voucher ? this.voucher.name : '', Validators.required],
       description: [this.voucher ? this.voucher.description : '', Validators.required],
-      image: [this.voucher ? this.voucher.image : '', Validators.required],
+      image: [''],
+      code_list: [''],
+      email_list: [''],
     });
+    this.voucherForm.addControl('code_list', new FormControl(null));
+
+    this.setFileValidators();
+  }
+
+  imageCheck(control: AbstractControl): any {
+    return new RegExp('.+\.(png|PNG|jpg|jpeg|JPG|JPEG)$').test(control.value) ? null : { image: true };
+  }
+
+  codeCheck(control: AbstractControl): any {
+    return new RegExp('.+\.csv$').test(control.value) ? null : { code_list: true };
+  }
+
+  emailCheck(control: AbstractControl): any {
+    return new RegExp('.+\.csv').test(control.value) ? null : { email_list: true };
   }
 
   getDialogTitle() {
@@ -51,6 +70,15 @@ export class VoucherDetailsComponent implements OnInit {
       return 'Create Voucher';
     }  else if (this.voucherData.mode === 'edit') {
       return 'Edit Voucher';
+    }
+  }
+
+  setFileValidators() {
+    if (this.voucherData.mode == "create") {
+      this.voucherForm.get('image').setValidators([Validators.required, this.imageCheck]);
+    } else {
+      this.voucherForm.get('code_list').setValidators([this.codeCheck]);
+      this.voucherForm.get('email_list').setValidators([this.emailCheck]);
     }
   }
 
@@ -70,8 +98,10 @@ export class VoucherDetailsComponent implements OnInit {
         this.voucherService.uploadCodeList(this.uploadCodeList()).subscribe();
       }
       const dataCopy = {...data};
-      const finalData: Voucher = Object.assign(dataCopy, {voucher_id: this.voucherData.voucher.voucher_id}) as Voucher;
-      this.voucherService.updateVoucher(this.voucherData.voucher.id, this.toFormData(finalData)).subscribe();
+      console.log(data);
+      delete data.image;
+      delete data.code_list;
+      this.voucherService.patchVoucher(this.voucherData.voucher.id, this.toFormData(data)).subscribe();
     }
     
    
@@ -88,12 +118,9 @@ export class VoucherDetailsComponent implements OnInit {
       if (key.includes('date')) {
         value = moment(value).format();
       }
-      if (key.includes('image')) {
-        if (this.imageToUpload != '') { 
-          formData.append(key, this.imageToUpload, this.imageToUpload.name);
-        }
+      if (this.voucherData.mode === 'create' && key.includes('image')) {
+        formData.append(key, this.imageToUpload, this.imageToUpload.name);
       }
-      
       formData.append(key,value);
       
     }
@@ -132,5 +159,5 @@ export class VoucherDetailsComponent implements OnInit {
     if (event.target.files.length > 0) {
       this.emailListToUpload = event.target.files[0];
     }
-  }
+  } 
 }

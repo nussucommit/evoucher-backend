@@ -30,6 +30,15 @@
             <input matInput formControlName="name">
             <mat-error>This field is required.</mat-error>
         </mat-form-field>
+
+        <br>
+        
+        <mat-form-field style="margin-top: 10px;" appearance="standard">
+            <mat-label>Organization</mat-label>
+            <input matInput formControlName="organization">
+            <mat-error>This field is required.</mat-error>
+        </mat-form-field>
+
         <br>
         <mat-form-field style="margin-top: 10px;" appearance="standard">
             <mat-label>Description</mat-label>
@@ -37,21 +46,51 @@
             <mat-error>This field is required.</mat-error>
         </mat-form-field>
         <br>
-        <div>
+        
+        <mat-form-field style="margin-top: 10px;" appearance="standard">
+            <mat-label>Voucher Type</mat-label>
+            <mat-select formControlName="voucher_type">
+                <mat-option value="Food">Food</mat-option>
+                <mat-option value="Sport">Sport</mat-option>
+                <mat-option value="Fashion">Fashion</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <br>
+        <div *ngIf="voucherData.mode==='create'">
             <mat-label>Voucher Image</mat-label>
+            <div 
+                class="alert alert-warning" 
+                *ngIf="voucherForm.controls.image.errors?.image"
+                style="color: red; font-size: 12px;">
+                please upload png/jpg/jpeg file
+            </div>
             <input type="file" name="image" class="form-control" formControlName="image"
                 (change)="onImageChange($event)" required>
         </div>
         <br>
-        <div *ngIf="this.hasData">
+        <div *ngIf="voucherData.mode==='edit'">
             <mat-label>Voucher Code List</mat-label>
-            <input type="file" name="code_list" 
+            <div 
+                class="alert alert-warning" 
+                *ngIf="voucherForm.controls.code_list.errors?.code_list"
+                style="color: red; font-size: 12px;">
+                please upload csv file
+            </div>
+            <input type="file" name="code_list" class="form-control" formControlName="code_list"
                 (change)="onFileChange($event)">
-            <br>
-            <br>
-            <mat-label>Email List</mat-label>
-            <input type="file" name="email_list"
-                (change)="onEmailListChange($event)">
+        </div>
+        <br>
+        <div *ngIf="voucherData.mode==='edit'">
+            <mat-label>Voucher Email List</mat-label>
+            <div 
+                class="alert alert-warning" 
+                *ngIf="voucherForm.controls.email_list.errors?.email_list"
+                style="color: red; font-size: 12px;">
+                please upload csv file
+            </div>
+            <input type="file" name="email_list" class="form-control" formControlName="email_list"
+                (change)="onEmailListChange($event)" required>
         </div>
         <br>
     </form>

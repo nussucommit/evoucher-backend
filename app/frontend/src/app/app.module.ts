@@ -1,11 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { RefreshInterceptor } from './api-auth/refresh.interceptor';
+import { JwtInterceptor } from './api-auth/jwt.interceptor';
+import { ComponentBridgingService } from './model-service/componentbridging.service';
+import { LoginService } from './model-service/users/login.service';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from  '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MAT_DATE_LOCALE, MatRippleModule} from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
@@ -16,6 +21,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -31,6 +38,8 @@ import { VoucherDetailsComponent } from './voucher-details/voucher-details.compo
 import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-dialog.component';
 import { VoucherPreviewComponent } from './voucher-preview/voucher-preview.component';
 import { StudentHomeComponent } from './student-home/student-home.component';
+import { LoginFormComponent } from './login-form/login-form.component';
+import { StudentLoginFormComponent } from './login-form/student-login-form/login-form.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +54,9 @@ import { StudentHomeComponent } from './student-home/student-home.component';
     VoucherDetailsComponent,
     ConfirmationDialogComponent,
     VoucherPreviewComponent,
-    StudentHomeComponent
+    StudentHomeComponent,
+    LoginFormComponent,
+    StudentLoginFormComponent
   ],
   imports: [
     BrowserModule,
@@ -58,6 +69,7 @@ import { StudentHomeComponent } from './student-home/student-home.component';
     MatDialogModule,
     MatRippleModule,
     MatFormFieldModule,
+    MatSelectModule,
     MatPaginatorModule,
     MatInputModule,
     MatTableModule,
@@ -66,10 +78,15 @@ import { StudentHomeComponent } from './student-home/student-home.component';
     MatDatepickerModule,
     MatMomentDateModule,
     MatGridListModule,
-    MatCardModule
+    MatCardModule,
+    MatIconModule,
+    MatSnackBarModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-SG' },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: RefreshInterceptor, multi: true },
+    ComponentBridgingService
   ],
   bootstrap: [AppComponent]
 })

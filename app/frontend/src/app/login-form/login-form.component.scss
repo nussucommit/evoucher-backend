@@ -1,0 +1,29 @@
+.full-width{
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+
+}
+
+.mat-elevation-z8 {
+    background-position: right bottom;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.container {
+    margin: auto;
+    text-align: center;
+    height: 40vh;
+    width: 300px;
+    position: relative;
+    left: 0%;
+    top: 25%;
+}
+
+.h2 {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
