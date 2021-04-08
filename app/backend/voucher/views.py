@@ -4,7 +4,6 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
 
 # Create your views here.
-from voucher.forms import EmailListForm
 from voucher.models import Voucher, Email, Code
 from voucher.serializers import VoucherSerializer, EmailSerializer
 from django.db.models import Q, Max
@@ -19,6 +18,7 @@ def upload_email_list(request):
     voucherID = int(request.data['id'])
     voucher = Voucher.objects.get(id=voucherID)
 
+    print("haha")
     file = request.FILES['email_list']
     decoded_file = file.read().decode('utf-8').splitlines()
     reader = csv.DictReader(decoded_file)

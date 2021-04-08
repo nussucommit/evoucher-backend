@@ -43,9 +43,7 @@ export class VoucherDetailsComponent implements OnInit {
       name: [this.voucher ? this.voucher.name : '', Validators.required],
       description: [this.voucher ? this.voucher.description : '', Validators.required],
       image: [this.voucher ? this.voucher.image : '', Validators.required],
-      email_list: [this.voucher ? this.voucher.email_list : '', Validators.required]
     });
-    this.voucherForm.addControl('code_list', new FormControl(null));
   }
 
   getDialogTitle() {
@@ -65,19 +63,18 @@ export class VoucherDetailsComponent implements OnInit {
       this.voucherService.createVoucher(this.toFormData(data)).subscribe();
       
     } else if (this.voucherData.mode === 'edit') {
+      if (this.emailListToUpload) {
+        this.voucherService.uploadEmailList(this.uploadEmailList()).subscribe();
+      }
+      if (this.codeListToUpload) {
+        this.voucherService.uploadCodeList(this.uploadCodeList()).subscribe();
+      }
       const dataCopy = {...data};
-      console.log(dataCopy);
       const finalData: Voucher = Object.assign(dataCopy, {voucher_id: this.voucherData.voucher.voucher_id}) as Voucher;
       this.voucherService.updateVoucher(this.voucherData.voucher.id, this.toFormData(finalData)).subscribe();
     }
-    if (this.emailListToUpload != '') {
-      this.voucherService.uploadEmailList(this.uploadEmailList()).subscribe();
-      console.log("asdasdasd");
-    }
-    if (this.codeListToUpload != '') {
-      this.voucherService.uploadCodeList(this.uploadCodeList()).subscribe();
-      console.log("asdasdasd");
-    }
+    
+   
   }
 
   onDelete() {
@@ -96,7 +93,7 @@ export class VoucherDetailsComponent implements OnInit {
           formData.append(key, this.imageToUpload, this.imageToUpload.name);
         }
       }
-
+      
       formData.append(key,value);
       
     }
@@ -113,7 +110,7 @@ export class VoucherDetailsComponent implements OnInit {
 
   uploadCodeList() {
     const formData = new FormData();
-    formData.append('code_list', this.fileToUpload, this.fileToUpload.name);
+    formData.append('code_list', this.codeListToUpload, this.codeListToUpload.name);
     formData.append('id', this.voucher.id);
 
     return formData;
@@ -127,7 +124,7 @@ export class VoucherDetailsComponent implements OnInit {
 
   onFileChange(event) {
     if (event.target.files.length > 0) {
-      this.fileToUpload = event.target.files[0];
+      this.codeListToUpload = event.target.files[0];
     }
   }
 

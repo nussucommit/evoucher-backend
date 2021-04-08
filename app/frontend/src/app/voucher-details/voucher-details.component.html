@@ -45,12 +45,12 @@
         <br>
         <div *ngIf="this.hasData">
             <mat-label>Voucher Code List</mat-label>
-            <input type="file" name="code_list" class="form-control" formControlName="code_list"
+            <input type="file" name="code_list" 
                 (change)="onFileChange($event)">
             <br>
             <br>
             <mat-label>Email List</mat-label>
-            <input type="file" name="email_list" class="form-control" formControlName="email_list"
+            <input type="file" name="email_list"
                 (change)="onEmailListChange($event)">
         </div>
         <br>
