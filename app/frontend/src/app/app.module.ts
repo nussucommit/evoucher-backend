@@ -40,6 +40,7 @@ import { VoucherPreviewComponent } from './voucher-preview/voucher-preview.compo
 import { StudentHomeComponent } from './student-home/student-home.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { StudentLoginFormComponent } from './login-form/student-login-form/login-form.component';
+import { AdminPageComponent } from './admin-page/admin-page.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { StudentLoginFormComponent } from './login-form/student-login-form/login
     VoucherPreviewComponent,
     StudentHomeComponent,
     LoginFormComponent,
-    StudentLoginFormComponent
+    StudentLoginFormComponent,
+    AdminPageComponent
   ],
   imports: [
     BrowserModule,
