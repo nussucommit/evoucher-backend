@@ -7,6 +7,7 @@ urlpatterns = [
     path('voucher/', CreateVoucherList.as_view()),
     path('voucher/addEmails/', upload_email_list, name='upload-email' ),
     path('voucher/addCodes/', upload_code_list, name='upload-code' ),
+    #path('voucher/assignCodes/', assign_codes, name='assign-codes' ),
     path('voucher/organization', CreateOrganizationInVoucherList.as_view()),
     path('voucher/type', VoucherTypeList.as_view()),
     path('voucher/<str:pk>', VoucherDetail.as_view())

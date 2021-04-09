@@ -5,6 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Voucher } from '../model-service/voucher/voucher';
 import { VoucherService } from '../model-service/voucher/voucher.service';
 import * as moment from 'moment';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-voucher-details',
@@ -24,17 +25,24 @@ export class VoucherDetailsComponent implements OnInit {
   emailListToUpload: any;
   codeListToUpload: any;
 
+  codeArr: string[];
+  emailArr: string[];
+
   constructor(
     public dialogRef: MatDialogRef<VoucherDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public voucherData: any,
     public formBuilder: FormBuilder,
-    public voucherService: VoucherService
+    public voucherService: VoucherService,
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
     this.voucher = this.voucherData.voucher;
 
     this.hasData = this.voucher ? true : false;
+
+    this.codeArr = [];
+    this.emailArr = [];
 
     this.voucherForm = this.formBuilder.group({
       voucher_id: [{value: this.voucher ? this.voucher.voucher_id : '', disabled: this.voucher ? true : false}, Validators.required],
@@ -91,12 +99,18 @@ export class VoucherDetailsComponent implements OnInit {
       this.voucherService.createVoucher(this.toFormData(data)).subscribe();
       
     } else if (this.voucherData.mode === 'edit') {
-      if (this.emailListToUpload) {
-        this.voucherService.uploadEmailList(this.uploadEmailList()).subscribe();
-      }
+
+      const codeList = this.uploadCodeList();
+      const emailList = this.uploadEmailList();
+
       if (this.codeListToUpload) {
-        this.voucherService.uploadCodeList(this.uploadCodeList()).subscribe();
+        this.voucherService.uploadCodeList(codeList).subscribe();
       }
+      if (this.emailListToUpload) {
+        this.voucherService.uploadEmailList(emailList).subscribe();
+      }
+
+
       const dataCopy = {...data};
       console.log(data);
       delete data.image;

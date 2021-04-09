@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny, IsAdminUser
 
 # Create your views here.
-from voucher.models import Voucher, Email, Code
-from voucher.serializers import VoucherSerializer, EmailSerializer, OrganizationInVoucher, VoucherTypes
+from voucher.models import Voucher, Email, Code, IdCodeEmail
+from voucher.serializers import VoucherSerializer, EmailSerializer, OrganizationInVoucher, VoucherTypes#, CodeSerializer
 from django.db.models import Q, Max
 from datetime import datetime, timedelta
 import csv
@@ -24,12 +24,13 @@ def upload_email_list(request):
     reader = csv.DictReader(decoded_file)
 
     for row in reader:
-        Email.objects.create(email=row['\ufeffEmail'], voucher=voucher)
+        email = Email.objects.create(email=row['\ufeffemail'], voucher=voucher)
+        assign_codes_to_emails(voucherID, email)
     return Response(status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
 def upload_code_list(request):
-    
+
     voucherID = int(request.data['id'])
     voucher = Voucher.objects.get(id=voucherID)
 
@@ -40,6 +41,18 @@ def upload_code_list(request):
     for row in reader:
         Code.objects.create(code=row['\ufeffcode'], voucher=voucher)
     return Response(status=status.HTTP_201_CREATED)
+
+def assign_codes_to_emails(vid, email):
+    voucher = Voucher.objects.get(id=vid)
+    code = Code.objects.filter(voucher = voucher).filter(isAssigned = False).first()#.update(isAssigned = True)
+    print(code)
+    print(vid)
+    print(email)
+    code.isAssigned = True
+    code.save()
+    IdCodeEmail.objects.create(voucher = voucher, email = email, code = code)
+    return Response(status=status.HTTP_201_CREATED)
+
 
 class CreateVoucherList(generics.ListCreateAPIView):
     serializer_class = VoucherSerializer

@@ -23,7 +23,7 @@ export class VoucherService {
   uploadCodeList(codeListInCsv: any): Observable<any> {
     return this.http.post(`${this.baseUrlVoucher}/addCodes/`, codeListInCsv);
   }
-
+  
   getOrganizationInVoucher(): Observable<any> {
     return this.http.get(`${this.baseUrlVoucher}/organization`);
   }

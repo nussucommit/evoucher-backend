@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from voucher.models import Voucher, Email
+from voucher.models import Voucher, Email, Code, IdCodeEmail
 
 
 class VoucherSerializer(serializers.ModelSerializer):
@@ -15,7 +15,13 @@ class EmailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Email
         fields = '__all__'
-    
+
+class IdCodeEmailSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = IdCodeEmail
+        fields = '__all__'
+
 class OrganizationInVoucher(serializers.ModelSerializer):
 
     class Meta:
