@@ -14,6 +14,7 @@ import { ComponentBridgingService } from '../componentbridging.service';
 export class LoginService {
   private loginApiUrl = "http://localhost:8000/api/" + 'token';
   private refreshApiUrl = "http://localhost:8000/api/" + 'token/refresh';
+  private signUpApiUrl = "http://localhost:8000/api/" + 'register';
 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
@@ -47,6 +48,10 @@ export class LoginService {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
     this.router.navigate(['/']);
+  }
+
+  signup(user: any): Observable<object> {
+    return this.http.post(`${this.signUpApiUrl}` , user);
   }
 
   attachAccessToken(request: HttpRequest<any>): HttpRequest<any> {

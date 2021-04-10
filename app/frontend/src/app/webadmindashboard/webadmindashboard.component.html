@@ -1,0 +1,45 @@
+<div style="margin: 10px 10px; height: 82%; display: flex; padding: 10px 0px; background-color: yellow;">
+    <div>
+        
+        <div style="display: flex; flex-direction: row;">
+            <table style="margin-bottom: 10px;">
+                <th>    
+                    Organization <span (click)="turnOnAddForm()" style="margin: 0px 10px; cursor: pointer;">+</span>
+                </th>
+                <tr *ngFor="let org of organizationList">
+                    <td>
+                        {{org.name}}
+                    </td>
+                </tr>
+            </table>
+            <div style="display:flex; flex-direction: column; margin-left: 10px;" *ngIf="this.addForm">
+                <input (change)="updateOrgName($event)" style="margin: 4px 0px;" placeholder="Organization Name" type="text">
+                <input (change)="updateOrgUsername($event)" placeholder="Username" type="text">
+                <button (click)="submitNewOrganization()" style="margin: 4px 0px">Submit</button>
+            </div>
+        </div>
+        
+        <div *ngIf="orgWoUname.length > 0" style="display: flex; flex-direction: row;">
+            <table>
+                <th>    
+                    Organization Without Username
+                </th>
+                <tr *ngFor="let org of orgWoUname">
+                    <td>
+                        {{org.name}} <span (click)="turnOnUsernameForm(org.name)" style="margin: 0px 10px; cursor: pointer;">+</span>
+                    </td>
+                </tr>
+            </table>
+            <div style="display:flex; flex-direction: column; margin-left: 10px;" *ngIf="this.addUsernameForm">
+                <span>{{this.orgNameToAdd}}</span>
+                <input (change)="updateOrgUsername($event)" placeholder="Username" type="text">
+                <button (click)="submitNewOrganization()" style="margin: 4px 0px">Submit</button>
+            </div>
+            <div *ngIf="showPassword">
+                {{this.orgNameToAdd}}'s temporary password is {{this.temppassword}}
+            </div>
+        </div>
+
+        
+    </div>
+</div>

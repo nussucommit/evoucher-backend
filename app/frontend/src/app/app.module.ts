@@ -40,7 +40,8 @@ import { VoucherPreviewComponent } from './voucher-preview/voucher-preview.compo
 import { StudentHomeComponent } from './student-home/student-home.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { StudentLoginFormComponent } from './login-form/student-login-form/login-form.component';
-import { AdminPageComponent } from './admin-page/admin-page.component';
+import { SignUpFormComponent } from './sign-up-form/sign-up-form.component';
+import { WebadmindashboardComponent } from './webadmindashboard/webadmindashboard.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { AdminPageComponent } from './admin-page/admin-page.component';
     StudentHomeComponent,
     LoginFormComponent,
     StudentLoginFormComponent,
-    AdminPageComponent
+    SignUpFormComponent,
+    WebadmindashboardComponent
   ],
   imports: [
     BrowserModule,

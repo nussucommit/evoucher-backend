@@ -15,16 +15,28 @@ export class OrganizationService {
     return this.http.get(`${this.baseUrlOrganization}`, { params: filterParams });
   }
 
+  getAllOrganization(): Observable<any> {
+    return this.http.get(`${this.baseUrlOrganization}`);
+  }
+
   getOrganizationById(id: number): Observable<object> {
     return this.http.get(`${this.baseUrlOrganization}/${id}`);
   }
 
-  createOeganization(organization: any): Observable<object> {
+  getOrgNotYetSignUp(): Observable<any> {
+    return this.http.get(`${this.baseUrlOrganization}/notsignup`);
+  }
+
+  createOrganization(organization: any): Observable<object> {
     return this.http.post(`${this.baseUrlOrganization}`, organization);
   }
   
-  updateOrganization(id: number, organization: any): Observable<object> {
+  updateOrganization(id: string, organization: any): Observable<object> {
     return this.http.put(`${this.baseUrlOrganization}/${id}`, organization);
+  }
+
+  patchOrganization(id: string, organization: any): Observable<object> {
+    return this.http.patch(`${this.baseUrlOrganization}/${id}`, organization);
   }
 
   deleteOrganization(id: number): Observable<any> {

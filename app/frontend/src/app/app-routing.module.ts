@@ -1,4 +1,5 @@
-import { AdminPageComponent } from './admin-page/admin-page.component';
+import { WebadmindashboardComponent } from './webadmindashboard/webadmindashboard.component';
+import { SignUpFormComponent } from './sign-up-form/sign-up-form.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { FacultyListComponent } from './faculty-list/faculty-list.component';
@@ -20,7 +21,8 @@ const routes: Routes = [
   {path: 'student', component: StudentListComponent},
   {path: 'admin', component: LoginFormComponent },
   {path: 'login', component: StudentLoginFormComponent },
-  {path: 'adminpage', component: AdminPageComponent },
+  {path: 'signup', component: SignUpFormComponent},
+  {path: 'webadmin', component: WebadmindashboardComponent}
 ];
 
 @NgModule({
