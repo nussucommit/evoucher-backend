@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 from voucher.models import Voucher, Email, Code, IdCodeEmail
 from voucher.serializers import VoucherSerializer, EmailSerializer, OrganizationInVoucher, VoucherTypes#, CodeSerializer
 from django.db.models import Q, Max
+from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime, timedelta
 import csv
 
@@ -42,17 +43,22 @@ def upload_code_list(request):
         Code.objects.create(code=row['\ufeffcode'], voucher=voucher)
     return Response(status=status.HTTP_201_CREATED)
 
+
+def get_num_codes(id):
+    voucher = Voucher.objects.get(id=id)
+    num = Code.objects.filter(voucher = voucher).filter(isAssigned = False).count()
+    return Response(data=num)
+
 def assign_codes_to_emails(vid, email):
     voucher = Voucher.objects.get(id=vid)
     code = Code.objects.filter(voucher = voucher).filter(isAssigned = False).first()#.update(isAssigned = True)
-    print(code)
-    print(vid)
-    print(email)
+    #print(code)
+    #print(vid)
+    #print(email)
     code.isAssigned = True
     code.save()
     IdCodeEmail.objects.create(voucher = voucher, email = email, code = code)
     return Response(status=status.HTTP_201_CREATED)
-
 
 class CreateVoucherList(generics.ListCreateAPIView):
     serializer_class = VoucherSerializer

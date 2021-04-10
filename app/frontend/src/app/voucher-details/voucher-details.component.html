@@ -77,6 +77,12 @@
                 style="color: red; font-size: 12px;">
                 please upload csv file
             </div>
+            <div 
+                class="alert alert-warning" 
+                *ngIf="false"
+                style="color: red; font-size: 12px;">
+                The number of emails is more than remaining vouchers.
+            </div>
             <input type="file" name="code_list" class="form-control" formControlName="code_list"
                 (change)="onFileChange($event)">
         </div>

@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, AbstractControl, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -6,6 +7,7 @@ import { Voucher } from '../model-service/voucher/voucher';
 import { VoucherService } from '../model-service/voucher/voucher.service';
 import * as moment from 'moment';
 import { HttpClient } from '@angular/common/http';
+import { CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY } from '@angular/cdk/overlay/overlay-directives';
 
 @Component({
   selector: 'app-voucher-details',
@@ -28,6 +30,9 @@ export class VoucherDetailsComponent implements OnInit {
   codeArr: string[];
   emailArr: string[];
 
+  numCode: any;
+  numEmail: any;
+
   constructor(
     public dialogRef: MatDialogRef<VoucherDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public voucherData: any,
@@ -41,9 +46,6 @@ export class VoucherDetailsComponent implements OnInit {
 
     this.hasData = this.voucher ? true : false;
 
-    this.codeArr = [];
-    this.emailArr = [];
-
     this.voucherForm = this.formBuilder.group({
       voucher_id: [{value: this.voucher ? this.voucher.voucher_id : '', disabled: this.voucher ? true : false}, Validators.required],
       available_date: [this.voucher ? this.voucher.available_date : '', Validators.required],
@@ -55,6 +57,7 @@ export class VoucherDetailsComponent implements OnInit {
       image: [''],
       code_list: [''],
       email_list: [''],
+      isEnoughCodes: false
     });
     this.voucherForm.addControl('code_list', new FormControl(null));
 
@@ -102,6 +105,10 @@ export class VoucherDetailsComponent implements OnInit {
 
       const codeList = this.uploadCodeList();
       const emailList = this.uploadEmailList();
+      
+
+      //console.log(this.getNumCodes(this.voucher.id));
+      console.log(this.getNumEmails(this.emailListToUpload));
 
       if (this.codeListToUpload) {
         this.voucherService.uploadCodeList(codeList).subscribe();
@@ -109,7 +116,6 @@ export class VoucherDetailsComponent implements OnInit {
       if (this.emailListToUpload) {
         this.voucherService.uploadEmailList(emailList).subscribe();
       }
-
 
       const dataCopy = {...data};
       console.log(data);
@@ -139,6 +145,27 @@ export class VoucherDetailsComponent implements OnInit {
       
     }
     return formData;
+  }
+
+  getNumCodes(id) {
+    //console.log(id);
+    this.voucherService.getNumCodes(id).subscribe(data=>{
+      console.log(data);
+      this.numCode = data;
+    })
+  }
+
+  getNumEmails(emails) {
+    var allEmails = [];
+    var count = 0;
+    var reader = new FileReader();
+    reader.readAsText(emails);
+    reader.onload=function(){
+      allEmails.push(reader.result)
+      count = allEmails.pop().split("\n").length - 2;
+      //console.log(count);
+      //numEmail = count;
+    }
   }
 
   uploadEmailList() {
