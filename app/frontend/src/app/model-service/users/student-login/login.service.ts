@@ -13,8 +13,8 @@ import { ComponentBridgingService } from '../../componentbridging.service';
   providedIn: 'root'
 })
 export class StudentLoginService {
-  private loginApiUrl = environment.frontendUrl + 'token';
-  private refreshApiUrl = environment.frontendUrl + 'token/refresh';
+  private loginApiUrl = environment.backendUrl + 'token';
+  private refreshApiUrl = environment.backendUrl + 'token/refresh';
 
   private currentUserSubject: BehaviorSubject<StudentUser>;
   public currentUser: Observable<StudentUser>;

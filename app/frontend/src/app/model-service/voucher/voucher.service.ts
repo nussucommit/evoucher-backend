@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class VoucherService {
 
-  private baseUrlVoucher = environment.frontendUrl + 'voucher';
+  private baseUrlVoucher = environment.backendUrl + 'voucher';
 
   constructor(private http: HttpClient) { }
 

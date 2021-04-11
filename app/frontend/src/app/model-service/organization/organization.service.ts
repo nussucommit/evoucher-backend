@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class OrganizationService {
 
-  private baseUrlOrganization = environment.frontendUrl + 'organization';
+  private baseUrlOrganization = environment.backendUrl + 'organization';
 
   constructor(private http: HttpClient) { }
 

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class StudentService {
 
-  private baseUrlStudent =  environment.frontendUrl + 'student';
+  private baseUrlStudent =  environment.backendUrl + 'student';
 
   constructor(private http: HttpClient) { }
 
