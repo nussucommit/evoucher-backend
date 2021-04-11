@@ -76,7 +76,7 @@ export class StudentLoginFormComponent implements OnInit, OnDestroy {
     this.loginService.studentLogin(this.form.username.value)
       .subscribe((status: boolean) => {
         if (status) {
-          this.router.navigate([this.returnUrl]);
+          this.router.navigate(['/home']);
         }
       });
   }
