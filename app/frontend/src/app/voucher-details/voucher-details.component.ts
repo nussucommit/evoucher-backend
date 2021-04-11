@@ -8,7 +8,6 @@ import { VoucherService } from '../model-service/voucher/voucher.service';
 import * as moment from 'moment';
 import { HttpClient } from '@angular/common/http';
 import { CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY } from '@angular/cdk/overlay/overlay-directives';
-import { readFileSync } from 'node:fs';
 
 @Component({
   selector: 'app-voucher-details',
