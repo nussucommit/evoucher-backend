@@ -75,7 +75,7 @@ export class StudentLoginFormComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     this.loginService.login({
       username: this.form.username.value, //email
-      password: "password", //tochange
+      password: "1.74EE6772802X4", //tochange
       is_admin: false
     })
       .subscribe((status: boolean) => {

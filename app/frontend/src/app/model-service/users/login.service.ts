@@ -1,3 +1,4 @@
+import { environment } from '../../../environments/environment';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Token } from './tokens';
@@ -12,8 +13,8 @@ import { ComponentBridgingService } from '../componentbridging.service';
   providedIn: 'root'
 })
 export class LoginService {
-  private loginApiUrl = "http://localhost:8000/api/" + 'token';
-  private refreshApiUrl = "http://localhost:8000/api/" + 'token/refresh';
+  private loginApiUrl = environment.backendUrl + 'token';
+  private refreshApiUrl = environment.backendUrl + 'token/refresh';
 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
