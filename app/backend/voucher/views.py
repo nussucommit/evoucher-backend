@@ -43,8 +43,8 @@ def upload_code_list(request):
         Code.objects.create(code=row['\ufeffcode'], voucher=voucher)
     return Response(status=status.HTTP_201_CREATED)
 
-
-def get_num_codes(id):
+@api_view(['GET'])
+def get_num_codes(request, id):
     voucher = Voucher.objects.get(id=id)
     num = Code.objects.filter(voucher = voucher).filter(isAssigned = False).count()
     return Response(data=num)
