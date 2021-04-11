@@ -28,7 +28,8 @@
               "app/frontend/src/assets"
             ],
             "styles": [
-              "app/frontend/src/styles.scss"
+              "app/frontend/src/styles.scss",
+              "app/frontend/node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
             ],
             "scripts": []
           },
@@ -92,7 +93,8 @@
               "app/frontend/src/assets"
             ],
             "styles": [
-              "app/frontend/src/styles.scss"
+              "app/frontend/src/styles.scss",
+              "app/frontend/node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
             ],
             "scripts": []
           }
