@@ -20,6 +20,7 @@ class Voucher(models.Model):
 class Code(models.Model):
     code = models.CharField(max_length=128)
     voucher = models.ForeignKey(Voucher, on_delete=models.CASCADE)
+    isAssigned = models.BooleanField(default=False)
 
     def __str__(self):
         return self.code
@@ -33,3 +34,12 @@ class Email(models.Model):
 
     def __str__(self):
         return self.email
+
+
+class IdCodeEmail(models.Model):
+    voucher = models.ForeignKey(Voucher, on_delete=models.CASCADE)
+    code = models.ForeignKey(Code, on_delete=models.CASCADE)
+    email = models.ForeignKey(Email, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "Voucher {}: {} assigned to {}".format(self.voucher, self.code, self.email)

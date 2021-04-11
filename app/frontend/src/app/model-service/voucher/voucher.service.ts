@@ -24,6 +24,10 @@ export class VoucherService {
     return this.http.post(`${this.baseUrlVoucher}/addCodes/`, codeListInCsv);
   }
 
+  getNumCodes(id: any): Observable<any> {
+    return this.http.get(`${this.baseUrlVoucher}/${id}/getNumCodes/`);
+  }
+
   getOrganizationInVoucher(): Observable<any> {
     return this.http.get(`${this.baseUrlVoucher}/organization`);
   }
