@@ -1,7 +1,7 @@
 import django_heroku
 import dj_database_url
 
-from meridien.settings.base import *
+from evoucher.settings.base import *
 
 # Static files
 
