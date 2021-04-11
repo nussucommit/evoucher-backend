@@ -11,6 +11,8 @@ from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime, timedelta
 import csv
 
+from django.contrib.auth.models import User
+
 from evoucher.pagination_settings import PaginationSettings
 
 @api_view(['POST'])
@@ -25,7 +27,10 @@ def upload_email_list(request):
     reader = csv.DictReader(decoded_file)
 
     for row in reader:
-        email = Email.objects.create(email=row['\ufeffemail'], voucher=voucher)
+        value = row['\ufeffemail']
+        if Email.objects.filter(email=value).first() == None:
+            User.objects.create_user(value).save()
+        email = Email.objects.create(email=value, voucher=voucher)
         assign_codes_to_emails(voucherID, email)
     return Response(status=status.HTTP_201_CREATED)
 
@@ -40,7 +45,7 @@ def upload_code_list(request):
     reader = csv.DictReader(decoded_file)
 
     for row in reader:
-        Code.objects.create(code=row['\ufeffcode'], voucher=voucher)
+        Code.objects.create(code=row['code'], voucher=voucher)
     return Response(status=status.HTTP_201_CREATED)
 
 @api_view(['GET'])

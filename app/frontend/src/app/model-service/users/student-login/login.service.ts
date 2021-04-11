@@ -44,6 +44,21 @@ export class StudentLoginService {
       );
   }
 
+  studentLogin(email: string) {
+    return this.http.post<StudentToken>(environment.backendUrl + 'studentlogin', { username: email })
+      .pipe(map<StudentToken, boolean>((receivedToken: StudentToken) => {
+        const user = {
+          username: email,
+          token: receivedToken,
+          is_admin: false
+        };
+        this.storeUser(user);
+        return true;
+      }),
+      catchError((error) => this.handleError(error))
+    );
+  }
+
   logout() {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
@@ -118,9 +133,9 @@ export class StudentLoginService {
       //   `Backend returned code ${error.status}, ` +
       //   `body was: ${error.error}`);
       if (error.status === 400 || error.status === 401) {
-          this.bridgingService.publish('authfail');
+        this.bridgingService.publish('authfail');
       } else {
-          this.bridgingService.publish('error');
+        this.bridgingService.publish('error');
       }
     }
     // return an observable with a user-facing error message
