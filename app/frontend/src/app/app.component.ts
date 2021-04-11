@@ -13,5 +13,6 @@ export class AppComponent {
   ) { }
 
   show = this.loginService.currentUserValue != null && this.loginService.currentUserValue.is_admin;
+  showWebAdmin = this.loginService.currentUserValue != null && this.loginService.currentUserValue.is_webadmin;
   title = 'frontend';
 }

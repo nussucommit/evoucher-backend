@@ -17,6 +17,9 @@
                 <input (change)="updateOrgUsername($event)" placeholder="Username" type="text">
                 <button (click)="submitNewOrganization()" style="margin: 4px 0px">Submit</button>
             </div>
+            <div *ngIf="showPassword">
+                {{this.orgNameToAdd}}'s temporary password is {{this.temppassword}}
+            </div>
         </div>
         
         <div *ngIf="orgWoUname.length > 0" style="display: flex; flex-direction: row;">

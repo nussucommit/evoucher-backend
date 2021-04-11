@@ -1,3 +1,4 @@
+import { StudentLoginService } from './../users/student-login/login.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -9,7 +10,10 @@ export class OrganizationService {
 
   private baseUrlOrganization = 'http://localhost:8000/api/organization';
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private studentloginservice : StudentLoginService
+    ) { }
 
   getOrganizationList(filterParams: any): Observable<any> {
     return this.http.get(`${this.baseUrlOrganization}`, { params: filterParams });
@@ -25,6 +29,11 @@ export class OrganizationService {
 
   getOrgNotYetSignUp(): Observable<any> {
     return this.http.get(`${this.baseUrlOrganization}/notsignup`);
+  }
+
+  getOrgByUsername(): Observable<any> {
+    var username = this.studentloginservice.currentUserValue.username;
+    return this.http.get(`${this.baseUrlOrganization}/getorgbyuname/${username}`);
   }
 
   createOrganization(organization: any): Observable<object> {

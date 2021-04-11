@@ -42,6 +42,7 @@ import { LoginFormComponent } from './login-form/login-form.component';
 import { StudentLoginFormComponent } from './login-form/student-login-form/login-form.component';
 import { SignUpFormComponent } from './sign-up-form/sign-up-form.component';
 import { WebadmindashboardComponent } from './webadmindashboard/webadmindashboard.component';
+import { OrgAdminDashboardComponent } from './org-admin-dashboard/org-admin-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { WebadmindashboardComponent } from './webadmindashboard/webadmindashboar
     LoginFormComponent,
     StudentLoginFormComponent,
     SignUpFormComponent,
-    WebadmindashboardComponent
+    WebadmindashboardComponent,
+    OrgAdminDashboardComponent
   ],
   imports: [
     BrowserModule,

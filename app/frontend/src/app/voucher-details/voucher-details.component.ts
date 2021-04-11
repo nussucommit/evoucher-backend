@@ -1,3 +1,4 @@
+import { OrganizationService } from './../model-service/organization/organization.service';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, AbstractControl, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
@@ -23,12 +24,14 @@ export class VoucherDetailsComponent implements OnInit {
   fileToUpload: any;
   emailListToUpload: any;
   codeListToUpload: any;
+  orgName : string;
 
   constructor(
     public dialogRef: MatDialogRef<VoucherDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public voucherData: any,
     public formBuilder: FormBuilder,
-    public voucherService: VoucherService
+    public voucherService: VoucherService,
+    private orgService: OrganizationService
   ) { }
 
   ngOnInit(): void {
@@ -36,11 +39,13 @@ export class VoucherDetailsComponent implements OnInit {
 
     this.hasData = this.voucher ? true : false;
 
+    this.orgName = this.voucherData.orgname;
+    
     this.voucherForm = this.formBuilder.group({
       voucher_id: [{value: this.voucher ? this.voucher.voucher_id : '', disabled: this.voucher ? true : false}, Validators.required],
       available_date: [this.voucher ? this.voucher.available_date : '', Validators.required],
       expiry_date: [this.voucher ? this.voucher.expiry_date : '', Validators.required],
-      organization: [this.voucher ? this.voucher.organization : '', Validators.required],
+      organization: [this.orgName, Validators.required],
       voucher_type: [this.voucher ? this.voucher.voucher_type : '', Validators.required],
       name: [this.voucher ? this.voucher.name : '', Validators.required],
       description: [this.voucher ? this.voucher.description : '', Validators.required],
@@ -48,8 +53,7 @@ export class VoucherDetailsComponent implements OnInit {
       code_list: [''],
       email_list: [''],
     });
-    this.voucherForm.addControl('code_list', new FormControl(null));
-
+    
     this.setFileValidators();
   }
 

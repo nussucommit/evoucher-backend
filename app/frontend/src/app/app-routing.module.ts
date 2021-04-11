@@ -11,6 +11,7 @@ import { LoginFormComponent } from './login-form/login-form.component';
 import { StudentLoginFormComponent } from './login-form/student-login-form/login-form.component';
 import { AuthGuard } from './model-service/users/auth.guard';
 import { StudentAuthGuard } from './model-service/users/student-login/auth.guard';
+import { OrgAdminDashboardComponent } from './org-admin-dashboard/org-admin-dashboard.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -22,7 +23,8 @@ const routes: Routes = [
   {path: 'admin', component: LoginFormComponent },
   {path: 'login', component: StudentLoginFormComponent },
   {path: 'signup', component: SignUpFormComponent},
-  {path: 'webadmin', component: WebadmindashboardComponent}
+  {path: 'webadmin', component: WebadmindashboardComponent, canActivate: [AuthGuard]},
+  {path: 'orgadmin', component: OrgAdminDashboardComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

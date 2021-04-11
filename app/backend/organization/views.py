@@ -23,3 +23,9 @@ def getOrgWoUname(request):
     organization = Organization.objects.filter(username='')
     serializer = OrganizationName(organization, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def getOrgnamebyUname(request, pk):
+    organization = Organization.objects.filter(username=pk)
+    serializer = OrganizationName(organization, many=True)
+    return Response(serializer.data)

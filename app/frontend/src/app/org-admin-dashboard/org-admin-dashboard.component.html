@@ -1,0 +1,49 @@
+<div style="margin: 10px 10px; background-color: yellow; height: 85%; display: flex; justify-content: center; align-items: center;" >
+    <table [formGroup] = "changePasswordForm">
+        <tr>
+            <td>Username </td>
+            <td>: {{this.username}}</td>
+        </tr>
+        <tr>
+            <td>
+                Change Password
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Old Password
+            </td>
+            <td>
+                : <input formControlName="oldpw" type="password">
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                New Password
+            </td>
+            <td>
+                : <input formControlName="newpw" type="password">
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Confirm New Password
+            </td>
+            <td>
+                : <input (change)="updateConfPw($event)" type="password">
+            </td>
+        </tr>
+        <div>
+            <button (click)="changePassword()" [disabled]="!changePasswordForm.valid">Change Password</button>
+            <div *ngIf="this.notmatch">
+                New password doesn't match
+            </div>
+        </div>
+        
+    </table>
+
+
+</div>

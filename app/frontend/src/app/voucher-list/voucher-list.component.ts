@@ -1,3 +1,4 @@
+import { OrganizationService } from './../model-service/organization/organization.service';
 import { Organization } from './../model-service/organization/organization';
 import { Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -22,11 +23,9 @@ import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 export class VoucherListComponent implements AfterViewInit, OnInit {
 
   vouchers = new MatTableDataSource<Voucher>();
-  tableColumns: String[] = ['voucher_id', 'name', 'available_date', 'expiry_date', 'organization' ,'voucher_type' ,'description', 'claims_left'];
-  filterCategories: String[] = ['Organization', 'Faculty'];
-  organizationList: any;
+  tableColumns: String[] = ['voucher_id', 'name', 'available_date', 'expiry_date' ,'voucher_type' ,'description', 'claims_left'];
   typeList:any;
-
+  organizationName : string;
   filterForm: FormGroup;
   
   displayFilter = false;
@@ -44,17 +43,22 @@ export class VoucherListComponent implements AfterViewInit, OnInit {
     private voucherService: VoucherService,
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
+    public orgService: OrganizationService,
   ) { }
 
   ngOnInit() {
     this.edit = false;
-    this.filterForm = this.formBuilder.group({
-      Organization: ['', ''],
-      Faculty: ['','' ],
-      Available: ['',''],
-      OrderBy:['',''],
-      VoucherType:['','']
-    });
+    this.orgService.getOrgByUsername().subscribe(data => {
+      this.organizationName = data[0].name;
+      this.filterForm = this.formBuilder.group({
+        Organization: [this.organizationName, ''],
+        Faculty: ['','' ],
+        Available: ['',''],
+        OrderBy:['',''],
+        VoucherType:['','']
+      });
+      this.reloadData();
+    })
   }
   setDisplayFilter() {
     this.displayFilter = this.displayFilter ? false : true;
@@ -74,7 +78,6 @@ export class VoucherListComponent implements AfterViewInit, OnInit {
   }
 
   clearFilter() {
-    this.filterForm.value.Organization = '';
     this.filterForm.value.Faculty = '';
     this.filterForm.value.VoucherType = '';
     this.filterForm.value.Available = '';
@@ -121,11 +124,6 @@ export class VoucherListComponent implements AfterViewInit, OnInit {
           }
       );
 
-    this.voucherService.getOrganizationInVoucher().subscribe(data => {
-      console.log(data);
-      this.organizationList = data;
-    })
-
     this.voucherService.getVoucherTypes().subscribe(data => {
       console.log(data);
       this.typeList = data;
@@ -137,7 +135,8 @@ export class VoucherListComponent implements AfterViewInit, OnInit {
   openEditDialog(voucher: any, mode: string) {
     if (!this.formDialogOpened) {
       this.formDialogOpened = true;
-      const dialogRef = this.dialog.open(VoucherDetailsComponent, {data: {voucher, mode}});
+      var orgname = this.organizationName;
+      const dialogRef = this.dialog.open(VoucherDetailsComponent, {data: {voucher, mode, orgname }});
       dialogRef.afterClosed().subscribe((result)=>{
         this.formDialogOpened = false;
         if (result && result.delete) {

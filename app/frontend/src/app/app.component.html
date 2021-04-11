@@ -15,8 +15,10 @@
      <mat-toolbar-row style="height: 80%">
        <a mat-button routerLink='faculty' routerLinkActive='active'>Faculties</a>
        <a mat-button routerLink='organization' routerLinkActive='active'>Organizations</a> 
-       <a mat-button routerLink='voucher' *ngIf="show == true" routerLinkActive='active'>Vouchers</a>
+       <a mat-button routerLink='voucher' *ngIf="show" routerLinkActive='active'>Vouchers</a>
        <a mat-button routerLink='student' routerLinkActive='active'>Students</a>
+       <a mat-button routerLink='webadmin' *ngIf="showWebAdmin" routerLinkActive='active'>Web Admin</a>
+       <a mat-button routerLink='orgadmin' *ngIf="show" routerLinkActive='active'>Admin</a>
      </mat-toolbar-row>
    </mat-toolbar>
 </div>

@@ -15,6 +15,7 @@ export class LoginService {
   private loginApiUrl = "http://localhost:8000/api/" + 'token';
   private refreshApiUrl = "http://localhost:8000/api/" + 'token/refresh';
   private signUpApiUrl = "http://localhost:8000/api/" + 'register';
+  private changePasswordApiUrl = "http://localhost:8000/api/" + 'changepassword';
 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
@@ -36,6 +37,7 @@ export class LoginService {
             username: credentials.username,
             token: receivedToken,
             is_admin: true,
+            is_webadmin: credentials.username == "commitadmin",
           };
           this.storeUser(user);
           return true;
@@ -52,6 +54,10 @@ export class LoginService {
 
   signup(user: any): Observable<object> {
     return this.http.post(`${this.signUpApiUrl}` , user);
+  }
+
+  changepassword(id:string, user: any) {
+    return this.http.post(`${this.changePasswordApiUrl}/${id}`, user);
   }
 
   attachAccessToken(request: HttpRequest<any>): HttpRequest<any> {
@@ -91,9 +97,11 @@ export class LoginService {
       token: {
         access: newToken.access,
         refresh: currentUser.token.refresh,
-        is_admin: true
+        is_admin: true,
+        is_webadmin: currentUser.username == "commitadmin"
       },
-      is_admin: true
+      is_admin: true,
+      is_webadmin: currentUser.username == "commitadmin"
     });
   }
 
