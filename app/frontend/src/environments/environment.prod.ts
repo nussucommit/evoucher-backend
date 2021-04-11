@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  frontendUrl: ''
+  frontendUrl: 'https://evoucher-frontend-test.herokuapp.com/api/'
 };
