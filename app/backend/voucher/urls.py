@@ -11,7 +11,7 @@ urlpatterns = [
     path('voucher/<str:id>/getNumCodes/', get_num_codes, name='get-num-codes' ),
     path('voucher/organization', CreateOrganizationInVoucherList.as_view()),
     path('voucher/type', VoucherTypeList.as_view()),
-    path('voucher/<str:pk>', VoucherDetail.as_view()),
+    path('voucher/<int:pk>', VoucherDetail.as_view()),
     path('voucher/<str:email>/getCodeByEmails/', get_codes_from_email, name='get-codes-from-email' ),
     path('voucher/<int:id>/getCodeByCodeList/', get_codes_by_code_list, name='get-codes-by-code_list' )
 ]

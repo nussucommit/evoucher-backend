@@ -23,7 +23,6 @@ def upload_email_list(request):
     voucherID = int(request.data['id'])
     voucher = Voucher.objects.get(id=voucherID)
 
-    print("haha")
     file = request.FILES['email_list']
     decoded_file = file.read().decode('utf-8').splitlines()
     reader = csv.DictReader(decoded_file)
@@ -136,4 +135,4 @@ class VoucherList(generics.ListAPIView):
 class VoucherDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Voucher.objects.all()
     serializer_class = VoucherSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
