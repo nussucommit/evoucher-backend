@@ -81,7 +81,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     })
       .subscribe((status: boolean) => {
         if (status) {
-          this.router.navigate([this.returnUrl]);
+          this.router.navigate(['/voucher']); //navigate to voucehr page straight
         }
       });
   }
