@@ -2,12 +2,14 @@ from rest_framework import status, generics, filters
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny, IsAdminUser
+from django.http import JsonResponse
 
 # Create your views here.
 from voucher.models import Voucher, Email, Code, IdCodeEmail
 from voucher.serializers import VoucherSerializer, EmailSerializer, OrganizationInVoucher, VoucherTypes#, CodeSerializer
 from django.db.models import Q, Max
 from django.views.decorators.csrf import csrf_exempt
+from django.core import serializers
 from datetime import datetime, timedelta
 import csv
 
@@ -25,8 +27,14 @@ def upload_email_list(request):
     reader = csv.DictReader(decoded_file)
 
     for row in reader:
-        email = Email.objects.create(email=row['\ufeffemail'], voucher=voucher)
-        assign_codes_to_emails(voucherID, email)
+        #email = Email.objects.create(email=row['\ufeffemail'], voucher=voucher)
+        
+        if Email.objects.filter(email=row['\ufeffemail']).count() == 0:
+            email = Email.objects.create(email=row['\ufeffemail'])
+            assign_codes_to_emails(voucherID, email)
+        else: 
+            email = Email.objects.get(email=row['\ufeffemail'])
+            assign_codes_to_emails(voucherID, email)
     return Response(status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
@@ -48,6 +56,19 @@ def get_num_codes(request, id):
     voucher = Voucher.objects.get(id=id)
     num = Code.objects.filter(voucher = voucher).filter(isAssigned = False).count()
     return Response(data=num)
+
+@api_view(['GET'])
+def get_codes_from_email(request, email):
+    email2 = Email.objects.get(email=email)
+    idCodeEmail = IdCodeEmail.objects.filter(email=email2).values()
+    print(idCodeEmail)
+    return JsonResponse({"data": list(idCodeEmail)})
+
+@api_view(['GET'])
+def get_codes_by_code_list(request, id):
+    code2 = Code.objects.get(id=id)
+    return Response(data=code2.code)
+
 
 def assign_codes_to_emails(vid, email):
     voucher = Voucher.objects.get(id=vid)

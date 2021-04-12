@@ -44,6 +44,14 @@ export class VoucherService {
     return this.http.get(`${this.baseUrlVoucher}/${id}`);
   }
 
+  getVoucherByEmail(email: any): Observable<object> {
+    return this.http.get(`${this.baseUrlVoucher}/${email}/getCodeByEmails/`);
+  }
+
+  getCodeByCodeList(id: any): Observable<object> {
+    return this.http.get(`${this.baseUrlVoucher}/${id}/getCodeByCodeList/`);
+  }
+
   createVoucher(voucher: any): Observable<object> {
     return this.http.post(`${this.baseUrlVoucher}/`, voucher);
   }
