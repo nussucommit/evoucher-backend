@@ -73,11 +73,7 @@ export class StudentLoginFormComponent implements OnInit, OnDestroy {
    * If the credentials are valid, redirect the user to the correct page.
    */
   onSubmit(): void {
-    this.loginService.login({
-      username: this.form.username.value, //email
-      password: "q", //tochange
-      is_admin: false
-    })
+    this.loginService.studentLogin(this.form.username.value)
       .subscribe((status: boolean) => {
         if (status) {
           this.router.navigate(['/home']);

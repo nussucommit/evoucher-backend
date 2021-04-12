@@ -13,6 +13,8 @@ from django.core import serializers
 from datetime import datetime, timedelta
 import csv
 
+from django.contrib.auth.models import User
+
 from evoucher.pagination_settings import PaginationSettings
 
 @api_view(['POST'])
@@ -27,13 +29,14 @@ def upload_email_list(request):
     reader = csv.DictReader(decoded_file)
 
     for row in reader:
-        #email = Email.objects.create(email=row['\ufeffemail'], voucher=voucher)
-        
-        if Email.objects.filter(email=row['\ufeffemail']).count() == 0:
-            email = Email.objects.create(email=row['\ufeffemail'])
+        value = row['\ufeffemail']
+        if Email.objects.filter(email=value).first() == None:
+            User.objects.create_user(value).save()
+        if Email.objects.filter(email=value).count() == 0:
+            email = Email.objects.create(email=value)
             assign_codes_to_emails(voucherID, email)
         else: 
-            email = Email.objects.get(email=row['\ufeffemail'])
+            email = Email.objects.get(email=value)
             assign_codes_to_emails(voucherID, email)
     return Response(status=status.HTTP_201_CREATED)
 
@@ -48,7 +51,7 @@ def upload_code_list(request):
     reader = csv.DictReader(decoded_file)
 
     for row in reader:
-        Code.objects.create(code=row['\ufeffcode'], voucher=voucher)
+        Code.objects.create(code=row['code'], voucher=voucher)
     return Response(status=status.HTTP_201_CREATED)
 
 @api_view(['GET'])
