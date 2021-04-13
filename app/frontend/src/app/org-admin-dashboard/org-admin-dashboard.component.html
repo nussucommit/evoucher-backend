@@ -1,4 +1,4 @@
-<div style="margin: 10px 10px; background-color: yellow; height: 85%; display: flex; justify-content: center; align-items: center;" >
+<!-- <div style="margin: 10px 10px; background-color: yellow; height: 85%; display: flex; justify-content: center; align-items: center;" >
     <table [formGroup] = "changePasswordForm">
         <tr>
             <td>Username </td>
@@ -38,12 +38,52 @@
         </tr>
         <div>
             <button (click)="changePassword()" [disabled]="!changePasswordForm.valid">Change Password</button>
-            <div *ngIf="this.notmatch">
+            <div *ngIf="notmatch">
                 New password doesn't match
+            </div>
+            <div *ngIf="falseOldPassword">
+                Input old password doesn't match with current old password 
             </div>
         </div>
         
     </table>
 
 
-</div>
+</div> -->
+
+<mat-card class="mat-elevation-z8 container">
+    <h2>Change Password</h2>
+    
+    <form [formGroup]="changePasswordForm">
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Username</mat-label>
+        <input matInput type="text" formControlName="username" readonly>
+    </mat-form-field>
+    
+    <br>
+    
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Old Password</mat-label>
+        <input matInput [type]="hideold? 'password':'text'" formControlName="oldpw">
+        <mat-icon matSuffix (click)="hideold = !hideold">{{hideold ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label>New Password</mat-label>
+        <input matInput [type]="hidenew? 'password':'text'" formControlName="newpw">
+        <mat-icon matSuffix (click)="hidenew = !hidenew">{{hidenew ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Confirm New Password</mat-label>
+        <input matInput [type]="hideconf? 'password':'text'" formControlName="confpw">
+        <mat-icon matSuffix (click)="hideconf = !hideconf">{{hideconf ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </mat-form-field>
+    
+    <button mat-raised-button  [disabled]="!changePasswordForm.valid"  color="primary" type="submit" (click)="changePassword()">Change Password</button>
+    <br>
+    <!-- <p style="color:black;">{{errorString}}</p> -->
+    
+    </form>
+</mat-card>
+

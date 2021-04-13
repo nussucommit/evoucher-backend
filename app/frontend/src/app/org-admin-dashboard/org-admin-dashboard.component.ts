@@ -16,6 +16,10 @@ export class OrgAdminDashboardComponent implements OnInit {
   confnewpw: string;
   changePasswordForm: FormGroup;
   notmatch = false;
+  hideold = true;
+  hidenew = true;
+  hideconf = true;
+  falseOldPassword = false;
 
   constructor(
     private loginService: LoginService,
@@ -28,31 +32,28 @@ export class OrgAdminDashboardComponent implements OnInit {
       username: [this.username, Validators.required],
       oldpw: ['',Validators.required],
       newpw:['', Validators.required],
+      confpw:['', Validators.required]
     });
-  }
-  
-  updateConfPw(event) {
-    this.confnewpw = event.target.value;
   }
 
   changePassword() {
     const formdata = new FormData();
 
-    formdata.append('username', this.username);
-
-    if (this.changePasswordForm.value.newpw != this.confnewpw) {
+    if (this.changePasswordForm.value.newpw != this.changePasswordForm.value.confpw) {
       this.notmatch = true;
       return false;
     } else {
-      formdata.append('oldpassword', this.changePasswordForm.value.oldpw);
-      formdata.append('newpassword', this.changePasswordForm.value.newpw);
-      try {
-        this.loginService.changepassword(this.username, formdata).subscribe( data => {
-          console.log(data);
-        } );
-      } catch (err) {
-        console.error(err.status);
-      }
+      formdata.append('old_password', this.changePasswordForm.value.oldpw);
+      formdata.append('new_password1', this.changePasswordForm.value.newpw);
+      formdata.append('new_password2', this.changePasswordForm.value.confpw);
+      this.loginService.changepassword(this.username, formdata).subscribe( 
+        (data) => {
+        console.log(data);
+      },
+        (error) => {
+          console.log(error);
+        }
+       );
       
     }
 

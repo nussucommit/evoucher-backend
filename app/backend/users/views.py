@@ -1,10 +1,10 @@
-from rest_framework import generics, permissions, mixins
-from rest_framework.response import Response
-from .serializer import RegisterSerializer, UserSerializer
-from django.contrib.auth.models import User
+from rest_framework import status,generics, permissions, mixins
 from rest_framework.decorators import api_view
-from django.contrib.auth import authenticate
-from rest_framework import status
+from rest_framework.response import Response
+from django.contrib.auth import authenticate, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.models import User
+from .serializer import RegisterSerializer, UserSerializer
 #Register API
 class RegisterApi(generics.GenericAPIView):
     serializer_class = RegisterSerializer
@@ -20,12 +20,16 @@ class RegisterApi(generics.GenericAPIView):
 
 @api_view(['POST'])
 def change_password(request, pk):
-    user = authenticate(username=pk, password=request.data['oldpassword'])
-    if user is not None:
-        print("hahaha")
-    else:
+    form = PasswordChangeForm(request.user, data=request.data)
+    if form.is_valid():
+        user = form.save()
+        update_session_auth_hash(request, user)  # Important!
+    
+        res = {"message" : "Password changed" }
+        return Response(res, status=200)
+    else :
         content = {'please move along': 'nothing to see here'}
-        return Response(content, status=status.HTTP_401_UNAUTHORIZED)
+        return Response(content, status=500)
     # form = PasswordChangeForm(request.user, request.POST)
     # if form.is_valid():
     #     user = form.save()
