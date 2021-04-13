@@ -1,7 +1,31 @@
-<div style="margin: 10px 10px; height: 82%; display: flex; padding: 10px 0px; background-color: yellow;">
+<div style="margin: 10px 10px; height: 82%; display: flex; justify-content: center; align-items: center; padding: 10px 0px;">
     <div>
-        
-        <div style="display: flex; flex-direction: row;">
+        <button mat-raised-button color="primary" (click)= "openAddDialog()">
+            Add Organization
+        </button>
+        <div style="padding-top:15px; padding-bottom: 20px; width: 95%;">
+            <mat-table [dataSource]="organizations" matSort class="mat-elevation-z8">
+                <ng-container matColumnDef="name">
+                    <mat-header-cell mat-sort-header *matHeaderCellDef>Organization Name</mat-header-cell>
+                    <mat-cell *matCellDef="let cell">{{cell.name}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="username">
+                    <mat-header-cell mat-sort-header *matHeaderCellDef>Username</mat-header-cell>
+                    <mat-cell *matCellDef="let cell">{{cell.username}}</mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
+                <mat-row matRipple *matRowDef = "let cell; columns: tableColumns;" ></mat-row>
+            </mat-table>
+            <div class="mat-elevation-z8" style="display: flex; background-color: white; flex-direction: row-reverse;">
+                <mat-form-field style="padding-right: 1%; width: 7%;">
+                  <input #page matInput type="number" min="0" [max]="paginator.getNumberOfPages()" [value]="paginator.pageIndex + 1" (change)="onInputPageChange(page.value)">
+                </mat-form-field>
+                <p style="padding-right: 1%; margin: auto 0; font-size: 12px; color: #777777;">Page: </p>
+                <mat-paginator [length]="resultsLength" [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>
+            </div>
+        </div> 
+
+        <!-- <div style="display: flex; flex-direction: row;">
             <table style="margin-bottom: 10px;">
                 <th>    
                     Organization <span (click)="turnOnAddForm()" style="margin: 0px 10px; cursor: pointer;">+</span>
@@ -20,9 +44,9 @@
             <div *ngIf="showPassword">
                 {{this.orgNameToAdd}}'s temporary password is {{this.temppassword}}
             </div>
-        </div>
+        </div> -->
         
-        <div *ngIf="orgWoUname.length > 0" style="display: flex; flex-direction: row;">
+        <!-- <div *ngIf="orgWoUname.length > 0" style="display: flex; flex-direction: row;">
             <table>
                 <th>    
                     Organization Without Username
@@ -41,7 +65,7 @@
             <div *ngIf="showPassword">
                 {{this.orgNameToAdd}}'s temporary password is {{this.temppassword}}
             </div>
-        </div>
+        </div> -->
 
         
     </div>

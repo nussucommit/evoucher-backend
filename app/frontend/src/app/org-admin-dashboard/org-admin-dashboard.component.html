@@ -77,13 +77,13 @@
     <mat-form-field appearance="outline" class="full-width">
         <mat-label>Confirm New Password</mat-label>
         <input matInput [type]="hideconf? 'password':'text'" formControlName="confpw">
+        <!-- <mat-error *ngIf="this.changePasswordForm.value.newpw != this.changePasswordForm.value.confpw">Must match the previous entry</mat-error> -->
         <mat-icon matSuffix (click)="hideconf = !hideconf">{{hideconf ? 'visibility_off' : 'visibility'}}</mat-icon>
     </mat-form-field>
     
     <button mat-raised-button  [disabled]="!changePasswordForm.valid"  color="primary" type="submit" (click)="changePassword()">Change Password</button>
-    <br>
-    <!-- <p style="color:black;">{{errorString}}</p> -->
-    
+    <p *ngIf="falseOldPassword" style="color:black;">Wrong Old Password</p>
+    <p *ngIf="success" style="color:black;">Password Changed Successfully</p>
     </form>
 </mat-card>
 

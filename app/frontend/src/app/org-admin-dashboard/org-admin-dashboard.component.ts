@@ -20,11 +20,31 @@ export class OrgAdminDashboardComponent implements OnInit {
   hidenew = true;
   hideconf = true;
   falseOldPassword = false;
+  success = false;
 
   constructor(
     private loginService: LoginService,
     private formBuilder: FormBuilder
   ) { }
+
+  MustMatch(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+        const control = formGroup.controls[controlName];
+        const matchingControl = formGroup.controls[matchingControlName];
+
+        if (matchingControl.errors && !matchingControl.errors.mustMatch) {
+            // return if another validator has already found an error on the matchingControl
+            return;
+        }
+
+        // set error on matchingControl if validation fails
+        if (control.value !== matchingControl.value) {
+            matchingControl.setErrors({ mustMatch: true });
+        } else {
+            matchingControl.setErrors(null);
+        }
+    }
+  }  
 
   ngOnInit(): void {
     this.username = this.loginService.currentUserValue.username;
@@ -33,29 +53,28 @@ export class OrgAdminDashboardComponent implements OnInit {
       oldpw: ['',Validators.required],
       newpw:['', Validators.required],
       confpw:['', Validators.required]
+    }, {
+      validator: this.MustMatch('newpw', 'confpw')
     });
   }
 
   changePassword() {
     const formdata = new FormData();
 
-    if (this.changePasswordForm.value.newpw != this.changePasswordForm.value.confpw) {
-      this.notmatch = true;
-      return false;
-    } else {
-      formdata.append('old_password', this.changePasswordForm.value.oldpw);
-      formdata.append('new_password1', this.changePasswordForm.value.newpw);
-      formdata.append('new_password2', this.changePasswordForm.value.confpw);
-      this.loginService.changepassword(this.username, formdata).subscribe( 
-        (data) => {
-        console.log(data);
-      },
-        (error) => {
-          console.log(error);
-        }
-       );
-      
-    }
+    formdata.append('old_password', this.changePasswordForm.value.oldpw);
+    formdata.append('new_password1', this.changePasswordForm.value.newpw);
+    formdata.append('new_password2', this.changePasswordForm.value.confpw);
+    this.loginService.changepassword(this.username, formdata).subscribe( 
+      (data) => {
+      console.log(data);
+      this.success = true;
+      this.falseOldPassword = false;
+    },
+      (error) => {
+        console.log(error);
+        this.falseOldPassword = true;
+      }
+    );
 
   }
 

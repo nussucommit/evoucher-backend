@@ -1,1 +1,24 @@
-<p>organization-details works!</p>
+<div style="padding:20px; width: 300px; margin: auto">
+    <h1 mat-dialog-title >{{getDialogTitle()}}</h1>
+    <form mat-dialog-content [formGroup]="orgForm">
+        <mat-form-field appearance="standard">
+            <mat-label>Organization Name</mat-label>
+            <input matInput class="form-control" formControlName="name">
+            <mat-error>This field is required.</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="standard">
+            <mat-label>Username</mat-label>
+            <input matInput class="form-control" formControlName="username">
+            <mat-error>This field is required.</mat-error>
+        </mat-form-field>
+        <div *ngIf="showPassword">
+            Your Temporary Password : {{this.temppassword}}
+        </div>
+    </form>
+    <mat-dialog-actions align="end">
+        <button mat-button [mat-dialog-close]="true">Cancel</button>
+        <!-- <button mat-button *ngIf="hasData" (click)="onDelete()">Delete</button> -->
+        <button mat-raised-button [disabled]="!orgForm.valid" type="submit" color="primary"
+            (click)="submitNewOrganization()">Submit</button>
+    </mat-dialog-actions>
+</div>

@@ -1,7 +1,14 @@
+import { OrganizationDetailsComponent } from './../organization-details/organization-details.component';
 import { Organization } from './../model-service/organization/organization';
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
 import { LoginService } from './../model-service/users/login.service';
 import { OrganizationService } from '../model-service/organization/organization.service';
+import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+import {merge, of as observableOf} from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-webadmindashboard',
@@ -18,75 +25,75 @@ export class WebadmindashboardComponent implements OnInit {
   orgNameToAdd : string;
   usernameToAdd : string;
   temppassword : string;
+  resultsLength = 0;
+  isLoadingResults = true;
+  isRateLimitReached = false;
+  formDialogOpened = false;
 
+  organizations = new MatTableDataSource<Organization>();
+  tableColumns: String[] = ['name', 'username'];
+
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(
     private orgService : OrganizationService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private dialog: MatDialog,
   ) { }
 
+  onInputPageChange(pageNumber: number) {
+    this.paginator.pageIndex = Math.min(pageNumber - 1, this.paginator.getNumberOfPages() - 1);
+  }
+
   ngOnInit(): void {
-    this.orgService.getAllOrganization().subscribe(data => {
-      console.log(data);
-      this.organizationList = data.results;
-    });
+    this.reloadOrganizations();
 
-    this.orgService.getOrgNotYetSignUp().subscribe(data => {
-      this.orgWoUname = data;
-      console.log(this.orgWoUname);
-    });
-
+    // this.orgService.getOrgNotYetSignUp().subscribe(data => {
+    //   this.orgWoUname = data;
+    //   console.log(this.orgWoUname);
+    // });
   }
 
-  turnOnAddForm() {
-    this.addForm = this.addForm ? false : true;
-    this.addUsernameForm = this.addUsernameForm ? false : false;
+  reloadOrganizations() {
+    (this.paginator.page)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          this.isLoadingResults = true;
+          return this.orgService.getAllOrganization();
+        }),
+        map(data => {
+          this.isLoadingResults = false;
+          this.isRateLimitReached = false;
+          this.resultsLength = data.count;
+          
+          return data.results;
+        }),
+        catchError(() => {
+          this.isLoadingResults = false;
+          this.isRateLimitReached = true;
+          return observableOf([]);
+        })
+      ).subscribe(
+          (data: Organization[]) => {
+            this.organizations.data = data;
+          }
+      );
   }
 
-  turnOnUsernameForm(orgname : string) {
-    this.orgNameToAdd = orgname;
-    this.addUsernameForm = this.addUsernameForm ? false : true;
-    this.addForm = this.addForm ? false : false;
-  }
-
-  updateOrgName(input: any) {
-    console.log(this.orgNameToAdd);
-    this.orgNameToAdd = input.target.value;
-  }
-
-  updateOrgUsername(input: any) {
-    this.usernameToAdd = input.target.value;
-    console.log(this.usernameToAdd);
-  }
-
-  submitNewOrganization() {
-    const formData = new FormData();
-    const registerUsername = new FormData();
-    formData.append('name', this.orgNameToAdd);
-
-    if (this.usernameToAdd) {
-      formData.append('username', this.usernameToAdd);
-      registerUsername.append('username', this.usernameToAdd);
-      var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-      var string_length = 8;
-      var randomstring = '';
-      for (var i=0; i<string_length; i++) {
-          var rnum = Math.floor(Math.random() * chars.length);
-          randomstring += chars.substring(rnum,rnum+1);
-      }
-      this.temppassword = randomstring;
-      registerUsername.append('password', this.temppassword);
-      this.loginService.signup(registerUsername).subscribe();
-      this.showPassword = this.showPassword ? false : true;
+  openAddDialog() {
+    if (!this.formDialogOpened) {
+      this.formDialogOpened = true;
+      const dialogRef = this.dialog.open(OrganizationDetailsComponent);
+      dialogRef.afterClosed().subscribe((result)=>{
+        this.formDialogOpened = false;
+        // if (result && result.delete) {
+        //   this.confirmDelete(voucher.id);
+        // }
+        this.reloadOrganizations();
+      });
     }
-
-    if (this.addForm) {
-      this.orgService.createOrganization(formData).subscribe();
-    }
-
-    if (this.addUsernameForm) {
-      this.orgService.patchOrganization(this.orgNameToAdd, formData).subscribe();
-    } 
   }
 
 }
