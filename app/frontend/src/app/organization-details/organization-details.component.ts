@@ -72,6 +72,7 @@ export class OrganizationDetailsComponent implements OnInit {
 
     //if (this.usernameToAdd) {
     formData.append('username', this.orgForm.value.username);
+    registerUsername.append('username', this.orgForm.value.username);
     var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     var string_length = 8;
     var randomstring = '';
