@@ -74,7 +74,7 @@ export class VoucherDetailsComponent implements OnInit {
   }
 
   emailCheck(control: AbstractControl): any {
-    return new RegExp('.+\.csv').test(control.value) ? null : { email_list: true };
+    return new RegExp('.+\.csv').test(control.value) || control.value == '' ? null : { email_list: true };
   }
 
   getDialogTitle() {
@@ -114,6 +114,7 @@ export class VoucherDetailsComponent implements OnInit {
       //console.log("Number of emails uploaded: " + this.getNumEmails(this.emailListToUpload));*/
 
       if (this.codeListToUpload) {
+        console.log('code uploaded');
         const codeList = this.uploadCodeList();
         this.voucherService.uploadCodeList(codeList).subscribe();
 

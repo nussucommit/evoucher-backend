@@ -35,12 +35,7 @@ def upload_email_list(request):
             email = Email.objects.create(email=value)
         else: 
             email = Email.objects.get(email=value)
-        if 'code_list' in request.FILES:
-            assign_codes_to_emails(voucherID, email)
-        else:
-            if IdCodeEmail.objects.filter(voucher=voucher).filter(email=email).count() == 0:
-                code = Code.objects.create(code='N/A', voucher=voucher, isAssigned=True)
-                IdCodeEmail.objects.create(voucher = voucher, email = email, code = code)
+        assign_codes_to_emails(voucherID, email)
     return Response(status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
@@ -78,10 +73,11 @@ def get_codes_by_code_list(request, id):
 
 def assign_codes_to_emails(vid, email):
     voucher = Voucher.objects.get(id=vid)
-    code = Code.objects.filter(voucher = voucher).filter(isAssigned = False).first()#.update(isAssigned = True)
-    #print(code)
-    #print(vid)
-    #print(email)
+    code = Code.objects.filter(voucher = voucher).filter(isAssigned = False).first()
+
+    if code == None:
+        code = Code.objects.create(code='N/A', voucher=voucher, isAssigned=True)
+    
     code.isAssigned = True
     code.save()
     IdCodeEmail.objects.create(voucher = voucher, email = email, code = code)
