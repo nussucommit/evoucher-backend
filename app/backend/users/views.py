@@ -1,10 +1,17 @@
 from rest_framework import status,generics, permissions, mixins
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.contrib.auth import authenticate, update_session_auth_hash
+from django.contrib.auth import authenticate, update_session_auth_hash, login
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from .serializer import RegisterSerializer, UserSerializer
+from datetime import datetime, timedelta
+
+import jwt
+from django.conf import settings
+from users.auth_backend import PasswordlessAuthBackend
+from rest_framework_simplejwt.tokens import RefreshToken
+
 #Register API
 class RegisterApi(generics.GenericAPIView):
     serializer_class = RegisterSerializer
@@ -38,3 +45,21 @@ def change_password(request, pk):
     #     return redirect('change_password')
     # else:
     #     messages.error(request, 'Please correct the error below.')
+
+@api_view(['POST'])
+def authenticator(request):
+    username = request.data['username']
+    user = PasswordlessAuthBackend().authenticate(username=username)
+    if user is not None:
+        login(request, user)
+        return Response(get_tokens_for_user(user), status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+
+def get_tokens_for_user(user):
+    refresh = RefreshToken.for_user(user)
+
+    return {
+        'refresh': str(refresh),
+        'access': str(refresh.access_token),
+    }

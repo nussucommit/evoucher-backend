@@ -1,6 +1,6 @@
 <div>
     <h1 mat-dialog-title>{{voucherData.voucher.name}}</h1>
-    <p style="font-size: 14px;">Provided by</p>
+    <p style="font-size: 14px;">Provided by {{voucherData.voucher.organization}}</p>
     <p style="font-size: 14px;">Promotion ends on {{voucherData.voucher.expiry_date | date: 'dd MMMM yyyy'}}</p>
 
     <div mat-dialog-content>
@@ -8,8 +8,9 @@
             <img src={{voucherData.voucher.image}} style="width: 80%;">  
         </div>
         <p style="white-space: pre;">{{voucherData.voucher.description}}</p>
-
-        <div *ngIf="voucherData.mode === 'claim'; else editMode">
+        <hr>
+        <p style="white-space: pre;">Your Voucher Code is: {{voucherData.voucher.code}}</p>
+        <!--<div *ngIf="voucherData.mode === 'claim'; else editMode">
             <hr style="width: 100%;">
             <p style="font-size: 12px; white-space: pre;">
                 Enter your NUS email address (e.g. e0123456@u.nus.edu) to claim this voucher. Please note the following:
@@ -35,7 +36,7 @@
                     </div>
                 </div>
             </form>
-        </div>
+        </div>-->
         <ng-template #editMode>
             <div align="end">
                 <!--Fill in the necessary redirection and functionalities here-->

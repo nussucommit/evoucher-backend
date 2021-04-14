@@ -1,3 +1,4 @@
+import { environment } from '../../../environments/environment';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Token } from './tokens';
@@ -16,6 +17,8 @@ export class LoginService {
   private refreshApiUrl = "http://localhost:8000/api/" + 'token/refresh';
   private signUpApiUrl = "http://localhost:8000/api/" + 'register';
   private changePasswordApiUrl = "http://localhost:8000/api/" + 'changepassword';
+  private loginApiUrl = environment.backendUrl + 'token';
+  private refreshApiUrl = environment.backendUrl + 'token/refresh';
 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;

@@ -1,3 +1,4 @@
+import { environment } from '../../../../environments/environment';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { StudentToken } from './tokens';
@@ -12,8 +13,8 @@ import { ComponentBridgingService } from '../../componentbridging.service';
   providedIn: 'root'
 })
 export class StudentLoginService {
-  private loginApiUrl = "http://localhost:8000/api/" + 'token';
-  private refreshApiUrl = "http://localhost:8000/api/" + 'token/refresh';
+  private loginApiUrl = environment.backendUrl + 'token';
+  private refreshApiUrl = environment.backendUrl + 'token/refresh';
 
   private currentUserSubject: BehaviorSubject<StudentUser>;
   public currentUser: Observable<StudentUser>;
@@ -42,6 +43,21 @@ export class StudentLoginService {
         }),
         catchError((error) => this.handleError(error))
       );
+  }
+
+  studentLogin(email: string) {
+    return this.http.post<StudentToken>(environment.backendUrl + 'studentlogin', { username: email })
+      .pipe(map<StudentToken, boolean>((receivedToken: StudentToken) => {
+        const user = {
+          username: email,
+          token: receivedToken,
+          is_admin: false
+        };
+        this.storeUser(user);
+        return true;
+      }),
+      catchError((error) => this.handleError(error))
+    );
   }
 
   logout() {
@@ -120,9 +136,9 @@ export class StudentLoginService {
       //   `Backend returned code ${error.status}, ` +
       //   `body was: ${error.error}`);
       if (error.status === 400 || error.status === 401) {
-          this.bridgingService.publish('authfail');
+        this.bridgingService.publish('authfail');
       } else {
-          this.bridgingService.publish('error');
+        this.bridgingService.publish('error');
       }
     }
     // return an observable with a user-facing error message

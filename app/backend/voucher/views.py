@@ -2,13 +2,18 @@ from rest_framework import status, generics, filters
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny, IsAdminUser
+from django.http import JsonResponse
 
 # Create your views here.
-from voucher.models import Voucher, Email, Code
-from voucher.serializers import VoucherSerializer, EmailSerializer, OrganizationInVoucher, VoucherTypes
+from voucher.models import Voucher, Email, Code, IdCodeEmail
+from voucher.serializers import VoucherSerializer, EmailSerializer, OrganizationInVoucher, VoucherTypes#, CodeSerializer
 from django.db.models import Q, Max
+from django.views.decorators.csrf import csrf_exempt
+from django.core import serializers
 from datetime import datetime, timedelta
 import csv
+
+from django.contrib.auth.models import User
 
 from evoucher.pagination_settings import PaginationSettings
 
@@ -18,18 +23,25 @@ def upload_email_list(request):
     voucherID = int(request.data['id'])
     voucher = Voucher.objects.get(id=voucherID)
 
-    print("haha")
     file = request.FILES['email_list']
     decoded_file = file.read().decode('utf-8').splitlines()
     reader = csv.DictReader(decoded_file)
 
     for row in reader:
-        Email.objects.create(email=row['\ufeffEmail'], voucher=voucher)
+        value = row['\ufeffemail']
+        if Email.objects.filter(email=value).first() == None:
+            User.objects.create_user(value).save()
+        if Email.objects.filter(email=value).count() == 0:
+            email = Email.objects.create(email=value)
+            assign_codes_to_emails(voucherID, email)
+        else: 
+            email = Email.objects.get(email=value)
+            assign_codes_to_emails(voucherID, email)
     return Response(status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
 def upload_code_list(request):
-    
+
     voucherID = int(request.data['id'])
     voucher = Voucher.objects.get(id=voucherID)
 
@@ -38,7 +50,37 @@ def upload_code_list(request):
     reader = csv.DictReader(decoded_file)
 
     for row in reader:
-        Code.objects.create(code=row['\ufeffcode'], voucher=voucher)
+        Code.objects.create(code=row['code'], voucher=voucher)
+    return Response(status=status.HTTP_201_CREATED)
+
+@api_view(['GET'])
+def get_num_codes(request, id):
+    voucher = Voucher.objects.get(id=id)
+    num = Code.objects.filter(voucher = voucher).filter(isAssigned = False).count()
+    return Response(data=num)
+
+@api_view(['GET'])
+def get_codes_from_email(request, email):
+    email2 = Email.objects.get(email=email)
+    idCodeEmail = IdCodeEmail.objects.filter(email=email2).values()
+    print(idCodeEmail)
+    return JsonResponse({"data": list(idCodeEmail)})
+
+@api_view(['GET'])
+def get_codes_by_code_list(request, id):
+    code2 = Code.objects.get(id=id)
+    return Response(data=code2.code)
+
+
+def assign_codes_to_emails(vid, email):
+    voucher = Voucher.objects.get(id=vid)
+    code = Code.objects.filter(voucher = voucher).filter(isAssigned = False).first()#.update(isAssigned = True)
+    #print(code)
+    #print(vid)
+    #print(email)
+    code.isAssigned = True
+    code.save()
+    IdCodeEmail.objects.create(voucher = voucher, email = email, code = code)
     return Response(status=status.HTTP_201_CREATED)
 
 class CreateVoucherList(generics.ListCreateAPIView):
@@ -93,4 +135,4 @@ class VoucherList(generics.ListAPIView):
 class VoucherDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Voucher.objects.all()
     serializer_class = VoucherSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)

@@ -1,11 +1,14 @@
 import { OrganizationService } from './../model-service/organization/organization.service';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, AbstractControl, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Voucher } from '../model-service/voucher/voucher';
 import { VoucherService } from '../model-service/voucher/voucher.service';
 import * as moment from 'moment';
+import { HttpClient } from '@angular/common/http';
+import { CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY } from '@angular/cdk/overlay/overlay-directives';
 
 @Component({
   selector: 'app-voucher-details',
@@ -26,12 +29,21 @@ export class VoucherDetailsComponent implements OnInit {
   codeListToUpload: any;
   orgName : string;
 
+  codeArr: string[];
+  emailArr: string[];
+
+  numCode: any;
+  numEmail: any;
+
+  enoughCode: any;
+
   constructor(
     public dialogRef: MatDialogRef<VoucherDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public voucherData: any,
     public formBuilder: FormBuilder,
     public voucherService: VoucherService,
     private orgService: OrganizationService
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
@@ -57,11 +69,11 @@ export class VoucherDetailsComponent implements OnInit {
     this.setFileValidators();
   }
 
-  imageCheck(control: AbstractControl): any {
+  imageCheck(control: AbstractControl) {
     return new RegExp('.+\.(png|PNG|jpg|jpeg|JPG|JPEG)$').test(control.value) ? null : { image: true };
   }
 
-  codeCheck(control: AbstractControl): any {
+  codeCheck(control: AbstractControl) {
     return new RegExp('.+\.csv$').test(control.value) ? null : { code_list: true };
   }
 
@@ -86,29 +98,50 @@ export class VoucherDetailsComponent implements OnInit {
     }
   }
 
-  onSubmit() {
+  async onSubmit() {
     this.dialogRef.close();
     const data = this.voucherForm.value;
     data.posted_date = this.todayDate;
     data.counter = 0;
     if (this.voucherData.mode === 'create') {
       this.voucherService.createVoucher(this.toFormData(data)).subscribe();
-      
+
     } else if (this.voucherData.mode === 'edit') {
-      if (this.emailListToUpload) {
-        this.voucherService.uploadEmailList(this.uploadEmailList()).subscribe();
+
+      const codeList = this.uploadCodeList();
+      const emailList = this.uploadEmailList();
+
+      //const remainingCode = await this.getNumCodes(this.voucherData.voucher.id);
+      const numberOfCode = await this.getNumCodes(this.codeListToUpload, this.voucherData.voucher.id);
+      const numberOfEmail = await this.getNumEmails(this.emailListToUpload);
+
+      console.log(numberOfCode, numberOfEmail);
+
+      if (numberOfCode < numberOfEmail) {
+        return new alert("Update failed: number of available codes is less than number of given emails");
       }
+      
+      /*const temp = await this.getNumCodes(this.voucherData.voucher.id);
+      console.log("WKWKWK" + temp);
+      const temp = await this.getNumCodeList(this.codeListToUpload);
+      console.log("WKWKWK" + temp);
+      this.getNumCodes(this.voucherData.voucher.id);
+      console.log("WKKWKWKW" + this.numCode);
+      //console.log("Number of emails uploaded: " + this.getNumEmails(this.emailListToUpload));*/
+
       if (this.codeListToUpload) {
-        this.voucherService.uploadCodeList(this.uploadCodeList()).subscribe();
+        this.voucherService.uploadCodeList(codeList).subscribe();
       }
+      if (this.emailListToUpload) {
+        this.voucherService.uploadEmailList(emailList).subscribe();
+      }
+
       const dataCopy = {...data};
       console.log(data);
       delete data.image;
       delete data.code_list;
       this.voucherService.patchVoucher(this.voucherData.voucher.id, this.toFormData(data)).subscribe();
     }
-    
-   
   }
 
   onDelete() {
@@ -129,6 +162,92 @@ export class VoucherDetailsComponent implements OnInit {
       
     }
     return formData;
+  }
+
+  /*getNumCodes(id) {
+    console.log(id);
+    var count;
+    this.voucherService.getNumCodes(id).subscribe(data => {
+      this.numCode = data;
+      count = data;
+    }); 
+  }
+
+  async getNumCodes(id) {
+    return new Promise((resolve, reject) => {
+      this.voucherService.getNumCodes(id).subscribe(data => {
+        resolve(data);
+      }); 
+    })
+  }*/
+
+  /*getNumCodeList(codes) {
+    var allCodes = [];
+    var count;
+    var reader = new FileReader();
+    reader.onloadend=function(){
+      allCodes.push(reader.result)
+      count = allCodes.pop().split("\n").length - 2;
+      console.log(count);
+    }
+    reader.readAsText(codes);
+  }*/
+
+  /*getNumEmails(emails) {
+    var allEmails = [];
+    var count;
+    var reader = new FileReader();
+    reader.onloadend=async function(){
+      allEmails.push(reader.result)
+      count = allEmails.pop().split("\n").length - 2;
+      console.log(count);
+    }
+    reader.readAsText(emails);
+  }
+
+  async getNumCodeList(codes) {
+    return new Promise((resolve, reject) => {
+      var allCodes = [];
+      var count;
+      var reader = new FileReader();
+      reader.onloadend=async function(){
+        allCodes.push(reader.result)
+        count = allCodes.pop().split("\n").length - 2;
+        console.log(count);
+        resolve(count);
+      }
+      reader.readAsText(codes);
+    });
+  }*/
+
+  async getNumCodes(codes, id) {
+    return new Promise((resolve, reject) => {
+      this.voucherService.getNumCodes(id).subscribe(data => {
+        var allCodes = [];
+        var count;
+        var reader = new FileReader();
+        reader.onloadend=async function(){
+        allCodes.push(reader.result)
+        count = allCodes.pop().split("\n").length - 2;
+        resolve(count + data);
+        }
+        reader.readAsText(codes);
+      });
+    }); 
+  }
+
+  async getNumEmails(emails) {
+    return new Promise((resolve, reject) => {
+      var allEmails = [];
+      var count;
+      var reader = new FileReader();
+      reader.onloadend=async function(){
+        allEmails.push(reader.result)
+        count = allEmails.pop().split("\n").length - 2;
+        resolve(count);
+      }
+      reader.readAsText(emails);
+    });
   }
 
   uploadEmailList() {

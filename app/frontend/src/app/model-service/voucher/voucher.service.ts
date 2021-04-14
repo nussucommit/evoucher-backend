@@ -1,3 +1,4 @@
+import { environment } from '../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -7,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class VoucherService {
 
-  private baseUrlVoucher = 'http://localhost:8000/api/voucher';
+  private baseUrlVoucher = environment.backendUrl + 'voucher';
 
   constructor(private http: HttpClient) { }
 
@@ -24,6 +25,10 @@ export class VoucherService {
     return this.http.post(`${this.baseUrlVoucher}/addCodes/`, codeListInCsv);
   }
 
+  getNumCodes(id: any): Observable<any> {
+    return this.http.get(`${this.baseUrlVoucher}/${id}/getNumCodes/`);
+  }
+
   getOrganizationInVoucher(): Observable<any> {
     return this.http.get(`${this.baseUrlVoucher}/organization`);
   }
@@ -38,6 +43,14 @@ export class VoucherService {
 
   getVoucherById(id: string): Observable<object> {
     return this.http.get(`${this.baseUrlVoucher}/${id}`);
+  }
+
+  getVoucherByEmail(email: any): Observable<object> {
+    return this.http.get(`${this.baseUrlVoucher}/${email}/getCodeByEmails/`);
+  }
+
+  getCodeByCodeList(id: any): Observable<object> {
+    return this.http.get(`${this.baseUrlVoucher}/${id}/getCodeByCodeList/`);
   }
 
   createVoucher(voucher: any): Observable<object> {

@@ -1,4 +1,5 @@
 <div style="margin: 30px;" #theContainer>
+    <h3>Hello, {{currentUserSubject.value.username}}</h3>
     <p>Click or tap on the tiles for more details.</p>
 
     <mat-grid-list cols="{{columnNum}}" rowHeight="300px" [gutterSize]="20">
@@ -10,18 +11,21 @@
                 <div style="margin-left: 20px">
                     <p>{{voucher.name}}</p>
                     <div>
-                        <span style="font-size: 12px; align-items:flex-end;">Provided by </span>
+                        <span style="font-size: 12px; align-items:flex-end;">Provided by {{voucher.organization}}</span>
                         <!--Add organizations here thanks :)-->
                         <br>
                         <span style="font-size: 12px; align-items:flex-end;">Promotion ends on {{voucher.expiry_date | date: 'dd
                             MMMM yyyy'}}</span>
+                        <br>
+                        <br>
+                        <span style="font-size: 16px; align-items:flex-end;">Your Voucher code is: {{voucher.code}}</span>
                     </div>
                 </div>
             </div>
         </mat-grid-tile>
     </mat-grid-list>
 
-    <p style="font-style: italic; color: #777777;">(Showing 1 - {{voucherData.length}} of {{totalNumber}})</p>
-    <button style="margin-top: 10px; margin-bottom: 10px;" (click)="loadMore()"
-        [disabled]="voucherData.length === totalNumber" mat-raised-button>Load More...</button>
+    <!--<p style="font-style: italic; color: #777777;">(Showing 1 - {{voucherData.length}} of {{totalNumber}})</p>-->
+    <!--<button style="margin-top: 10px; margin-bottom: 10px;" (click)="loadMore()"
+        [disabled]="voucherData.length === totalNumber" mat-raised-button>Load More...</button>-->
 </div>
