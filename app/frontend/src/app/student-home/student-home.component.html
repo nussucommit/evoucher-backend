@@ -6,7 +6,7 @@
         <mat-grid-tile *ngFor="let voucher of voucherData" class="mat-elevation-z8" (click)="tileOnClick(voucher)" style="max-width: 250px;">
             <div style="position: absolute; top: 0;">
                 <div>
-                    <img src={{voucher.image}} alt="image" style="width: 100%; height: 150px;">
+                    <img src={{voucher.image}} alt="image" style="width: 100%; height: 150px;" onerror="this.src='../../assets/nussu_logo.png';" >
                 </div>
                 <div style="margin-left: 20px">
                     <p>{{voucher.name}}</p>
@@ -18,7 +18,7 @@
                             MMMM yyyy'}}</span>
                         <br>
                         <br>
-                        <span style="font-size: 16px; align-items:flex-end;">Your Voucher code is: {{voucher.code}}</span>
+                        <span style="font-size: 16px; align-items:flex-end;">Your Voucher code is: {{voucher.code ? voucher.code : 'N/A'}}</span>
                     </div>
                 </div>
             </div>

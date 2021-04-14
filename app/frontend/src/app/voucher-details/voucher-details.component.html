@@ -9,7 +9,7 @@
         <br>
         <mat-form-field style="margin-top: 10px;" appearance="standard">
             <mat-label>Available Date</mat-label>
-            <input matInput required class="form-control" [min]="todayDate" [matDatepicker]="availablepicker"
+            <input matInput required class="form-control" [matDatepicker]="availablepicker"
                 formControlName="available_date">
             <mat-datepicker-toggle matSuffix [for]="availablepicker"></mat-datepicker-toggle>
             <mat-datepicker #availablepicker></mat-datepicker>
@@ -53,6 +53,7 @@
                 <mat-option value="Food">Food</mat-option>
                 <mat-option value="Sport">Sport</mat-option>
                 <mat-option value="Fashion">Fashion</mat-option>
+                <mat-option value="Others">Others</mat-option>
             </mat-select>
         </mat-form-field>
 
@@ -66,11 +67,11 @@
                 please upload png/jpg/jpeg file
             </div>
             <input type="file" name="image" class="form-control" formControlName="image"
-                (change)="onImageChange($event)" required>
+                (change)="onImageChange($event)">
         </div>
         <br>
         <div *ngIf="voucherData.mode==='edit'">
-            <mat-label>Voucher Code List</mat-label>
+            <mat-label>Voucher Code List (optional)</mat-label>
             <div 
                 class="alert alert-warning" 
                 *ngIf="voucherForm.controls.code_list.errors?.code_list"

@@ -105,7 +105,7 @@ export class StudentHomeComponent implements OnInit {
       this.isPreviewDialogOpened = true;
       // subsequently you will need to pass the image as a variable
       const dialogRef = this.dialog.open(VoucherPreviewComponent, 
-        { data: { voucher, mode: 'claim', imageUrl: '../../assets/placeholder.jpg' } });
+        { data: { voucher, mode: 'claim', imageUrl: '../../assets/nussu_logo.png' } });
       dialogRef.afterClosed().subscribe(() => this.isPreviewDialogOpened = false);
     }
   }

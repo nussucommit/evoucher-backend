@@ -71,7 +71,7 @@
         </div>
         <div>
             <div class= "container" style="padding-top:15px; padding-left: 30px; padding-right: 30px; padding-bottom: 20px; width: 95%;">
-                <mat-table [dataSource]="vouchers" matSort class="mat-elevation-z8">
+                <mat-table [dataSource]="vouchers" matSort class="mat-elevation-z8 hide-arrow">
                     <ng-container matColumnDef="voucher_id">
                         <mat-header-cell mat-sort-header *matHeaderCellDef>Voucher Id</mat-header-cell>
                         <mat-cell *matCellDef="let cell">{{cell.voucher_id}}</mat-cell>

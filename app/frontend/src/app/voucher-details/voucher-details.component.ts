@@ -18,9 +18,9 @@ export class VoucherDetailsComponent implements OnInit {
 
   voucher: any;
   voucherForm: FormGroup;
-  
+
   hasData: boolean;
-  todayDate:Date = new Date();
+  todayDate: Date = new Date();
 
   imageToUpload: any;
   fileToUpload: any;
@@ -49,7 +49,7 @@ export class VoucherDetailsComponent implements OnInit {
     this.hasData = this.voucher ? true : false;
 
     this.voucherForm = this.formBuilder.group({
-      voucher_id: [{value: this.voucher ? this.voucher.voucher_id : '', disabled: this.voucher ? true : false}, Validators.required],
+      voucher_id: [{ value: this.voucher ? this.voucher.voucher_id : '', disabled: this.voucher ? true : false }, Validators.required],
       available_date: [this.voucher ? this.voucher.available_date : '', Validators.required],
       expiry_date: [this.voucher ? this.voucher.expiry_date : '', Validators.required],
       organization: [this.voucher ? this.voucher.organization : '', Validators.required],
@@ -66,11 +66,11 @@ export class VoucherDetailsComponent implements OnInit {
   }
 
   imageCheck(control: AbstractControl) {
-    return new RegExp('.+\.(png|PNG|jpg|jpeg|JPG|JPEG)$').test(control.value) ? null : { image: true };
+    return new RegExp('.+\.(png|PNG|jpg|jpeg|JPG|JPEG)$').test(control.value) || control.value == '' ? null : { image: true };
   }
 
   codeCheck(control: AbstractControl) {
-    return new RegExp('.+\.csv$').test(control.value) ? null : { code_list: true };
+    return new RegExp('.+\.csv$').test(control.value) || control.value == '' ? null : { code_list: true };
   }
 
   emailCheck(control: AbstractControl): any {
@@ -80,14 +80,14 @@ export class VoucherDetailsComponent implements OnInit {
   getDialogTitle() {
     if (this.voucherData.mode === 'create') {
       return 'Create Voucher';
-    }  else if (this.voucherData.mode === 'edit') {
+    } else if (this.voucherData.mode === 'edit') {
       return 'Edit Voucher';
     }
   }
 
   setFileValidators() {
     if (this.voucherData.mode == "create") {
-      this.voucherForm.get('image').setValidators([Validators.required, this.imageCheck]);
+      this.voucherForm.get('image').setValidators([this.imageCheck]);
     } else {
       this.voucherForm.get('code_list').setValidators([this.codeCheck]);
       this.voucherForm.get('email_list').setValidators([this.emailCheck]);
@@ -103,20 +103,8 @@ export class VoucherDetailsComponent implements OnInit {
       this.voucherService.createVoucher(this.toFormData(data)).subscribe();
 
     } else if (this.voucherData.mode === 'edit') {
-
-      const codeList = this.uploadCodeList();
-      const emailList = this.uploadEmailList();
-
       //const remainingCode = await this.getNumCodes(this.voucherData.voucher.id);
-      const numberOfCode = await this.getNumCodes(this.codeListToUpload, this.voucherData.voucher.id);
-      const numberOfEmail = await this.getNumEmails(this.emailListToUpload);
 
-      console.log(numberOfCode, numberOfEmail);
-
-      if (numberOfCode < numberOfEmail) {
-        return new alert("Update failed: number of available codes is less than number of given emails");
-      }
-      
       /*const temp = await this.getNumCodes(this.voucherData.voucher.id);
       console.log("WKWKWK" + temp);
       const temp = await this.getNumCodeList(this.codeListToUpload);
@@ -126,13 +114,22 @@ export class VoucherDetailsComponent implements OnInit {
       //console.log("Number of emails uploaded: " + this.getNumEmails(this.emailListToUpload));*/
 
       if (this.codeListToUpload) {
+        const codeList = this.uploadCodeList();
         this.voucherService.uploadCodeList(codeList).subscribe();
+
+        const numberOfCode = await this.getNumCodes(this.codeListToUpload, this.voucherData.voucher.id);
+        const numberOfEmail = await this.getNumEmails(this.emailListToUpload);
+
+        if (numberOfCode < numberOfEmail) {
+          return new alert("Update failed: number of available codes is less than number of given emails");
+        }
       }
       if (this.emailListToUpload) {
+        const emailList = this.uploadEmailList();
         this.voucherService.uploadEmailList(emailList).subscribe();
       }
 
-      const dataCopy = {...data};
+      const dataCopy = { ...data };
       console.log(data);
       delete data.image;
       delete data.code_list;
@@ -141,21 +138,22 @@ export class VoucherDetailsComponent implements OnInit {
   }
 
   onDelete() {
-    this.dialogRef.close({delete: true});
+    this.dialogRef.close({ delete: true });
   }
 
   toFormData(formValue) {
     const formData = new FormData();
-    for (const key of Object.keys(formValue)){
+    for (const key of Object.keys(formValue)) {
       let value = formValue[key];
       if (key.includes('date')) {
         value = moment(value).format();
       }
-      if (this.voucherData.mode === 'create' && key.includes('image')) {
+      if (this.voucherData.mode === 'create' && key.includes('image')
+          && this.imageToUpload) {
         formData.append(key, this.imageToUpload, this.imageToUpload.name);
       }
-      formData.append(key,value);
-      
+      formData.append(key, value);
+
     }
     return formData;
   }
@@ -222,14 +220,14 @@ export class VoucherDetailsComponent implements OnInit {
         var allCodes = [];
         var count;
         var reader = new FileReader();
-        reader.onloadend=async function(){
-        allCodes.push(reader.result)
-        count = allCodes.pop().split("\n").length - 2;
-        resolve(count + data);
+        reader.onloadend = async function () {
+          allCodes.push(reader.result)
+          count = allCodes.pop().split("\n").length - 2;
+          resolve(count + data);
         }
         reader.readAsText(codes);
       });
-    }); 
+    });
   }
 
   async getNumEmails(emails) {
@@ -237,7 +235,7 @@ export class VoucherDetailsComponent implements OnInit {
       var allEmails = [];
       var count;
       var reader = new FileReader();
-      reader.onloadend=async function(){
+      reader.onloadend = async function () {
         allEmails.push(reader.result)
         count = allEmails.pop().split("\n").length - 2;
         resolve(count);
@@ -278,5 +276,5 @@ export class VoucherDetailsComponent implements OnInit {
     if (event.target.files.length > 0) {
       this.emailListToUpload = event.target.files[0];
     }
-  } 
+  }
 }

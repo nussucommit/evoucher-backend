@@ -29,14 +29,18 @@ def upload_email_list(request):
 
     for row in reader:
         value = row['\ufeffemail']
-        if Email.objects.filter(email=value).first() == None:
-            User.objects.create_user(value).save()
+        email = None
         if Email.objects.filter(email=value).count() == 0:
+            User.objects.create_user(value).save()
             email = Email.objects.create(email=value)
-            assign_codes_to_emails(voucherID, email)
         else: 
             email = Email.objects.get(email=value)
+        if 'code_list' in request.FILES:
             assign_codes_to_emails(voucherID, email)
+        else:
+            if IdCodeEmail.objects.filter(voucher=voucher).filter(email=email).count() == 0:
+                code = Code.objects.create(code='N/A', voucher=voucher, isAssigned=True)
+                IdCodeEmail.objects.create(voucher = voucher, email = email, code = code)
     return Response(status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
