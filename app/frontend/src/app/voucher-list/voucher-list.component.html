@@ -1,6 +1,6 @@
-<div class = "row" style="margin-left: 30px; margin-top: 10px">
+<div class = "row" style="display: flex; flex-direction: column; margin-left: 30px; margin-top: 10px">
     <div class="column-left"><h1 style = "padding-top: 10px; padding-left: 30px;">Voucher List</h1></div>
-    
+    <div class="column-left"><h1 style = "padding-top: 5px; padding-left: 30px;">Your Organization : {{this.organizationName}}</h1></div>
 </div>
 
 <div style="display: flex; flex-direction: row; padding-top: 10px; padding-left: 30px; ">
@@ -9,15 +9,6 @@
             <div  style="margin-top: 15px; margin-bottom: 15px;">
                 Filter Category
             </div>
-        
-            <mat-form-field style="margin-top: 10px;" appearance="standard">
-                <mat-label>Organization</mat-label>
-                <mat-select  formControlName="Organization">
-                    <div *ngFor="let category of organizationList">
-                        <mat-option value="{{category.organization}}">{{category.organization}}</mat-option>
-                    </div>
-                </mat-select>
-            </mat-form-field>
             
             <br>
 
@@ -87,10 +78,6 @@
                     <ng-container matColumnDef="expiry_date">
                         <mat-header-cell mat-sort-header *matHeaderCellDef>Expiry Date</mat-header-cell>
                         <mat-cell *matCellDef="let cell">{{cell.expiry_date|date: 'dd/MM/yyyy'}}</mat-cell>
-                    </ng-container>
-                    <ng-container matColumnDef="organization">
-                        <mat-header-cell mat-sort-header *matHeaderCellDef>Organization</mat-header-cell>
-                        <mat-cell *matCellDef="let cell">{{cell.organization}}</mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="voucher_type">
                         <mat-header-cell mat-sort-header *matHeaderCellDef>Voucher Type</mat-header-cell>

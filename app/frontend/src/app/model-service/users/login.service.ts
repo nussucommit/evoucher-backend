@@ -13,6 +13,8 @@ import { ComponentBridgingService } from '../componentbridging.service';
   providedIn: 'root'
 })
 export class LoginService {
+  private signUpApiUrl = environment.backendUrl + 'register';
+  private changePasswordApiUrl = environment.backendUrl + 'changepassword';
   private loginApiUrl = environment.backendUrl + 'token';
   private refreshApiUrl = environment.backendUrl + 'token/refresh';
 
@@ -36,6 +38,7 @@ export class LoginService {
             username: credentials.username,
             token: receivedToken,
             is_admin: true,
+            is_webadmin: credentials.username == "commitadmin",
           };
           this.storeUser(user);
           return true;
@@ -48,6 +51,14 @@ export class LoginService {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
     this.router.navigate(['/']);
+  }
+
+  signup(user: any): Observable<object> {
+    return this.http.post(`${this.signUpApiUrl}` , user);
+  }
+
+  changepassword(id:string, user: any) {
+    return this.http.post(`${this.changePasswordApiUrl}/${id}`, user);
   }
 
   attachAccessToken(request: HttpRequest<any>): HttpRequest<any> {
@@ -87,9 +98,11 @@ export class LoginService {
       token: {
         access: newToken.access,
         refresh: currentUser.token.refresh,
-        is_admin: true
+        is_admin: true,
+        is_webadmin: currentUser.username == "commitadmin"
       },
-      is_admin: true
+      is_admin: true,
+      is_webadmin: currentUser.username == "commitadmin"
     });
   }
 

@@ -35,7 +35,8 @@ export class StudentLoginService {
           const user = {
             username: credentials.username, //email
             token: receivedToken,
-            is_admin: false
+            is_admin: false,
+            is_webadmin: false
           };
           this.storeUser(user);
           return true;
@@ -50,7 +51,8 @@ export class StudentLoginService {
         const user = {
           username: email,
           token: receivedToken,
-          is_admin: false
+          is_admin: false,
+          is_webadmin: false
         };
         this.storeUser(user);
         return true;
@@ -102,9 +104,11 @@ export class StudentLoginService {
       token: {
         access: newToken.access,
         refresh: currentUser.token.refresh,
-        is_admin: false
+        is_admin: false,
+        is_webadmin: false
       },
-      is_admin: false
+      is_admin: false,
+      is_webadmin: false
     });
   }
 
