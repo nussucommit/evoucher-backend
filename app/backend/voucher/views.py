@@ -26,6 +26,7 @@ def upload_email_list(request):
     file = request.FILES['email_list']
     decoded_file = file.read().decode('utf-8').splitlines()
     reader = csv.DictReader(decoded_file)
+    initialClaimsLeft = voucher.counter
 
     for row in reader:
         value = row['\ufeffemail']
@@ -35,7 +36,11 @@ def upload_email_list(request):
             email = Email.objects.create(email=value)
         else: 
             email = Email.objects.get(email=value)
-        assign_codes_to_emails(voucherID, email)
+        initialClaimsLeft -= assign_codes_to_emails(voucherID, email)
+    
+    voucher.counter = initialClaimsLeft
+    voucher.save()
+
     return Response(status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
@@ -47,9 +52,13 @@ def upload_code_list(request):
     file = request.FILES['code_list']
     decoded_file = file.read().decode('utf-8').splitlines()
     reader = csv.DictReader(decoded_file)
-
+    count = 0
     for row in reader:
-        Code.objects.create(code=row['code'], voucher=voucher)
+        count+= 1
+        Code.objects.create(code=row['\ufeffcode'], voucher=voucher)
+    
+    voucher.counter = count
+    voucher.save()
     return Response(status=status.HTTP_201_CREATED)
 
 @api_view(['GET'])
@@ -74,14 +83,16 @@ def get_codes_by_code_list(request, id):
 def assign_codes_to_emails(vid, email):
     voucher = Voucher.objects.get(id=vid)
     code = Code.objects.filter(voucher = voucher).filter(isAssigned = False).first()
+    count = 1
 
     if code == None:
+        count = 0
         code = Code.objects.create(code='N/A', voucher=voucher, isAssigned=True)
     
     code.isAssigned = True
     code.save()
     IdCodeEmail.objects.create(voucher = voucher, email = email, code = code)
-    return Response(status=status.HTTP_201_CREATED)
+    return count
 
 class CreateVoucherList(generics.ListCreateAPIView):
     serializer_class = VoucherSerializer
