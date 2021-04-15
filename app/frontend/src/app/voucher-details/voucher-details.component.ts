@@ -41,9 +41,7 @@ export class VoucherDetailsComponent implements OnInit {
     public dialogRef: MatDialogRef<VoucherDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public voucherData: any,
     public formBuilder: FormBuilder,
-    public voucherService: VoucherService,
-    private orgService: OrganizationService
-    private http: HttpClient
+    public voucherService: VoucherService
   ) { }
 
   ngOnInit(): void {

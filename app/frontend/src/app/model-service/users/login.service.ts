@@ -13,10 +13,8 @@ import { ComponentBridgingService } from '../componentbridging.service';
   providedIn: 'root'
 })
 export class LoginService {
-  private loginApiUrl = "http://localhost:8000/api/" + 'token';
-  private refreshApiUrl = "http://localhost:8000/api/" + 'token/refresh';
-  private signUpApiUrl = "http://localhost:8000/api/" + 'register';
-  private changePasswordApiUrl = "http://localhost:8000/api/" + 'changepassword';
+  private signUpApiUrl = environment.backendUrl + 'register';
+  private changePasswordApiUrl = environment.backendUrl + 'changepassword';
   private loginApiUrl = environment.backendUrl + 'token';
   private refreshApiUrl = environment.backendUrl + 'token/refresh';
 

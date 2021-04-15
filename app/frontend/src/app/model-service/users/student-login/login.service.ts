@@ -51,7 +51,8 @@ export class StudentLoginService {
         const user = {
           username: email,
           token: receivedToken,
-          is_admin: false
+          is_admin: false,
+          is_webadmin: false
         };
         this.storeUser(user);
         return true;

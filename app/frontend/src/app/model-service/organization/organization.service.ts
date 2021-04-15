@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { LoginService } from '../users/login.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class OrganizationService {
 
   constructor(
     private http: HttpClient,
-    private studentloginservice : StudentLoginService
+    private loginservice : LoginService
     ) { }
 
   getOrganizationList(filterParams: any): Observable<any> {
@@ -33,7 +34,7 @@ export class OrganizationService {
   }
 
   getOrgByUsername(): Observable<any> {
-    var username = this.studentloginservice.currentUserValue.username;
+    var username = this.loginservice.currentUserValue.username;
     return this.http.get(`${this.baseUrlOrganization}/getorgbyuname/${username}`);
   }
 
