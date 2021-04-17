@@ -55,7 +55,7 @@ def upload_code_list(request):
     count = 0
     for row in reader:
         count+= 1
-        Code.objects.create(code=row['\ufeffcode'], voucher=voucher)
+        Code.objects.create(code=row['code'], voucher=voucher)
     
     voucher.counter = count
     voucher.save()
