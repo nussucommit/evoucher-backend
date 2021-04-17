@@ -54,7 +54,6 @@ export class VoucherDetailsComponent implements OnInit {
     this.orgName = this.voucherData.orgname;
 
     this.voucherForm = this.formBuilder.group({
-      voucher_id: [{ value: this.voucher ? this.voucher.voucher_id : '', disabled: this.voucher ? true : false }, Validators.required],
       available_date: [this.voucher ? this.voucher.available_date : '', Validators.required],
       expiry_date: [this.voucher ? this.voucher.expiry_date : '', Validators.required],
       organization: [this.orgName, Validators.required],
@@ -117,7 +116,6 @@ export class VoucherDetailsComponent implements OnInit {
       console.log("WKKWKWKW" + this.numCode);
       //console.log("Number of emails uploaded: " + this.getNumEmails(this.emailListToUpload));*/
 
-      let message = [];
       let codeList;
       let emailList;
       if (this.codeListToUpload) {

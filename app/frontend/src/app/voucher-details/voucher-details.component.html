@@ -2,12 +2,6 @@
     <h1 mat-dialog-title style="padding-top: 10px">{{getDialogTitle()}}</h1>
     <form mat-dialog-content [formGroup]="voucherForm">
         <mat-form-field style="margin-top: 10px;" appearance="standard">
-            <mat-label>Voucher ID</mat-label>
-            <input matInput class="form-control" formControlName="voucher_id">
-            <mat-error>This field is required.</mat-error>
-        </mat-form-field>
-        <br>
-        <mat-form-field style="margin-top: 10px;" appearance="standard">
             <mat-label>Available Date</mat-label>
             <input matInput required class="form-control" [matDatepicker]="availablepicker"
                 formControlName="available_date">

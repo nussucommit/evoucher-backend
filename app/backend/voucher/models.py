@@ -3,7 +3,7 @@ from organization.models import Organization
 
 # Create your models here.
 class Voucher(models.Model):
-    voucher_id = models.CharField(max_length=32, blank=False)
+    # please include uuidfield as the primary key instead.
     posted_date = models.DateTimeField(blank=False)
     available_date = models.DateTimeField(blank=False)
     expiry_date = models.DateTimeField(blank=False)
