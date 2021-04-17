@@ -17,9 +17,11 @@ from django.contrib.auth.models import User
 
 from evoucher.pagination_settings import PaginationSettings
 
+# to future tech team (aka radian, edward and kevin lol): pls rewrite the following logic. U can see from the git blame that
+# I am extremely desparate to get this shit work hours before deadline. - Jing Quan
 @api_view(['POST'])
 def upload_email_list(request):
-    
+
     voucherID = int(request.data['id'])
     voucher = Voucher.objects.get(id=voucherID)
 
@@ -36,7 +38,9 @@ def upload_email_list(request):
             email = Email.objects.create(email=value)
         else: 
             email = Email.objects.get(email=value)
-        initialClaimsLeft -= assign_codes_to_emails(voucherID, email)
+        # if the voucher is yet to be assigned to this email
+        if IdCodeEmail.objects.filter(email=email).filter(voucher=voucher).first() == None:
+            initialClaimsLeft -= assign_codes_to_emails(voucherID, email)
     
     voucher.counter = initialClaimsLeft
     voucher.save()
@@ -56,6 +60,40 @@ def upload_code_list(request):
     for row in reader:
         count+= 1
         Code.objects.create(code=row['code'], voucher=voucher)
+    
+    voucher.counter = count
+    voucher.save()
+    return Response(status=status.HTTP_201_CREATED)
+
+@api_view(['POST'])
+def upload_both_files(request):
+    voucherID = int(request.data['id'])
+    voucher = Voucher.objects.get(id=voucherID)
+
+    file = request.FILES['code_list']
+    decoded_file = file.read().decode('utf-8').splitlines()
+    reader = csv.DictReader(decoded_file)
+
+    count = 0
+    for row in reader:
+        count += 1
+        Code.objects.create(code=row['code'], voucher=voucher)
+    
+    file = request.FILES['email_list']
+    decoded_file = file.read().decode('utf-8').splitlines()
+    reader = csv.DictReader(decoded_file)
+
+    for row in reader:
+        value = row['\ufeffemail']
+        email = None
+        if Email.objects.filter(email=value).count() == 0:
+            User.objects.create_user(value).save()
+            email = Email.objects.create(email=value)
+        else: 
+            email = Email.objects.get(email=value)
+        # if the voucher is yet to be assigned to this email
+        if IdCodeEmail.objects.filter(email=email).filter(voucher=voucher).first() == None:
+            count -= assign_codes_to_emails(voucherID, email)
     
     voucher.counter = count
     voucher.save()

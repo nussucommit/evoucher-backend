@@ -25,6 +25,10 @@ export class VoucherService {
     return this.http.post(`${this.baseUrlVoucher}/addCodes/`, codeListInCsv);
   }
 
+  uploadBothFiles(filesInFormData: any): Observable<any> {
+    return this.http.post(`${this.baseUrlVoucher}/uploadBothFiles`, filesInFormData);
+  }
+
   getNumCodes(id: any): Observable<any> {
     return this.http.get(`${this.baseUrlVoucher}/${id}/getNumCodes/`);
   }
