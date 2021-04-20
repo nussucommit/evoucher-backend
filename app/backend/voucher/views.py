@@ -28,7 +28,7 @@ def upload_email_list(request):
     file = request.FILES['email_list']
     decoded_file = file.read().decode('utf-8').splitlines()
     reader = csv.DictReader(decoded_file)
-    initialClaimsLeft = voucher.counter
+    # initialClaimsLeft = voucher.counter
 
     for row in reader:
         value = row['\ufeffemail']
@@ -40,10 +40,10 @@ def upload_email_list(request):
             email = Email.objects.get(email=value)
         # if the voucher is yet to be assigned to this email
         if IdCodeEmail.objects.filter(email=email).filter(voucher=voucher).first() == None:
-            initialClaimsLeft -= assign_codes_to_emails(voucherID, email)
+            assign_codes_to_emails(voucherID, email)
     
-    voucher.counter = initialClaimsLeft
-    voucher.save()
+    # voucher.counter = initialClaimsLeft
+    # voucher.save()
 
     return Response(status=status.HTTP_201_CREATED)
 
@@ -56,13 +56,13 @@ def upload_code_list(request):
     file = request.FILES['code_list']
     decoded_file = file.read().decode('utf-8').splitlines()
     reader = csv.DictReader(decoded_file)
-    count = 0
+    # count = 0
     for row in reader:
-        count+= 1
+        # count+= 1
         Code.objects.create(code=row['code'], voucher=voucher)
     
-    voucher.counter = count
-    voucher.save()
+    # voucher.counter = count
+    # voucher.save()
     return Response(status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
@@ -74,9 +74,9 @@ def upload_both_files(request):
     decoded_file = file.read().decode('utf-8').splitlines()
     reader = csv.DictReader(decoded_file)
 
-    count = 0
+    # count = 0
     for row in reader:
-        count += 1
+        # count += 1
         Code.objects.create(code=row['code'], voucher=voucher)
     
     file = request.FILES['email_list']
@@ -93,10 +93,10 @@ def upload_both_files(request):
             email = Email.objects.get(email=value)
         # if the voucher is yet to be assigned to this email
         if IdCodeEmail.objects.filter(email=email).filter(voucher=voucher).first() == None:
-            count -= assign_codes_to_emails(voucherID, email)
+            assign_codes_to_emails(voucherID, email)
     
-    voucher.counter = count
-    voucher.save()
+    # voucher.counter = count
+    # voucher.save()
     return Response(status=status.HTTP_201_CREATED)
 
 @api_view(['GET'])

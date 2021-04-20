@@ -116,38 +116,37 @@ export class VoucherDetailsComponent implements OnInit {
       console.log("WKKWKWKW" + this.numCode);
       //console.log("Number of emails uploaded: " + this.getNumEmails(this.emailListToUpload));*/
 
-      let codeList;
-      let emailList;
-      if (this.codeListToUpload) {
-        codeList = this.uploadCodeList();
+
+      // i am really sorry for whatever you guys are seeing here. i am very desperate now. - jq
+      if (this.emailListToUpload && this.codeListToUpload) {
         const numberOfCode = await this.getNumCodes(this.codeListToUpload, this.voucherData.voucher.id);
         const numberOfEmail = await this.getNumEmails(this.emailListToUpload);
 
         if (numberOfCode < numberOfEmail) {
           return new alert("Update failed: number of available codes is less than number of given emails");
         }
-      }
-      if (this.emailListToUpload) {
-        emailList = this.uploadEmailList();
+        this.voucherService.uploadBothFiles(this.uploadBothFiles()).subscribe(() => {
+          this.snackbar.open("Email list and code list uploaded successfully.", "OK", { duration: 2000 });
+        });
+        data.counter = numberOfCode.valueOf() as number - (numberOfEmail.valueOf() as number); // very crappy fix in v1.0, pls change this
+      } else if (this.emailListToUpload) {
+        const emailList = this.uploadEmailList();
         const numberOfEmail = await this.getNumEmails(this.emailListToUpload);
         if (!this.codeListToUpload && this.voucher.counter < numberOfEmail) {
           return new alert("Update failed: number of available codes is less than number of given emails");
         }
-      }
-
-      if (this.emailListToUpload && this.codeListToUpload) {
-        this.voucherService.uploadBothFiles(this.uploadBothFiles()).subscribe(() => {
-          this.snackbar.open("Email list and code list uploaded successfully.", "OK", { duration: 2000 });
-        });
-      } else if (this.emailListToUpload) {
         this.voucherService.uploadEmailList(emailList).subscribe(() => {
           console.log("show");
           this.snackbar.open("Email list uploaded successfully.", "OK", { duration: 2000 });
         });
+        data.counter = this.voucher.counter - (numberOfEmail.valueOf() as number);
       } else if (this.codeListToUpload) {
+        const codeList = this.uploadCodeList();
+        const numberOfCode = await this.getNumCodes(this.codeListToUpload, this.voucherData.voucher.id);
         this.voucherService.uploadCodeList(codeList).subscribe(() => {
           this.snackbar.open("Code list uploaded successfully.", "OK", { duration: 2000 });
         });
+        data.counter = this.voucher.counter + (numberOfCode.valueOf() as number);
       }
 
       const dataCopy = { ...data };
