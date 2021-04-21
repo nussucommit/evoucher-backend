@@ -153,7 +153,6 @@ export class VoucherDetailsComponent implements OnInit {
       }
 
       const dataCopy = { ...data };
-      console.log(data);
       delete data.image;
       delete data.code_list;
       this.voucherService.patchVoucher(this.voucherData.voucher.id, this.toFormData(data)).subscribe();

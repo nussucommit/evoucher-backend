@@ -23,7 +23,7 @@ import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 export class VoucherListComponent implements AfterViewInit, OnInit {
 
   vouchers = new MatTableDataSource<Voucher>();
-  tableColumns: String[] = ['voucher_id', 'name', 'available_date', 'expiry_date' ,'voucher_type' ,'description', 'claims_left'];
+  tableColumns: String[] = ['id', 'name', 'available_date', 'expiry_date' ,'voucher_type' ,'description', 'claims_left'];
   typeList:any;
   organizationName : string;
   filterForm: FormGroup;
@@ -73,7 +73,6 @@ export class VoucherListComponent implements AfterViewInit, OnInit {
   }
 
   onSubmit() {
-    console.log(this.filterForm.value.Organization);
     this.reloadData();
   }
 
@@ -125,7 +124,6 @@ export class VoucherListComponent implements AfterViewInit, OnInit {
       );
 
     this.voucherService.getVoucherTypes().subscribe(data => {
-      console.log(data);
       this.typeList = data;
     })
     
@@ -148,8 +146,7 @@ export class VoucherListComponent implements AfterViewInit, OnInit {
   }
 
   updateOrderBy() {
-    console.log(this.filterForm.value.OrderBy);
-    this.reloadData()
+    this.reloadData();
   }
 
   confirmDelete(id: string) {

@@ -50,7 +50,6 @@ export class StudentHomeComponent implements OnInit {
   ) { 
     this.currentUserSubject = new BehaviorSubject<StudentUser>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
-    console.log(this.currentUserSubject.value);
   }
 
   ngOnInit(): void {
@@ -59,12 +58,9 @@ export class StudentHomeComponent implements OnInit {
 
   loadInitialData() {
     this.loadData().subscribe(data => {
-      console.log(data);
-      console.log(data['data']);
       data['data'].map(x => this.voucherService.getVoucherById(x.voucher_id).subscribe(data => {
         this.voucherService.getCodeByCodeList(x.code_id).subscribe(data2 => {
           data['code'] = data2
-          console.log(data);
           this.voucherData.push(data);
         });
       }))

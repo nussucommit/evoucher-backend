@@ -50,7 +50,7 @@
             <mat-form-field style="margin-top: 10px; margin-left: 15px;" [formGroup]="filterForm" appearance="standard">
                 <mat-label>Order By</mat-label>
                 <mat-select  (selectionChange)="updateOrderBy()" formControlName="OrderBy"  >
-                    <mat-option value="voucher_id">Voucher ID</mat-option>
+                    <mat-option value="id">Voucher ID</mat-option>
                     <mat-option value="name">Voucher Name</mat-option>
                     <mat-option value="available_date">Available Date</mat-option>
                     <mat-option value="expiry_date">Expiry Date</mat-option>
@@ -63,7 +63,7 @@
         <div>
             <div class= "container" style="padding-top:15px; padding-left: 30px; padding-right: 30px; padding-bottom: 20px; width: 95%;">
                 <mat-table [dataSource]="vouchers" matSort class="mat-elevation-z8 hide-arrow">
-                    <ng-container matColumnDef="voucher_id">
+                    <ng-container matColumnDef="id">
                         <mat-header-cell mat-sort-header *matHeaderCellDef>ID</mat-header-cell>
                         <mat-cell *matCellDef="let cell">{{cell.id}}</mat-cell>
                     </ng-container>
