@@ -9,7 +9,7 @@
         </div>
         <p style="white-space: pre;">{{voucherData.voucher.description}}</p>
         <hr>
-        <p style="white-space: pre;">Your Voucher Code is: {{voucherData.voucher.code}}</p>
+        <p style="white-space: pre;">{{voucherData.voucher.code !== 'N/A' ? 'Your voucher code is: ' + voucherData.voucher.code : 'You have not been assigned with a voucher.' }}</p>
         <!--<div *ngIf="voucherData.mode === 'claim'; else editMode">
             <hr style="width: 100%;">
             <p style="font-size: 12px; white-space: pre;">

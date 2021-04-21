@@ -16,6 +16,8 @@ export class StudentLoginService {
   private loginApiUrl = environment.backendUrl + 'token';
   private refreshApiUrl = environment.backendUrl + 'token/refresh';
 
+  private errorMessage = 'Cannot read property \'token\' of null';
+
   private currentUserSubject: BehaviorSubject<StudentUser>;
   public currentUser: Observable<StudentUser>;
 
@@ -136,7 +138,7 @@ export class StudentLoginService {
       // console.error(
       //   `Backend returned code ${error.status}, ` +
       //   `body was: ${error.error}`);
-      if (error.status === 400 || error.status === 401) {
+      if (error.status === 400 || error.status === 401 || error.message === this.errorMessage) {
         this.bridgingService.publish('authfail');
       } else {
         this.bridgingService.publish('error');

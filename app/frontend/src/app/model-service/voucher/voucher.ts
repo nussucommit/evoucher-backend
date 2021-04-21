@@ -12,4 +12,5 @@ export class Voucher {
     image: string;
     code_list: string;
     email_list: string;
+    code_uploaded: boolean;
 }
