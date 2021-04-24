@@ -152,8 +152,13 @@ export class VoucherDetailsComponent implements OnInit {
         data.code_uploaded = true;
       }
 
+      if (this.imageToUpload) {
+        data.image = this.imageToUpload;
+      } else {
+        delete data.image;
+      }
+
       const dataCopy = { ...data };
-      delete data.image;
       delete data.code_list;
       this.voucherService.patchVoucher(this.voucherData.voucher.id, this.toFormData(data)).subscribe();
     }
