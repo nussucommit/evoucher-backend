@@ -1,6 +1,5 @@
 from django.db import models
 from organization.models import Organization
-from s3direct.fields import S3DirectField
 
 # Create your models here.
 class Voucher(models.Model):
@@ -13,7 +12,7 @@ class Voucher(models.Model):
     voucher_type = models.CharField(max_length=32, blank=False)
     description = models.TextField(blank=True)
     counter = models.PositiveIntegerField(blank=False)
-    image = S3DirectField(dest='primary_destination')
+    image = models.ImageField(upload_to='')
     code_uploaded = models.BooleanField(default=False)
 
     def __string__(self):
