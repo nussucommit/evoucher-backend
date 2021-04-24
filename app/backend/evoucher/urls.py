@@ -24,7 +24,8 @@ urlpatterns = [
     path('api/', include('organization.urls')),
     path('api/', include('student.urls')),
     path('api/', include('voucher.urls')),
-    path('api/', include('users.urls'))
+    path('api/', include('users.urls')),
+    path('s3direct/', include('s3direct.urls')),
 ]
 
 if settings.DEBUG:

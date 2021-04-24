@@ -19,6 +19,20 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+AWS_ACCESS_KEY_ID = str(os.getenv('AWS_ACCESS_KEY_ID'))
+AWS_SECRET_ACCESS_KEY = str(os.getenv('AWS_SECRET_ACCESS_KEY'))
+AWS_STORAGE_BUCKET_NAME = str(os.getenv('S3_BUCKET_NAME'))
+AWS_S3_REGION_NAME = 'ap-southeast-1'
+AWS_S3_ENDPOINT_URL = 'https://s3.ap-southeast-1.amazonaws.com'
+
+S3DIRECT_DESTINATIONS = {
+    'primary_destination': {
+        'key': 'images/',
+        'allowed': ['image/jpg', 'image/jpeg', 'image/png'],
+    },
+}
+DEFAULT_FILE_STORAGE = 'evoucher.storage_backends.MediaStorage'
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -39,7 +53,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
-    'rest_framework'
+    'rest_framework',
+    's3direct',
+    'storages'
 ]
 
 MIDDLEWARE = [
