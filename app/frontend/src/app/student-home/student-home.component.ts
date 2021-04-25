@@ -20,6 +20,8 @@ export class StudentHomeComponent implements OnInit {
   @ViewChild('theContainer') theContainer;
   columnNum = 5;
   tileSize = 250;
+
+  year = new Date().getFullYear();
   
   setColNum(){
     let width = this.theContainer.nativeElement.offsetWidth;

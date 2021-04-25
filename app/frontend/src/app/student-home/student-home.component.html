@@ -29,3 +29,28 @@
     <!--<button style="margin-top: 10px; margin-bottom: 10px;" (click)="loadMore()"
         [disabled]="voucherData.length === totalNumber" mat-raised-button>Load More...</button>-->
 </div>
+
+<mat-toolbar style="width: 100%; position: static; bottom: 0;">
+    <mat-toolbar-row align="center">
+      <div style="margin:auto">
+        <img src="../assets/welfare-logo-removebg.png" width="75px" height="auto">
+        <img src="../assets/commit-logo.png" width="135px" height="auto">
+      </div>
+    </mat-toolbar-row>
+    <mat-toolbar-row style="margin-top: -0.5em;">
+      <span class="year">©{{year}}</span>
+    </mat-toolbar-row>
+    <mat-toolbar-row style="margin-top: -1em;">
+      <p class="text">
+        This website is still in Beta stage.
+      </p>
+    </mat-toolbar-row>
+    <mat-toolbar-row style="margin-top: -1.2em; white-space: pre-wrap !important;">
+      <p class="text">
+        We believe there is still a lot of room for improvements and we need people like you.
+        <br>
+        To contribute, <a href="https://www.nussucommit.com/">join NUSSU commIT</a>.
+      </p>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  

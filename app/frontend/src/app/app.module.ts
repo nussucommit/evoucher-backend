@@ -23,6 +23,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -87,7 +88,8 @@ import { IsSecureGuard } from './model-service/secureredirection.service';
     MatGridListModule,
     MatCardModule,
     MatIconModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDividerModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-SG' },

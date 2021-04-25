@@ -19,11 +19,32 @@
     width: 300px;
     position: relative;
     left: 0%;
-    top: 25%;
+    top: 3%;
 }
 
 .h2 {
     text-align: center;
     margin-top: 10px;
     margin-bottom: 30px;
+}
+
+.column-left {
+    float: left;
+    width: 30%;
+}
+
+.column-center {
+    float: left;
+    width: 5%;
+}
+
+.column-right {
+    float: right;
+    width: 55%;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
 }
