@@ -1,18 +1,18 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RefreshInterceptor } from './api-auth/refresh.interceptor';
 import { JwtInterceptor } from './api-auth/jwt.interceptor';
 import { ComponentBridgingService } from './model-service/componentbridging.service';
 import { LoginService } from './model-service/users/login.service';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from  '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import {MatDialogModule} from "@angular/material/dialog";
-import {MAT_DATE_LOCALE, MatRippleModule} from '@angular/material/core';
+import { MatDialogModule } from "@angular/material/dialog";
+import { MAT_DATE_LOCALE, MatRippleModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -35,7 +35,7 @@ import { StudentListComponent } from './student-list/student-list.component';
 import { StudentDetailsComponent } from './student-details/student-details.component';
 import { VoucherListComponent } from './voucher-list/voucher-list.component';
 import { VoucherDetailsComponent } from './voucher-details/voucher-details.component';
-import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { VoucherPreviewComponent } from './voucher-preview/voucher-preview.component';
 import { StudentHomeComponent } from './student-home/student-home.component';
 import { LoginFormComponent } from './login-form/login-form.component';
@@ -43,6 +43,7 @@ import { StudentLoginFormComponent } from './login-form/student-login-form/login
 import { SignUpFormComponent } from './sign-up-form/sign-up-form.component';
 import { WebadmindashboardComponent } from './webadmindashboard/webadmindashboard.component';
 import { OrgAdminDashboardComponent } from './org-admin-dashboard/org-admin-dashboard.component';
+import { IsSecureGuard } from './model-service/secureredirection.service';
 
 @NgModule({
   declarations: [
@@ -92,7 +93,8 @@ import { OrgAdminDashboardComponent } from './org-admin-dashboard/org-admin-dash
     { provide: MAT_DATE_LOCALE, useValue: 'en-SG' },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: RefreshInterceptor, multi: true },
-    ComponentBridgingService
+    ComponentBridgingService,
+    IsSecureGuard
   ],
   bootstrap: [AppComponent]
 })
