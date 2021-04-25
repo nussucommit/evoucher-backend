@@ -9,7 +9,7 @@ STATIC_ROOT = 'static'
 
 # Security
 
-DEBUG = True # to be changed later
+DEBUG = False
 
 SECRET_KEY = os.getenv('EVOUCHER_SECRET_KEY')
 

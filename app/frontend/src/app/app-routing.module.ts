@@ -12,19 +12,20 @@ import { StudentLoginFormComponent } from './login-form/student-login-form/login
 import { AuthGuard } from './model-service/users/auth.guard';
 import { StudentAuthGuard } from './model-service/users/student-login/auth.guard';
 import { OrgAdminDashboardComponent } from './org-admin-dashboard/org-admin-dashboard.component';
+import { IsSecureGuard } from './model-service/secureredirection.service';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'home', pathMatch: 'full'},
-  {path: 'home', component: StudentHomeComponent, canActivate: [StudentAuthGuard]},
-  {path: 'faculty', component: FacultyListComponent},
-  {path: 'organization', component: OrganizationListComponent},
-  {path: 'voucher', component: VoucherListComponent, canActivate: [AuthGuard]},
-  {path: 'student', component: StudentListComponent},
-  {path: 'admin', component: LoginFormComponent },
-  {path: 'login', component: StudentLoginFormComponent },
-  {path: 'signup', component: SignUpFormComponent},
-  {path: 'webadmin', component: WebadmindashboardComponent, canActivate: [AuthGuard]},
-  {path: 'orgadmin', component: OrgAdminDashboardComponent, canActivate: [AuthGuard]}
+  { path: '', redirectTo: 'home', pathMatch: 'full', canActivate: [IsSecureGuard] },
+  { path: 'home', component: StudentHomeComponent, canActivate: [StudentAuthGuard, IsSecureGuard] },
+  { path: 'faculty', component: FacultyListComponent, canActivate: [IsSecureGuard] },
+  { path: 'organization', component: OrganizationListComponent, canActivate: [IsSecureGuard] },
+  { path: 'voucher', component: VoucherListComponent, canActivate: [AuthGuard, IsSecureGuard] },
+  { path: 'student', component: StudentListComponent, canActivate: [IsSecureGuard] },
+  { path: 'admin', component: LoginFormComponent, canActivate: [IsSecureGuard] },
+  { path: 'login', component: StudentLoginFormComponent, canActivate: [IsSecureGuard] },
+  { path: 'signup', component: SignUpFormComponent, canActivate: [IsSecureGuard] },
+  { path: 'webadmin', component: WebadmindashboardComponent, canActivate: [AuthGuard, IsSecureGuard] },
+  { path: 'orgadmin', component: OrgAdminDashboardComponent, canActivate: [AuthGuard, IsSecureGuard] }
 ];
 
 @NgModule({
