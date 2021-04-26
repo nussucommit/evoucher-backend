@@ -1,7 +1,7 @@
 import { environment } from '../../../../environments/environment';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { StudentToken } from './tokens';
+import { StudentDetails, StudentToken } from './tokens';
 import { HttpClient, HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { StudentLoginDetail } from './login-details';
@@ -48,11 +48,11 @@ export class StudentLoginService {
   }
 
   studentLogin(email: string) {
-    return this.http.post<StudentToken>(environment.backendUrl + 'studentlogin', { username: email })
-      .pipe(map<StudentToken, boolean>((receivedToken: StudentToken) => {
+    return this.http.post<StudentDetails>(environment.backendUrl + 'studentlogin', { username: email })
+      .pipe(map<StudentDetails, boolean>((receivedToken) => {
         const user = {
-          username: email,
-          token: receivedToken,
+          username: receivedToken.username,
+          token: receivedToken.token,
           is_admin: false,
           is_webadmin: false
         };

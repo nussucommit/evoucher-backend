@@ -7,10 +7,7 @@ class PasswordlessAuthBackend(ModelBackend):
 
     """
     def authenticate(self, username=None):
-        try:
-            return User.objects.get(username=username)
-        except User.DoesNotExist:
-            return None
+        return User.objects.filter(username__iexact=username).first()
 
     def get_user(self, user_id):
         try:

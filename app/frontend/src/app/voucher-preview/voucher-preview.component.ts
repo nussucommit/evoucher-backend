@@ -28,9 +28,7 @@ export class VoucherPreviewComponent implements OnInit {
         data => {
             this.codeArray = data.split(",");
         },
-        error => {
-            console.log(error);
-        }
+        error => {}
     );
   }
 

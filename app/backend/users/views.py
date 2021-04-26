@@ -52,7 +52,7 @@ def authenticator(request):
     user = PasswordlessAuthBackend().authenticate(username=username)
     if user is not None:
         login(request, user)
-        return Response(get_tokens_for_user(user), status=status.HTTP_200_OK)
+        return Response({"username": user.username, "token": get_tokens_for_user(user)}, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 

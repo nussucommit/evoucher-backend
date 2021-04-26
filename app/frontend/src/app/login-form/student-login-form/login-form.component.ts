@@ -43,7 +43,7 @@ export class StudentLoginFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
     this.errorSubscription = this.bridgingService.on('error').subscribe(() => {this.setErrorString("An unknown error occured.")});
-    this.authfailSubscription = this.bridgingService.on('authfail').subscribe(() => {this.setErrorString("Your email is incorrect.")});
+    this.authfailSubscription = this.bridgingService.on('authfail').subscribe(() => {this.setErrorString("You have yet to fill up the EWP survey form.")});
   }
 
   /**
@@ -73,7 +73,7 @@ export class StudentLoginFormComponent implements OnInit, OnDestroy {
    * If the credentials are valid, redirect the user to the correct page.
    */
   onSubmit(): void {
-    this.loginService.studentLogin(this.form.username.value.toLowerCase())
+    this.loginService.studentLogin(this.form.username.value)
       .subscribe((status: boolean) => {
         if (status) {
           this.router.navigate(['/home']);
