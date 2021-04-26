@@ -108,7 +108,7 @@ def get_num_codes(request, id):
 @api_view(['GET'])
 def get_codes_from_email(request, email):
     email2 = Email.objects.get(email=email)
-    idCodeEmail = IdCodeEmail.objects.filter(email=email2).values()
+    idCodeEmail = IdCodeEmail.objects.filter(email=email2).distinct('voucher').values()
     print(idCodeEmail)
     return JsonResponse({"data": list(idCodeEmail)})
 

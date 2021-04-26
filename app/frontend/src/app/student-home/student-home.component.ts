@@ -62,7 +62,7 @@ export class StudentHomeComponent implements OnInit {
     this.loadData().subscribe(data => {
       data['data'].map(x => this.voucherService.getVoucherById(x.voucher_id).subscribe(data => {
         this.voucherService.getCodeByCodeList(x.code_id).subscribe(data2 => {
-          data['code'] = data2
+          data['code'] = data2;
           this.voucherData.push(data);
         });
       }))
