@@ -80,11 +80,20 @@ const THEME: Theme = {
         vermillion600: "#E53E3E",
         vermillion700: "#C53030",
     },
-    FONT_FAMILY: {
-        thin: "thin",
-        regular: "regular",
-        semibold: "semibold",
+    FONT_WEIGHT: {
+        thin: "lighter",
+        regular: "normal",
+        semibold: 600,
         bold: "bold",
+        h1: "bold",
+        h2: "bold",
+        h3: "bold",
+        h4: "bold",
+        h5: "bold",
+        h6: "bold",
+        body: "normal",
+        listheading: "bold",
+        lowestlevelheading: "bold",
     },
     FONT_SIZES: {
         "2xs": 10,
@@ -95,6 +104,15 @@ const THEME: Theme = {
         lg: 20,
         xl: 24,
         "2xl": 30,
+        h1: 40,
+        h2: 32,
+        h3: 28,
+        h4: 24,
+        h5: 20,
+        h6: 16,
+        body: 14,
+        listheading: 12,
+        lowestlevelheading: 11,
     },
     ICON_SIZES: {
         "4xs": 8,
@@ -128,7 +146,7 @@ const THEME: Theme = {
 };
 
 export const COLORS = THEME.COLORS;
-export const FONT_FAMILY = THEME.FONT_FAMILY;
+export const FONT_WEIGHT = THEME.FONT_WEIGHT;
 export const FONT_SIZES = THEME.FONT_SIZES;
 export const ICON_SIZES = THEME.ICON_SIZES;
 export const SPACING = THEME.SPACING;

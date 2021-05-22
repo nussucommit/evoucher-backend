@@ -55,16 +55,17 @@ const Button = ({
         color: color,
         border: `2px solid ${COLORS[type]}`,
         borderRadius: 10,
-        opacity: disabled ? 0.8 : 1,
         cursor: disabled ? "not-allowed" : "",
     };
 
     return (
         <button
             type="button"
-            className={["storybook-button", `storybook-button--${size}`].join(
-                " "
-            )}
+            className={
+                disabled
+                    ? ["button-disabled", `button--${size}`].join(" ")
+                    : ["button", `button--${size}`].join(" ")
+            }
             style={styles}
             {...props}
         >

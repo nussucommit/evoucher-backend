@@ -1,0 +1,62 @@
+h1 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 40px;
+    font-weight: bold;
+    line-height: 48px;
+}
+
+h2 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 40px;
+}
+
+h3 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 40px;
+}
+
+h4 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 32px;
+}
+
+h5 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 28px;
+}
+
+h6 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 24px;
+}
+
+.body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 24px;
+}
+
+.listheading {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 16px;
+}
+
+.lowestlevelheading {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 16px;
+}

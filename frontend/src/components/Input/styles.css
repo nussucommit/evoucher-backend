@@ -1,0 +1,90 @@
+
+  inputWrapper: {
+    marginTop: Spacing.lg,
+  },
+  disabled: {
+    opacity: 0.5,
+  },
+  label: {
+    marginBottom: Spacing['xs'],
+  },
+  newLabel: {
+    color: Color.ash800,
+    marginBottom: Spacing.xs,
+  },
+  inputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: BorderRadius.base,
+    backgroundColor: Color.ash,
+    flexGrow: 1,
+    flexShrink: 1,
+  },
+  newInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Color.milk,
+    borderRadius: BorderRadius.base,
+    borderColor: Color.ash400,
+    borderWidth: 1,
+    flexGrow: 1,
+    flexShrink: 1,
+  },
+  inputErrorContainer: {
+    borderWidth: 1,
+    borderColor: Color.vermilllion,
+  },
+  input: {
+    flex: 1,
+    height: 46,
+    width: '100%',
+    paddingHorizontal: Spacing.xs,
+    color: Color.ink,
+    ...Platform.select({
+      web: {
+        outlineColor: Color.cerulean,
+      },
+    }),
+  },
+  newInput: {
+    flex: 1,
+    height: 40,
+    width: '100%',
+    paddingHorizontal: Spacing.xs,
+    color: Color.ash800,
+    fontSize: 14,
+    // Change to fontSizes.sm once available
+    fontFamily: 'regular',
+    ...Platform.select({
+      web: {
+        outlineColor: Color.cerulean,
+      },
+    }),
+  },
+  inputWithIcon: {
+    paddingRight: 45,
+  },
+  iconButton: {
+    position: 'absolute',
+    backgroundColor: Color.ash200,
+    alignItems: 'center',
+    width: 46,
+    right: 1,
+  },
+  newIconButton: {
+    position: 'absolute',
+    alignItems: 'center',
+    width: 46,
+    right: 1,
+  },
+  icon: {
+    color: Color.ash500,
+  },
+  error: {
+    marginTop: Spacing['xs'],
+  },
+})

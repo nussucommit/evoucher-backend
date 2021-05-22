@@ -1,20 +1,40 @@
-.storybook-button {
+.button {
     font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 700;
     border: 0;
     cursor: pointer;
     display: inline-block;
     line-height: 1;
+    -webkit-transition: opacity 0.1s ease-in-out;
+    -moz-transition: opacity 0.1s ease-in-out;
+    -ms-transition: opacity 0.1s ease-in-out;
+    -o-transition: opacity 0.1s ease-in-out;
+    transition: opacity 0.1s ease-in-out;
+    opacity: 1;
 }
-.storybook-button--small {
+.button:hover {
+    opacity: 0.85;
+}
+
+.button-disabled {
+    font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    border: 0;
+    cursor: pointer;
+    display: inline-block;
+    line-height: 1;
+    opacity: 0.6;
+}
+
+.button--small {
     font-size: 12px;
     padding: 1em 2em;
 }
-.storybook-button--medium {
+.button--medium {
     font-size: 14px;
     padding: 1em 4em;
 }
-.storybook-button--large {
+.button--large {
     font-size: 16px;
     padding: 0.75em 6em;
 }

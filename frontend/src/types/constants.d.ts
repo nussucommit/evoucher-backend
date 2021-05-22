@@ -80,11 +80,20 @@ type Colors = {
     vermillion700: string;
 };
 
-type FontFamilies = {
-    thin: string;
-    regular: string;
-    semibold: string;
-    bold: string;
+type FontWeights = {
+    thin: number | "normal" | "bold" | "lighter";
+    regular: number | "normal" | "bold" | "lighter";
+    semibold: number | "normal" | "bold" | "lighter";
+    bold: number | "normal" | "bold" | "lighter";
+    h1: number | "normal" | "bold" | "lighter";
+    h2: number | "normal" | "bold" | "lighter";
+    h3: number | "normal" | "bold" | "lighter";
+    h4: number | "normal" | "bold" | "lighter";
+    h5: number | "normal" | "bold" | "lighter";
+    h6: number | "normal" | "bold" | "lighter";
+    body: number | "normal" | "bold" | "lighter";
+    listheading: number | "normal" | "bold" | "lighter";
+    lowestlevelheading: number | "normal" | "bold" | "lighter";
 };
 
 type FontSizes = {
@@ -96,6 +105,15 @@ type FontSizes = {
     lg: number;
     xl: number;
     "2xl": number;
+    h1: number;
+    h2: number;
+    h3: number;
+    h4: number;
+    h5: number;
+    h6: number;
+    body: number;
+    listheading: number;
+    lowestlevelheading: number;
 };
 
 type IconSizes = {
@@ -128,7 +146,7 @@ type Spacings = {
 
 type Theme = {
     COLORS: Colors;
-    FONT_FAMILY: FontFamilies;
+    FONT_WEIGHT: FontWeights;
     FONT_SIZES: FontSizes;
     ICON_SIZES: IconSizes;
     SPACING: Spacings;
