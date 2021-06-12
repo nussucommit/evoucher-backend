@@ -1,122 +1,73 @@
-import React, { CSSProperties } from "react";
-import { FONT_SIZES, COLORS, FONT_WEIGHT } from "../../constants/theme";
-import "./styles.css";
+import React from "react";
+import cx from "classnames";
+
+import styles from "./Text.module.scss";
 
 export type Props = {
-    // accessibilityRole?: "link";
+    block?: boolean;
     centered?: boolean;
     children?: React.ReactNode;
-    // disabled?: boolean;
-    // href?: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onClick?: (params: any) => void;
-    size?: keyof FontSizes;
-    style?: CSSProperties;
-    type:
-        | "h1"
-        | "h2"
-        | "h3"
-        | "h4"
-        | "h5"
-        | "h6"
-        | "body"
-        | "listheading"
-        | "lowestlevelheading";
-    color?:
-        | "primary"
-        | "secondary"
-        | "success"
-        | "danger"
-        | "warning"
-        | "white"
+    className?: string;
+    ellipsize?: boolean;
+    noLeading?: boolean;
+    paragraph?: boolean;
+    size?: "xs" | "sm" | "md" | "lg" | "xl";
+    strong?: boolean;
+    subheading?: boolean;
+    type?:
         | "black"
-        | "ink"
-        | "cerulean";
+        | "danger"
+        | "light"
+        | "lighter"
+        | "lightest"
+        | "primary"
+        | "success"
+        | "warning"
+        | "white";
     uppercase?: boolean;
-    weight?: keyof FontWeights;
 };
 
-const Text = (props: Props) => {
+export const Text = (props: Props) => {
     const {
+        block,
         centered,
         children,
-        onClick,
+        className,
+        ellipsize,
+        noLeading,
+        paragraph,
         size,
-        style,
+        strong,
+        subheading,
         type,
-        color,
         uppercase,
-        weight,
     } = props;
-    const textStyles: CSSProperties = {
-        ...style,
-        textAlign: centered ? "center" : "inherit",
-        fontSize: size ? FONT_SIZES[size] : FONT_SIZES[type],
-        color: color ? COLORS[color] : COLORS.ash700,
-        textTransform: uppercase ? "uppercase" : "none",
-        fontWeight: weight ? FONT_WEIGHT[weight] : FONT_WEIGHT[type],
-    };
-    if (type === "h1") {
-        return (
-            <h1 style={textStyles} onClick={onClick}>
-                {children}
-            </h1>
-        );
-    }
-    if (type === "h2") {
-        return (
-            <h2 style={textStyles} onClick={onClick}>
-                {children}
-            </h2>
-        );
-    }
-    if (type === "h3") {
-        return (
-            <h3 style={textStyles} onClick={onClick}>
-                {children}
-            </h3>
-        );
-    }
-    if (type === "h4") {
-        return (
-            <h4 style={textStyles} onClick={onClick}>
-                {children}
-            </h4>
-        );
-    }
-    if (type === "h5") {
-        return (
-            <h5 style={textStyles} onClick={onClick}>
-                {children}
-            </h5>
-        );
-    }
-    if (type === "h6") {
-        return (
-            <h6 style={textStyles} onClick={onClick}>
-                {children}
-            </h6>
-        );
-    }
-    if (type === "body") {
-        return (
-            <p style={textStyles} className="body" onClick={onClick}>
-                {children}
-            </p>
-        );
-    }
-    if (type === "listheading") {
-        return (
-            <p style={textStyles} className="listheading" onClick={onClick}>
-                {children}
-            </p>
-        );
-    }
-    return (
-        <p style={textStyles} className="lowestlevelheading" onClick={onClick}>
-            {children}
-        </p>
+    const cn = cx(
+        styles.text,
+        {
+            [styles.centered]: centered,
+            [styles.strong]: strong || subheading,
+            [styles.noLeading]: noLeading,
+            [styles.ellipsize]: ellipsize,
+            [styles.uppercase]: uppercase,
+            [styles.xs]: size === "xs",
+            [styles.sm]: size === "sm",
+            [styles.md]: size === "md",
+            [styles.lg]: size === "lg" || subheading,
+            [styles.xl]: size === "xl",
+            [styles.light]: type === "light",
+            [styles.lighter]: type === "lighter",
+            [styles.lightest]: type === "lightest",
+            [styles.black]: type === "black" || subheading,
+            [styles.white]: type === "white",
+            [styles.primary]: type === "primary",
+            [styles.success]: type === "success",
+            [styles.danger]: type === "danger",
+            [styles.warning]: type === "warning",
+        },
+        className
     );
+    if (paragraph) return <p className={cn}>{children}</p>;
+    if (block) return <div className={cn}>{children}</div>;
+    return <span className={cn}>{children}</span>;
 };
-
-export default Text;
