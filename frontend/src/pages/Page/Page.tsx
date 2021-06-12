@@ -1,6 +1,6 @@
 import React from "react";
 
-import Header from "../../components/Header";
+import Header from "../../../commitUI/components/Header";
 import "./page.css";
 
 export interface PageProps {

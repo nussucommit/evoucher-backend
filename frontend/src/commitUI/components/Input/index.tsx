@@ -1,22 +1,26 @@
 import React, { CSSProperties, useState } from "react";
 
-import { COLORS, SPACING, BORDER_RADIUS } from "../../constants/theme";
+import {
+    COLORS,
+    SPACING,
+    BORDER_RADIUS,
+    FONT_SIZES,
+} from "../../constants/theme";
 
 import Icon from "../Icon";
+import Text from "../Text";
 
 import "./styles.css";
 
-type Props = {
+export type Props = {
     disabled?: boolean;
     disablingAlert?: string | false;
     errorMessage?: string;
     label?: string;
     name: string;
-    newInput?: boolean;
     onBeforeChangeText?: (text: string) => string;
     onFocus?: () => void;
     placeholder?: string;
-    preInputContent?: React.ReactNode;
     secureTextEntry?: boolean;
     style?: CSSProperties;
     /**
@@ -40,11 +44,9 @@ const Input = (props: Props): JSX.Element => {
         errorMessage = "Default Error Message",
         label,
         name,
-        newInput,
         onBeforeChangeText,
         onFocus,
         placeholder,
-        preInputContent,
         secureTextEntry,
         style,
         setFieldValue,
@@ -62,13 +64,21 @@ const Input = (props: Props): JSX.Element => {
             setTouched(true);
         }
     };
+    console.log({
+        hasError: hasError,
+        touched: touched,
+        backupValue: backupValue,
+    });
 
     const content = (
         <div
-            style={composeStyles(
-                newInput ? styles.newInputContainer : styles.inputContainer,
-                hasError && styles.inputErrorContainer
-            )}
+            style={{
+                backgroundColor: COLORS.white,
+                flexDirection: "row",
+                alignItems: "center",
+
+                width: "50%",
+            }}
         >
             <input
                 onBlur={handleBlur}
@@ -95,8 +105,21 @@ const Input = (props: Props): JSX.Element => {
                           }
                 }
                 placeholder={placeholder}
-                secureTextEntry={!visible}
-                style={"newInput" + " " + secureTextEntry && "inputWithIcon"}
+                type={secureTextEntry ? "password" : "text"}
+                style={{
+                    flex: 1,
+                    height: "30px",
+                    width: "100%",
+                    paddingLeft: SPACING.xs,
+                    paddingRight: secureTextEntry ? 45 : SPACING.xs,
+                    borderColor: hasError
+                        ? COLORS.vermillion600
+                        : COLORS.ash700,
+                    color: COLORS.ash800,
+                    fontSize: FONT_SIZES.sm,
+                    fontFamily: "regular",
+                    borderRadius: "8px",
+                }}
                 value={value ? value : backupValue}
                 onFocus={onFocus}
             />
@@ -104,10 +127,13 @@ const Input = (props: Props): JSX.Element => {
                 <Icon
                     name={visible ? "eye" : "eye-slash"}
                     onClick={toggleVisible}
-                    btnStyle={
-                        newInput ? styles.newIconButton : styles.iconButton
-                    }
-                    style={newInput && styles.icon}
+                    btnStyle={{
+                        position: "absolute",
+                        alignItems: "center",
+                        width: 46,
+                        right: 1,
+                    }}
+                    color="ash500"
                 />
             )}
         </div>
@@ -121,44 +147,17 @@ const Input = (props: Props): JSX.Element => {
             }}
         >
             {Boolean(label) && (
-                <Text
-                    size={newInput ? "sm" : "xs"}
-                    type="black"
-                    weight={newInput ? "semibold" : undefined}
-                    style={composeStyles(
-                        [
-                            composeStyles(styles.label, {
-                                fontSize: 16,
-                                fontWeight: "600",
-                            }),
-                        ],
-                        [newInput && styles.newLabel]
-                    )}
-                >
+                <Text type="h6" weight="semibold">
                     {label}
                 </Text>
             )}
-            {preInputContent ? (
-                <div style={styles.inputRow}>
-                    {preInputContent}
-                    {content}
-                </div>
-            ) : (
-                content
-            )}
+            {content}
             {hasError && (
-                <Text
-                    // size="xs"
-                    //   type="danger"
-                    style={composeStyles(styles.error, {
-                        color: Color.vermilllion,
-                        fontSize: 12,
-                    })}
-                >
+                <Text type="h6" weight="semibold" color="danger" size="sm">
                     {errorMessage}
                 </Text>
             )}
-            {Boolean(disablingAlert) && (
+            {/* {Boolean(disablingAlert) && (
                 <Text
                     // size="xs"
                     //   type="warning"
@@ -166,7 +165,7 @@ const Input = (props: Props): JSX.Element => {
                 >
                     {disablingAlert}
                 </Text>
-            )}
+            )} */}
         </div>
     );
 };

@@ -2,7 +2,6 @@ import React, { CSSProperties } from "react";
 
 import { COLORS, ICON_SIZES, BORDER_RADIUS } from "../../constants/theme";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Icon } from "@fortawesome/fontawesome-svg-core";
 
 export type IconName =
     | "angle-down"
