@@ -1,0 +1,40 @@
+.heading {
+    font-weight: var(--font-bold);
+    font-size: var(--font-base);
+    margin: 0;
+
+    &.centered {
+        text-align: center;
+    }
+
+    &.noLeading {
+        line-height: 1;
+    }
+
+    &.xs {
+        font-size: var(--font-xs);
+    }
+
+    &.sm {
+        font-size: var(--font-sm);
+    }
+
+    &.md {
+        font-size: var(--font-md);
+    }
+
+    &.lg {
+        font-size: var(--font-lg);
+        line-height: var(--font-xl);
+    }
+
+    &.xl {
+        font-size: var(--font-xl);
+        line-height: var(--font-2xl);
+    }
+
+    &.2xl {
+        font-size: var(--font-2xl);
+        line-height: 38px;
+    }
+}
