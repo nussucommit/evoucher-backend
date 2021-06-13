@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import Button from "commitUI/components/Button";
+import { Button } from "commitUI/components/Button";
 
 function App() {
     return (
@@ -19,7 +19,7 @@ function App() {
                 >
                     Learn React
                 </a>
-                <Button label="Test" />
+                <Button>Test</Button>
             </header>
         </div>
     );

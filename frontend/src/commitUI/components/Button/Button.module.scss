@@ -1,0 +1,37 @@
+.button {
+    font-size: var(--font-bold);
+    padding-top: 0;
+    padding-bottom: 0;
+
+    &.block {
+        display: block;
+    }
+
+    &.shadow {
+        box-shadow: 0 2px 4px 0 var(--shadow);
+    }
+
+    &.vCenter {
+        display: flex;
+        align-items: center;
+    }
+
+    &.secondary:not(:disabled) {
+        color: var(--primary);
+        background-color: var(--primary-10);
+    }
+
+    &.light:not(:disabled) {
+        background-color: var(--offwhite);
+    }
+
+    &.link {
+        padding: 0;
+        height: auto;
+        font-size: var(--font-base);
+    }
+
+    &.small {
+        font-size: var(--font-xs);
+    }
+}

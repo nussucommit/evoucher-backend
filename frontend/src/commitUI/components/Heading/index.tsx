@@ -1,7 +1,7 @@
 import React from "react";
 import cs from "classnames";
 
-import styles from "./Heading.module.scss";
+import styles from "./Heading.module.css";
 
 export type Props = {
     centered?: boolean;

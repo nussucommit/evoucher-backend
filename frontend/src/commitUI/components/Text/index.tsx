@@ -1,7 +1,7 @@
 import React from "react";
 import cx from "classnames";
 
-import styles from "./Text.module.scss";
+import styles from "./Text.module.css";
 
 export type Props = {
     block?: boolean;

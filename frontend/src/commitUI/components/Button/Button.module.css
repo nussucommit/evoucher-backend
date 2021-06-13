@@ -1,0 +1,43 @@
+.button {
+  font-size: var(--font-bold);
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.button.block {
+  display: block;
+}
+
+.button.shadow {
+  -webkit-box-shadow: 0 2px 4px 0 var(--shadow);
+          box-shadow: 0 2px 4px 0 var(--shadow);
+}
+
+.button.vCenter {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.button.secondary:not(:disabled) {
+  color: var(--primary);
+  background-color: var(--primary-10);
+}
+
+.button.light:not(:disabled) {
+  background-color: var(--offwhite);
+}
+
+.button.link {
+  padding: 0;
+  height: auto;
+  font-size: var(--font-base);
+}
+
+.button.small {
+  font-size: var(--font-xs);
+}
+/*# sourceMappingURL=Button.module.css.map */
