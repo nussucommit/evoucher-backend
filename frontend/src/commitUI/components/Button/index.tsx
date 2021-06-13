@@ -16,53 +16,34 @@ export interface Props
     shadow?: boolean;
     size?: "small" | "large";
     icon?: React.ReactNode;
-    type?:
-        | "danger"
-        | "dashed"
-        | "ghost"
-        | "light"
-        | "link"
-        | "primary"
-        | "secondary";
+    type?: "danger" | "success" | "outlined" | "text" | "primary" | "secondary";
     vCenter?: boolean;
 }
 
-export const Button = (props: Props) => {
-    const {
-        className,
-        shadow,
-        size = "large",
-        type = "primary",
-        vCenter,
-        children,
-        disabled,
-        ...buttonProps
-    } = props;
-    const btnType =
-        type === "secondary" || type === "danger" || type === "light"
-            ? undefined
-            : type;
+export const Button = ({
+    className,
+    shadow,
+    size = "large",
+    type = "primary",
+    vCenter,
+    children,
+    disabled,
+    ...buttonProps
+}: Props) => {
     const cn = cx(
         styles.button,
         {
-            [styles.block]: buttonProps.block,
-            [styles.shadow]: shadow,
-            [styles.vCenter]: vCenter,
+            [styles.danger]: type === "danger",
+            [styles.success]: type === "success",
             [styles.secondary]: type === "secondary",
-            [styles.link]: type === "link",
-            [styles.light]: type === "light",
+            [styles.text]: type === "text",
+            [styles.outlined]: type === "outlined",
             [styles.small]: size === "small",
+            [styles.disabled]: disabled,
         },
         className
     );
     return (
-        // <AntdButton
-        //     className={cn}
-        //     size={size}
-        //     type={btnType}
-        //     danger={type === "danger"}
-        //     {...buttonProps}
-        // />
         <button className={cn} disabled={Boolean(disabled)} {...buttonProps}>
             {children}
         </button>

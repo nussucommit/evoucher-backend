@@ -1,7 +1,45 @@
 .button {
-  font-size: var(--font-bold);
-  padding-top: 0;
-  padding-bottom: 0;
+  font-size: var(--font-sm);
+  font-weight: bold;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-radius: var(--border-radius);
+  border-style: none;
+  padding: 0px var(--spacing-base);
+  min-height: 44px;
+  background-color: var(--primary);
+  color: var(--white);
+  -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  width: 100%;
+  overflow-wrap: break-word;
+  cursor: pointer;
+}
+
+.button:hover {
+  -webkit-filter: brightness(112.5%);
+          filter: brightness(112.5%);
+}
+
+.button:active {
+  -webkit-transform: translate(0, 0.1rem);
+          transform: translate(0, 0.1rem);
+  -webkit-filter: brightness(90%);
+          filter: brightness(90%);
+}
+
+.button.disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.button.disabled:hover {
+  -webkit-filter: brightness(100%);
+          filter: brightness(100%);
 }
 
 .button.block {
@@ -13,31 +51,50 @@
           box-shadow: 0 2px 4px 0 var(--shadow);
 }
 
-.button.vCenter {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+.button.danger {
+  background-color: var(--danger);
 }
 
-.button.secondary:not(:disabled) {
+.button.success {
+  background-color: var(--success);
+}
+
+.button.secondary {
   color: var(--primary);
   background-color: var(--primary-10);
 }
 
-.button.light:not(:disabled) {
-  background-color: var(--offwhite);
+.button.outlined {
+  background-color: var(--white);
+  border-width: 1.5px;
+  border-color: var(--primary);
+  color: var(--primary);
+  border-style: solid;
 }
 
-.button.link {
-  padding: 0;
-  height: auto;
-  font-size: var(--font-base);
+.button.outlined:active {
+  -webkit-transform: translate(0, 0.1rem);
+          transform: translate(0, 0.1rem);
+  -webkit-filter: brightness(100%);
+          filter: brightness(100%);
+}
+
+.button.text {
+  background-color: transparent;
+  color: var(--primary);
+}
+
+.button.text:active {
+  -webkit-filter: brightness(90%);
+          filter: brightness(90%);
+  -webkit-transform: none;
+          transform: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 .button.small {
   font-size: var(--font-xs);
+  min-height: 32px;
 }
 /*# sourceMappingURL=Button.module.css.map */

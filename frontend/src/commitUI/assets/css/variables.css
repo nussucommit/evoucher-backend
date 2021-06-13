@@ -71,7 +71,7 @@
         "Noto Color Emoji";
 
     /* BORDER */
-    --border-radius: 10px;
+    --border-radius: 8px;
     --border-solid-light: 1px solid var(--border-light);
 
     /* TRANSITIONS */

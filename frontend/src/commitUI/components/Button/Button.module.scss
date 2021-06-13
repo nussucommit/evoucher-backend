@@ -1,7 +1,35 @@
 .button {
-    font-size: var(--font-bold);
-    padding-top: 0;
-    padding-bottom: 0;
+    font-size: var(--font-sm);
+    font-weight: bold;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--border-radius);
+    border-style: none;
+    padding: 0px var(--spacing-base);
+    min-height: 44px;
+    background-color: var(--primary);
+    color: var(--white);
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    width: 100%;
+    overflow-wrap: break-word;
+    cursor: pointer;
+
+    &:hover {
+        filter: brightness(112.5%);
+    }
+
+    &:active {
+        transform: translate(0, 0.1rem);
+        filter: brightness(90%);
+    }
+
+    &.disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+        &:hover {
+            filter: brightness(100%);
+        }
+    }
 
     &.block {
         display: block;
@@ -11,27 +39,45 @@
         box-shadow: 0 2px 4px 0 var(--shadow);
     }
 
-    &.vCenter {
-        display: flex;
-        align-items: center;
+    &.danger {
+        background-color: var(--danger);
     }
 
-    &.secondary:not(:disabled) {
+    &.success {
+        background-color: var(--success);
+    }
+
+    &.secondary {
         color: var(--primary);
         background-color: var(--primary-10);
     }
 
-    &.light:not(:disabled) {
-        background-color: var(--offwhite);
+    &.outlined {
+        background-color: var(--white);
+        border-width: 1.5px;
+        border-color: var(--primary);
+        color: var(--primary);
+        border-style: solid;
+
+        &:active {
+            transform: translate(0, 0.1rem);
+            filter: brightness(100%);
+        }
     }
 
-    &.link {
-        padding: 0;
-        height: auto;
-        font-size: var(--font-base);
+    &.text {
+        background-color: transparent;
+        color: var(--primary);
+
+        &:active {
+            filter: brightness(90%);
+            transform: none;
+            box-shadow: none;
+        }
     }
 
     &.small {
         font-size: var(--font-xs);
+        min-height: 32px;
     }
 }
