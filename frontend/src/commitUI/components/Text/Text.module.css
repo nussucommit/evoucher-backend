@@ -7,7 +7,11 @@
   text-align: center;
 }
 
-.text.strong {
+.text.semibold {
+  font-weight: var(--font-semibold);
+}
+
+.text.bold {
   font-weight: var(--font-bold);
 }
 

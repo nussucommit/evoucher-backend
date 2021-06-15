@@ -12,8 +12,8 @@ export type Props = {
     noLeading?: boolean;
     paragraph?: boolean;
     size?: "xs" | "sm" | "md" | "lg" | "xl";
-    strong?: boolean;
-    subheading?: boolean;
+    bold?: boolean;
+    semibold?: boolean;
     type?:
         | "black"
         | "danger"
@@ -37,8 +37,8 @@ export const Text = (props: Props) => {
         noLeading,
         paragraph,
         size,
-        strong,
-        subheading,
+        bold,
+        semibold,
         type,
         uppercase,
     } = props;
@@ -46,19 +46,20 @@ export const Text = (props: Props) => {
         styles.text,
         {
             [styles.centered]: centered,
-            [styles.strong]: strong || subheading,
+            [styles.semibold]: semibold,
+            [styles.bold]: bold,
             [styles.noLeading]: noLeading,
             [styles.ellipsize]: ellipsize,
             [styles.uppercase]: uppercase,
             [styles.xs]: size === "xs",
             [styles.sm]: size === "sm",
             [styles.md]: size === "md",
-            [styles.lg]: size === "lg" || subheading,
+            [styles.lg]: size === "lg",
             [styles.xl]: size === "xl",
             [styles.light]: type === "light",
             [styles.lighter]: type === "lighter",
             [styles.lightest]: type === "lightest",
-            [styles.black]: type === "black" || subheading,
+            [styles.black]: type === "black",
             [styles.white]: type === "white",
             [styles.primary]: type === "primary",
             [styles.success]: type === "success",

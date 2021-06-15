@@ -1,6 +1,7 @@
 .button {
+    font-family: var(--font-family);
     font-size: var(--font-sm);
-    font-weight: bold;
+    font-weight: 600;
     align-items: center;
     justify-content: center;
     border-radius: var(--border-radius);
@@ -59,7 +60,7 @@
 
     &.outlined {
         background-color: var(--white);
-        border-width: 1.5px;
+        border-width: 1px;
         border-color: var(--primary);
         color: var(--primary);
         border-style: solid;
@@ -93,6 +94,6 @@
 
     &.small {
         font-size: var(--font-xs);
-        min-height: 32px;
+        padding: var(--spacing-xs) var(--spacing-base);
     }
 }
