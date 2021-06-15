@@ -1,0 +1,27 @@
+.hamburger {
+    display: none;
+    color: #fff;
+}
+
+.navmenu {
+    display: flex;
+    align-items: center;
+}
+
+.btn {
+    margin: var(--spacing-sm);
+}
+
+@media screen and (max-width: 768px) {
+    .hamburger {
+        display: block;
+        z-index: 1001;
+        top: 0;
+        right: 0;
+        cursor: pointer;
+    }
+
+    .navmenu {
+        display: none;
+    }
+}

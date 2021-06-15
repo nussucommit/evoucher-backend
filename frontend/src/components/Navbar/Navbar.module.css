@@ -1,0 +1,31 @@
+.hamburger {
+  display: none;
+  color: #fff;
+}
+
+.navmenu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.btn {
+  margin: var(--spacing-sm);
+}
+
+@media screen and (max-width: 768px) {
+  .hamburger {
+    display: block;
+    z-index: 1001;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+  }
+  .navmenu {
+    display: none;
+  }
+}
+/*# sourceMappingURL=Navbar.module.css.map */

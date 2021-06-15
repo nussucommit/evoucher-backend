@@ -1,18 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "./logo.svg";
-import "../src/commitUI/assets/css/index.css";
+import "./@commitUI/assets/css/index.css";
 import "./App.css";
-import { Button } from "commitUI/components/Button";
-import { Heading } from "commitUI/components/Heading";
-import { Text } from "commitUI/components/Text";
-import Navbar from "commitUI/components/Navbar";
+import { Input } from "@commitUI/index";
+import Navbar from "components/Navbar";
 
 import { BrowserRouter as Router } from "react-router-dom";
 
 function App() {
+    const [value, setValue] = useState("");
     return (
         <Router>
-            <Navbar />
+            <Input
+                value={value}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    setValue(event.target.value)
+                }
+                label="First Name"
+                style={{ marginTop: 100 }}
+            />
             {/* <header className="App-header">
                 <div style={{ width: "20%", flexDirection: "column" }}>
                     <Button className="test">Test</Button>

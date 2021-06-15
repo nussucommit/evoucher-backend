@@ -1,0 +1,57 @@
+.container {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.container input {
+  height: 54px;
+  border-radius: 8px;
+  border: black 1px solid;
+  padding: 24px 16px 4px 16px;
+  font-size: 16px;
+  line-height: 1;
+  outline: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  -webkit-transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+  transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+}
+
+.container input:focus {
+  -webkit-box-shadow: 0 0 0 2px #79b1ff;
+          box-shadow: 0 0 0 2px #79b1ff;
+}
+
+.container label {
+  position: absolute;
+  pointer-events: none;
+  -webkit-transform: translate(0, 23px) scale(1);
+          transform: translate(0, 23px) scale(1);
+  -webkit-transform-origin: top left;
+          transform-origin: top left;
+  -webkit-transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+  transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+  color: #6f81a5;
+  font-size: 16px;
+  line-height: 1;
+  left: 16px;
+  top: -4px;
+}
+
+.container:focus-within label {
+  -webkit-transform: translate(0, 12px) scale(0.8);
+          transform: translate(0, 12px) scale(0.8);
+  color: #0a53e4;
+}
+
+.container .filled {
+  -webkit-transform: translate(0, 12px) scale(0.8);
+          transform: translate(0, 12px) scale(0.8);
+}
+/*# sourceMappingURL=Input.module.css.map */

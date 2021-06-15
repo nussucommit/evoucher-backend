@@ -1,35 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./Sidebar.module.css";
-import {
-    Link as LinkScroll,
-    Element,
-    Events,
-    animateScroll as scroll,
-    scrollSpy,
-    scroller,
-} from "react-scroll";
+import { Link as LinkScroll } from "react-scroll";
 import cx from "classnames";
-
-const Sidebar = ({
-    isOpen,
-    setOpen,
-}: {
-    isOpen: boolean;
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
-    return (
-        <SidebarContainer isOpen={isOpen}>
-            <SidebarWrapper>
-                <SidebarMenu>
-                    <SidebarLink to="about">About</SidebarLink>
-                    <SidebarLink to="discover">Discover</SidebarLink>
-                    <SidebarLink to="services">Services</SidebarLink>
-                    <SidebarLink to="signup">Signup</SidebarLink>
-                </SidebarMenu>
-            </SidebarWrapper>
-        </SidebarContainer>
-    );
-};
 
 export const SidebarContainer = ({
     children,
@@ -66,5 +38,3 @@ export const SidebarLink = ({
         </LinkScroll>
     );
 };
-
-export default Sidebar;
