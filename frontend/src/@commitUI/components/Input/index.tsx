@@ -7,10 +7,10 @@ interface ExtendedInputProps
     label?: string;
 }
 
-export const Input = ({ value, label, ...rest }: ExtendedInputProps) => {
+export const Input = ({ value, label, id, ...rest }: ExtendedInputProps) => {
     return (
         <div className={styles.container} {...rest}>
-            <input type="text" />
+            <input type="text" id={id as string} />
             <label className={value !== "" ? styles.filled : ""}>{label}</label>
         </div>
     );

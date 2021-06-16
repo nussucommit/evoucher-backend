@@ -11,32 +11,22 @@ const Navbar = () => {
     const { height, width } = useWindowDimensions();
     return (
         <>
-            <Nav>
-                <NavLink to="/">
-                    <h1>LOGO</h1>
+            <Nav backgroundColor="#002A56" color="#fff">
+                <NavLink to="/" noActive>
+                    <h3>NUSSU eVouchers (Beta)</h3>
                 </NavLink>
+
                 {width <= 768 && (
                     <div className={styles.hamburger}>
-                        <Hamburger
-                            toggled={isOpen}
-                            toggle={setOpen}
-                            color="red"
-                        />
+                        <Hamburger toggled={isOpen} toggle={setOpen} />
                     </div>
                 )}
-                <NavMenu>
-                    <NavLink to="/about">About</NavLink>
-                    <NavLink to="/services">Services</NavLink>
-                    <NavLink to="/contactus">Contact Us</NavLink>
-                    <NavLink to="/signup">Sign up</NavLink>
-                </NavMenu>
-                <NavMenu>
-                    <Button className={styles.btn} size="small">
-                        <NavLink to="/signin">Sign In</NavLink>
-                    </Button>
-                </NavMenu>
             </Nav>
-            <Sidebar isOpen={isOpen} setOpen={setOpen} />
+            <Sidebar
+                isOpen={isOpen}
+                setOpen={setOpen}
+                backgroundColor="#002A56"
+            />
         </>
     );
 };

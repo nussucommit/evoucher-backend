@@ -24,13 +24,13 @@
 }
 
 .button:hover {
-  -webkit-filter: brightness(115%);
-          filter: brightness(115%);
+  -webkit-filter: brightness(120%);
+          filter: brightness(120%);
 }
 
 .button:active {
-  -webkit-transform: scale(0.96);
-          transform: scale(0.96);
+  -webkit-transform: scale(0.98);
+          transform: scale(0.98);
   -webkit-filter: brightness(90%);
           filter: brightness(90%);
 }
@@ -91,6 +91,9 @@
   font-weight: 400;
   background-color: transparent;
   color: var(--primary);
+  width: auto;
+  padding: 0;
+  min-width: 0px;
 }
 
 .button.text:hover {

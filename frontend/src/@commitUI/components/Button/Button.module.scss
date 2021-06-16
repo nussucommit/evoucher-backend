@@ -19,11 +19,11 @@
 
     &:hover {
         // box-shadow: 0 2px 4px 0 var(--shadow);
-        filter: brightness(115%);
+        filter: brightness(120%);
     }
 
     &:active {
-        transform: scale(0.96);
+        transform: scale(0.98);
         filter: brightness(90%);
     }
 
@@ -79,6 +79,9 @@
         font-weight: 400;
         background-color: transparent;
         color: var(--primary);
+        width: auto;
+        padding: 0;
+        min-width: 0px;
 
         &:hover {
             text-decoration: underline;

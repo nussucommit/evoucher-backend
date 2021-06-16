@@ -8,19 +8,28 @@ import {
 
 const Sidebar = ({
     isOpen,
-    setOpen,
+    backgroundColor,
 }: {
     isOpen: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    backgroundColor?: string;
 }) => {
     return (
-        <SidebarContainer isOpen={isOpen}>
+        <SidebarContainer isOpen={isOpen} backgroundColor={backgroundColor}>
             <SidebarWrapper>
                 <SidebarMenu>
-                    <SidebarLink to="about">About</SidebarLink>
-                    <SidebarLink to="discover">Discover</SidebarLink>
-                    <SidebarLink to="services">Services</SidebarLink>
-                    <SidebarLink to="signup">Signup</SidebarLink>
+                    <SidebarLink to="about" color="#fff">
+                        About
+                    </SidebarLink>
+                    <SidebarLink to="discover" color="#fff">
+                        Discover
+                    </SidebarLink>
+                    <SidebarLink to="services" color="#fff">
+                        Services
+                    </SidebarLink>
+                    <SidebarLink to="signup" color="#fff">
+                        Signup
+                    </SidebarLink>
                 </SidebarMenu>
             </SidebarWrapper>
         </SidebarContainer>

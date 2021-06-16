@@ -2,22 +2,37 @@ import React from "react";
 import { NavLink as Link } from "react-router-dom";
 import styles from "./Navbar.module.css";
 
-export const Nav = ({ children }: { children: React.ReactNode }) => {
-    return <nav className={styles.nav}>{children}</nav>;
+interface NavProps {
+    children: React.ReactNode;
+    color?: string;
+    backgroundColor?: string;
+}
+
+export const Nav = ({ children, backgroundColor, color }: NavProps) => {
+    return (
+        <nav
+            className={styles.nav}
+            style={{ backgroundColor: backgroundColor as string }}
+        >
+            {children}
+        </nav>
+    );
 };
 
-export const NavLink = ({
-    children,
-    to,
-}: {
+interface NavLinkProps {
     children: React.ReactNode;
     to: string;
-}) => {
+    noActive?: boolean;
+}
+
+export const NavLink = ({ children, to, noActive }: NavLinkProps) => {
     return (
         <Link
             to={to}
             className={styles["nav-link"]}
-            activeClassName={styles["nav-link-active"]}
+            activeClassName={
+                !noActive ? styles["nav-link-active"] : styles["nav-link"]
+            }
         >
             {children}
         </Link>

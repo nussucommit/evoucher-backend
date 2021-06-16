@@ -1,0 +1,31 @@
+.container {
+    margin: 5vh 16px;
+}
+
+.imgContainer {
+    display: flex;
+    margin-left: 5vw;
+    justify-content: center;
+    align-items: center;
+}
+
+.linkTextContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: var(--spacing-md);
+}
+
+.linkTextContainer .btnLeft {
+    width: 49%;
+    margin-right: 4px;
+    margin-top: 1px;
+    text-align: right;
+}
+
+.linkTextContainer .btnRight {
+    width: 49%;
+    margin-left: 4px;
+    margin-top: 1px;
+    text-align: left;
+}

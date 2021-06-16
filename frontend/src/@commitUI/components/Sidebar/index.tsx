@@ -6,12 +6,19 @@ import cx from "classnames";
 export const SidebarContainer = ({
     children,
     isOpen,
+
+    backgroundColor = "",
 }: {
     children: React.ReactNode;
     isOpen: boolean;
+
+    backgroundColor?: string | undefined;
 }) => {
     return (
-        <aside className={cx(styles.container, { [styles.open]: isOpen })}>
+        <aside
+            className={cx(styles.container, { [styles.open]: isOpen })}
+            style={{ backgroundColor: backgroundColor }}
+        >
             {children}
         </aside>
     );
@@ -28,12 +35,14 @@ export const SidebarMenu = ({ children }: { children: React.ReactNode }) => {
 export const SidebarLink = ({
     children,
     to,
+    color = "",
 }: {
     children: React.ReactNode;
     to: string;
+    color?: string | undefined;
 }) => {
     return (
-        <LinkScroll to={to} className={styles.link}>
+        <LinkScroll to={to} className={styles.link} style={{ color: color }}>
             {children}
         </LinkScroll>
     );
