@@ -4,13 +4,14 @@ import "./@commitUI/assets/css/index.css";
 import "./App.css";
 import { Input } from "@commitUI/index";
 import Login from "pages/Login";
+import Pages from "pages";
 
 import { BrowserRouter as Router } from "react-router-dom";
 
 function App() {
     return (
         <Router>
-            <Login />
+            <Pages />
 
             {/* <header className="App-header">
                 <div style={{ width: "20%", flexDirection: "column" }}>

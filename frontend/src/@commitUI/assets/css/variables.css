@@ -14,6 +14,7 @@
     --gray-light: rgb(132, 146, 166); /* #8492a6 */
     --gray-lighter: rgb(151, 158, 166); /* #979ea6 */
     --gray-lightest: rgb(217, 217, 217); /* #d9d9d9 */
+    --gray-lines: #d2d2d7;
 
     --offwhite-dark: rgb(234, 234, 234); /* ##eaeaea */
     --offwhite: rgb(241, 241, 241); /* #f1f1f1 */

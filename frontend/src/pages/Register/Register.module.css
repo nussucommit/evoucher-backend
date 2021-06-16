@@ -29,7 +29,7 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  margin-top: var(--spacing-md);
+  margin-top: var(--spacing-sm);
 }
 
 .linkTextContainer .btnLeft {
@@ -64,4 +64,4 @@
 .register {
   width: 50%;
 }
-/*# sourceMappingURL=Login.module.css.map */
+/*# sourceMappingURL=Register.module.css.map */

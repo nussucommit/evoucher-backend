@@ -6,11 +6,11 @@ import { Input, Button, Heading } from "@commitUI/index";
 import Navbar from "components/Navbar";
 import LinkButton from "components/LinkButton";
 
-import styles from "./Login.module.css";
+import styles from "./Register.module.css";
 import logo from "../../assets/images/logo.png";
 import logo2 from "assets/images/logo2.jpeg";
 
-const Login = () => {
+const Register = () => {
     const [value, setValue] = useState("");
     const [value2, setValue2] = useState("");
     return (
@@ -27,8 +27,26 @@ const Login = () => {
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         setValue(event.target.value)
                     }
-                    label="NUSNET ID"
+                    label="Name"
                     style={{ marginBottom: 16, marginTop: 30 }}
+                />
+
+                <Input
+                    value={value2}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                        setValue2(event.target.value)
+                    }
+                    label="NUSNET ID"
+                    style={{ marginBottom: 16 }}
+                />
+
+                <Input
+                    value={value2}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                        setValue2(event.target.value)
+                    }
+                    label="Faculty"
+                    style={{ marginBottom: 16 }}
                 />
 
                 <Input
@@ -40,27 +58,19 @@ const Login = () => {
                     style={{ marginBottom: 32 }}
                 />
 
-                <Button>Log In</Button>
+                <Button>Sign Up</Button>
                 <div className={styles.linkTextContainer}>
-                    <Button type="text">Forgot password?</Button>
+                    <LinkButton to={Routes.login} type="text">
+                        Already have an account? Sign in.
+                    </LinkButton>
                     {/* <span> • </span>
                     <Button type="text" className={styles.btnRight}>
                         Sign Up
                     </Button> */}
-                    <Heading level={4} className={styles.or}>
-                        <span>or</span>
-                    </Heading>
-                    <LinkButton
-                        to={Routes.register}
-                        type="outlined"
-                        className={styles.register}
-                    >
-                        Sign Up
-                    </LinkButton>
                 </div>
             </div>
         </>
     );
 };
 
-export default Login;
+export default Register;

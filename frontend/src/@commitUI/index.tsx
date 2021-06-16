@@ -1,6 +1,7 @@
 export { Text } from "./components/Text";
 export { Heading } from "./components/Heading";
 export { Button } from "./components/Button";
+export type { Props as ButtonProps } from "./components/Button";
 export {
     SidebarContainer,
     SidebarLink,
