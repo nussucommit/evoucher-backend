@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Routes } from "constants/routes";
 
-import { Input, Button, Heading } from "@commitUI/index";
+import { Input, Button, Select } from "@commitUI/index";
 import Navbar from "components/Navbar";
 import LinkButton from "components/LinkButton";
 
@@ -30,7 +30,9 @@ const Register = () => {
                     label="Name"
                     style={{ marginBottom: 16, marginTop: 30 }}
                 />
-
+                {/* <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                > */}
                 <Input
                     value={value2}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
@@ -40,15 +42,16 @@ const Register = () => {
                     style={{ marginBottom: 16 }}
                 />
 
-                <Input
+                {/* <Input
                     value={value2}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         setValue2(event.target.value)
                     }
                     label="Faculty"
                     style={{ marginBottom: 16 }}
-                />
-
+                /> */}
+                <Select label="Faculty" className={styles.select} />
+                {/* </div> */}
                 <Input
                     value={value2}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
