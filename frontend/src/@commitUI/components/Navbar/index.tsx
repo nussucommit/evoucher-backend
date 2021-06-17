@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink as Link } from "react-router-dom";
+
 import styles from "./Navbar.module.css";
 
 interface NavProps {

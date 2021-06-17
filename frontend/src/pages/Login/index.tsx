@@ -54,6 +54,7 @@ const Login = () => {
                         to={Routes.register}
                         type="outlined"
                         className={styles.register}
+                        size="small"
                     >
                         Sign Up
                     </LinkButton>

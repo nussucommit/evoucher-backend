@@ -61,7 +61,8 @@
   padding: 0 10px;
 }
 
-.register {
-  width: 50%;
+.linkTextContainer .register {
+  height: 42px;
+  width: 40vw;
 }
 /*# sourceMappingURL=Login.module.css.map */

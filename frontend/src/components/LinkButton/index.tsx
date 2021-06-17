@@ -7,10 +7,10 @@ interface Props extends ButtonProps {
     to: string;
 }
 
-const LinkButton = ({ to, ...buttonProps }: Props) => {
+const LinkButton = ({ to, className, ...buttonProps }: Props) => {
     return (
         <Link to={to}>
-            <Button {...buttonProps} />
+            <Button className={className} {...buttonProps} />
         </Link>
     );
 };

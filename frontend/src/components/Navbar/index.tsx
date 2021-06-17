@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Nav, NavLink, NavMenu, Button } from "@commitUI/index";
-import Sidebar from "components/Sidebar";
 import { Squash as Hamburger } from "hamburger-react";
+
+import Sidebar from "components/Sidebar";
+import { Nav, NavLink, Heading } from "@commitUI/index";
 
 import styles from "./Navbar.module.css";
 import useWindowDimensions from "hooks/useWindowDimensions";
@@ -13,7 +14,7 @@ const Navbar = () => {
         <>
             <Nav backgroundColor="#002A56" color="#fff">
                 <NavLink to="/" noActive>
-                    <h3>NUSSU eVouchers (Beta)</h3>
+                    <Heading level={1}>NUSSU eVouchers</Heading>
                 </NavLink>
 
                 {width <= 768 && (

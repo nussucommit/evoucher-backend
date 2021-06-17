@@ -4,6 +4,7 @@ import {
     SidebarMenu,
     SidebarLink,
     SidebarContainer,
+    Heading,
 } from "@commitUI/index";
 
 const Sidebar = ({
@@ -19,16 +20,19 @@ const Sidebar = ({
             <SidebarWrapper>
                 <SidebarMenu>
                     <SidebarLink to="about" color="#fff">
-                        About
+                        <Heading level={2}>Placeholder</Heading>
                     </SidebarLink>
                     <SidebarLink to="discover" color="#fff">
-                        Discover
+                        <Heading level={2}>Placeholder</Heading>
                     </SidebarLink>
                     <SidebarLink to="services" color="#fff">
-                        Services
+                        <Heading level={2}>Placeholder</Heading>
                     </SidebarLink>
                     <SidebarLink to="signup" color="#fff">
-                        Signup
+                        <Heading level={2}>Placeholder</Heading>
+                    </SidebarLink>
+                    <SidebarLink to="signup" color="#fff">
+                        <Heading level={2}>Placeholder</Heading>
                     </SidebarLink>
                 </SidebarMenu>
             </SidebarWrapper>
