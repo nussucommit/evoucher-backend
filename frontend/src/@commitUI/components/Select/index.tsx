@@ -19,10 +19,10 @@ export const Select = ({ label, id, ...props }: SelectProps) => {
                 { label: "Computing", value: 2 },
                 { label: "Dentistry", value: 3 },
                 { label: "Engineering", value: 4 },
-                { label: "Humanities and Science", value: 4 },
-                { label: "Law", value: 4 },
-                { label: "Medicine", value: 4 },
-                { label: "Music", value: 4 },
+                { label: "Humanities and Science", value: 5 },
+                { label: "Law", value: 6 },
+                { label: "Medicine", value: 7 },
+                { label: "Music", value: 8 },
             ]}
             isMulti
             styles={{
