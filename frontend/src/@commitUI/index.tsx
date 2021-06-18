@@ -10,3 +10,4 @@ export {
 } from "./components/Sidebar";
 export { Nav, NavLink, NavMenu } from "./components/Navbar";
 export { Input } from "./components/Input";
+export { Select } from "./components/Select";

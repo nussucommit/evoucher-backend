@@ -1,0 +1,2 @@
+export const REACT_APP_API_URL =
+    process.env.REACT_APP_API_URL || "PLACEHOLDER_REACT_APP_API_URL";

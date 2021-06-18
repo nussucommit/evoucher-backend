@@ -1,0 +1,17 @@
+.label {
+    z-index: 1000;
+    left: 10px;
+    top: 35%;
+    font-size: 1rem;
+    pointer-events: none;
+    position: absolute;
+    color: #6f81a5;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+
+    &.floating {
+        top: 5px;
+        font-size: 0.5rem;
+    }
+}
