@@ -3,14 +3,20 @@ from django.db import models
 from faculty.models import Faculty
 from organization.models import Organization
 from voucher.models import Voucher, Code
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Student(models.Model):
-    nusnet_id = models.CharField(primary_key=True, max_length=16, blank=False, unique=True)
+    nusnet_id = models.CharField(max_length=16, blank=False, unique=True)
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
     name = models.CharField(max_length=128, blank=False)
     year = models.PositiveIntegerField(blank=False)
 
-    faculties = models.ManyToManyField(Faculty, related_name='students_faculties', through='InFaculty')
+    faculties = models.ManyToManyField(Faculty, related_name='students_faculties', through='InFaculty',)
     organizations = models.ManyToManyField(Organization, related_name='students_organizations', through='InOrganization')
     vouchers = models.ManyToManyField(Voucher, related_name='students_vouchers', through='Redeems')
 
@@ -20,6 +26,9 @@ class Student(models.Model):
 class InFaculty(models.Model):
     faculty = models.ForeignKey(Faculty, related_name='faculty_to_student', on_delete=models.CASCADE)
     student = models.ForeignKey(Student, related_name='student_to_faculty', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "{} is in the faculty of {}".format(self.student, self.faculty)
 
     class Meta:
         unique_together = ('faculty', 'student')

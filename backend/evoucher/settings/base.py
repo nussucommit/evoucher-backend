@@ -55,7 +55,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     's3direct',
-    'storages'
+    'storages',
+    'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
