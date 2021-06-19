@@ -1,5 +1,6 @@
-// Keys
-export enum StorageKey {}
+export enum StorageKey {
+    placeholder = "placeholder",
+}
 
 const getItem = (key: StorageKey) => {
     return localStorage.getItem(StorageKey[key]);

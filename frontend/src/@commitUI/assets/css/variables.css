@@ -43,17 +43,17 @@
 
     /* SPACING */
     --spacing-3xs: 2px;
-    --spacing-2xs: 5px;
-    --spacing-xs: 10px;
-    --spacing-sm: 15px;
-    --spacing-base: 20px;
-    --spacing-md: 25px;
-    --spacing-lg: 30px;
-    --spacing-xl: 40px;
-    --spacing-2xl: 50px;
-    --spacing-3xl: 60px;
-    --spacing-4xl: 80px;
-    --spacing-5xl: 100px;
+    --spacing-2xs: 4px;
+    --spacing-xs: 8px;
+    --spacing-sm: 12px;
+    --spacing-base: 16px;
+    --spacing-md: 20px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-2xl: 40px;
+    --spacing-3xl: 56px;
+    --spacing-4xl: 64px;
+    --spacing-5xl: 80px;
 
     /* ICONS */
     --icon-3xs: 12px;

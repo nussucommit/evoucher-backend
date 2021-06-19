@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Routes } from "constants/routes";
 
-import { Input, Button, Select } from "@commitUI/index";
+import { Input, Button, Select, Heading } from "@commitUI/index";
 import Navbar from "components/Navbar";
 import LinkButton from "components/LinkButton";
 
@@ -22,13 +22,15 @@ const Register = () => {
                     <img src={logo} alt="logo" height={80} />
                 </div>
 
+                <Heading className={styles.heading}>Sign Up</Heading>
+
                 <Input
                     value={value}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         setValue(event.target.value)
                     }
                     label="Name"
-                    style={{ marginBottom: 16, marginTop: 30 }}
+                    className={styles.input}
                 />
                 {/* <div
                     style={{ display: "flex", justifyContent: "space-between" }}
@@ -39,7 +41,7 @@ const Register = () => {
                         setValue2(event.target.value)
                     }
                     label="NUSNET ID"
-                    style={{ marginBottom: 16 }}
+                    className={styles.input}
                 />
 
                 {/* <Input
@@ -58,10 +60,10 @@ const Register = () => {
                         setValue2(event.target.value)
                     }
                     label="Password"
-                    style={{ marginBottom: 32 }}
+                    className={styles.input}
                 />
 
-                <Button>Sign Up</Button>
+                <Button className={styles.btn}>Sign Up</Button>
                 <div className={styles.linkTextContainer}>
                     <LinkButton to={Routes.login} type="text">
                         Already have an account? Sign in.

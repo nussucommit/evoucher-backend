@@ -5,13 +5,20 @@ import { getToken, deleteToken, saveToken } from "utils/auth";
 import { API_URL } from "constants/config";
 import { Routes } from "constants/routes";
 
-export const REFRESH_TOKEN_ENDPOINT = "/auth/token/refresh/";
+export const REFRESH_TOKEN_ENDPOINT = "/token/refresh";
+// Code returned by backend if refresh token is invalid or expired
 const TOKEN_EXPIRED_CODE = "token_not_valid";
 
 // Create an Axios instance with custom config
 const request = axios.create({
     baseURL: API_URL,
+    // if withCredentials: true -> CORS Error somehow. find fix later
     withCredentials: true,
+    responseType: "json",
+    headers: {
+        "X-Requested-With": "XMLHttpRequest",
+        "Content-Type": "application/json",
+    },
 });
 
 const logout = () => {
@@ -24,9 +31,11 @@ request.interceptors.request.use(
         if (!config.headers["Authorization"]) {
             const token = getToken();
             if (token) {
+                console.log("here");
                 config.headers["Authorization"] = `Bearer ${token.access}`;
             }
         }
+        console.log(config);
         return config;
     },
     (error) => Promise.reject(error)
@@ -58,6 +67,7 @@ request.interceptors.response.use(
         ) {
             if (token) {
                 try {
+                    // Call the refresh endpoint to get a new access token
                     const { data } = await request.post<{ access: string }>(
                         REFRESH_TOKEN_ENDPOINT,
                         { refresh: token.refresh }
@@ -66,10 +76,16 @@ request.interceptors.response.use(
                         access: data.access,
                         refresh: token.refresh,
                     };
+
+                    // Save token to session storage
                     saveToken(newToken);
+
+                    // Append new access token to request header
                     originalRequest.headers[
                         "Authorization"
                     ] = `Bearer ${data.access}`;
+
+                    // Retry the request again with the new token
                     return request.request(originalRequest);
                 } catch {
                     logout();

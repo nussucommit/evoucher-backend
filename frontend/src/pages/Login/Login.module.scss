@@ -2,6 +2,11 @@
     margin: 5vh 16px;
 }
 
+.heading {
+    margin-top: var(--spacing-xl);
+    margin-bottom: var(--spacing-md);
+}
+
 .imgContainer {
     display: flex;
     margin-left: 5vw;
@@ -49,4 +54,12 @@
 .linkTextContainer .register {
     height: 42px;
     width: 40vw;
+}
+
+.input {
+    margin-bottom: var(--spacing-base);
+}
+
+.btn {
+    margin-top: var(--spacing-base);
 }

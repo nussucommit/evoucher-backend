@@ -9,6 +9,11 @@
     align-items: center;
 }
 
+.heading {
+    margin-top: var(--spacing-xl);
+    margin-bottom: var(--spacing-md);
+}
+
 .linkTextContainer {
     display: flex;
     flex-direction: column;
@@ -44,6 +49,14 @@
     font-weight: 400;
     background: #fff;
     padding: 0 10px;
+}
+
+.input {
+    margin-bottom: var(--spacing-base);
+}
+
+.btn {
+    margin-top: var(--spacing-base);
 }
 
 .register {

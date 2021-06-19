@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { Routes } from "constants/routes";
+import { login } from "api/auth";
 
 import { Input, Button, Heading } from "@commitUI/index";
 import Navbar from "components/Navbar";
@@ -11,8 +12,19 @@ import logo from "../../assets/images/logo.png";
 import logo2 from "assets/images/logo2.jpeg";
 
 const Login = () => {
-    const [value, setValue] = useState("");
-    const [value2, setValue2] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [data, setData] = useState({
+        access: "",
+        refresh: "",
+    });
+
+    const handleLogin = async () => {
+        console.log("login");
+        const res = await login({ username, password });
+        console.log(res);
+    };
+
     return (
         <>
             <Navbar />
@@ -22,25 +34,33 @@ const Login = () => {
                     <img src={logo} alt="logo" height={80} />
                 </div>
 
+                <Heading level={1} className={styles.heading}>
+                    Sign In
+                </Heading>
+
                 <Input
-                    value={value}
+                    value={username}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        setValue(event.target.value)
+                        setUsername(event.target.value)
                     }
                     label="NUSNET ID"
-                    style={{ marginBottom: 16, marginTop: 30 }}
+                    className={styles.input}
                 />
 
                 <Input
-                    value={value2}
+                    value={password}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        setValue2(event.target.value)
+                        setPassword(event.target.value)
                     }
                     label="Password"
-                    style={{ marginBottom: 32 }}
+                    type="password"
+                    className={styles.input}
                 />
 
-                <Button>Log In</Button>
+                <Button className={styles.btn} onClick={() => handleLogin()}>
+                    Log In
+                </Button>
+
                 <div className={styles.linkTextContainer}>
                     <Button type="text">Forgot password?</Button>
                     {/* <span> • </span>

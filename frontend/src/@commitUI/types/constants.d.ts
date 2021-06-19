@@ -145,7 +145,7 @@ type Spacings = {
 };
 
 type Theme = {
-    COLORS: Colors;
+    Color: Colors;
     FONT_WEIGHT: FontWeights;
     FONT_SIZES: FontSizes;
     ICON_SIZES: IconSizes;

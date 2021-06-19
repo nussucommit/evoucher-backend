@@ -2,7 +2,7 @@ from django.db import models
 
 from faculty.models import Faculty
 from organization.models import Organization
-from voucher.models import Voucher
+from voucher.models import Voucher, Code
 
 # Create your models here.
 class Student(models.Model):
@@ -38,3 +38,12 @@ class Redeems(models.Model):
 
     class Meta:
         unique_together = ('voucher', 'student')
+
+
+class IdCodeStudent(models.Model):
+    voucher = models.UUIDField()
+    code = models.ForeignKey(Code, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "Voucher {} with code {} assigned to {}".format(self.voucher, self.code, self.student)

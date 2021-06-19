@@ -1,5 +1,5 @@
 const THEME: Theme = {
-    COLORS: {
+    Color: {
         primary: "#3151AA",
         primaryLighter: "#A4D2FF",
         primaryLightest: "#D2E8FF",
@@ -145,10 +145,8 @@ const THEME: Theme = {
     maxWidthWeb: 400,
 };
 
-export const COLORS = THEME.COLORS;
-export const FONT_WEIGHT = THEME.FONT_WEIGHT;
-export const FONT_SIZES = THEME.FONT_SIZES;
-export const ICON_SIZES = THEME.ICON_SIZES;
+export const Color = THEME.Color;
+export type ColorName = keyof typeof Color;
 export const SPACING = THEME.SPACING;
 export const BORDER_RADIUS = THEME.borderRadius;
 export const MAX_WIDTH_WEB = THEME.maxWidthWeb;

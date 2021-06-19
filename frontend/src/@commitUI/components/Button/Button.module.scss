@@ -11,20 +11,22 @@
     color: var(--white);
     transition: filter 0.1s cubic-bezier(0.645, 0.045, 0.355, 1),
         box-shadow 0.1s cubic-bezier(0.645, 0.045, 0.355, 1),
-        transform 0.1s ease;
+        transform 0.1s ease 0;
     width: 100%;
     overflow-wrap: break-word;
     cursor: pointer;
     min-width: 100px;
+    filter: brightness(100%);
+    touch-action: manipulation;
 
     &:hover {
         // box-shadow: 0 2px 4px 0 var(--shadow);
-        filter: brightness(120%);
+        filter: brightness(125%);
     }
 
     &:active {
         transform: scale(0.98);
-        filter: brightness(90%);
+        filter: brightness(95%);
     }
 
     &.disabled {
