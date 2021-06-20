@@ -4,20 +4,24 @@ import { Route, Switch, Redirect, RouteProps } from "react-router-dom";
 import useAuth from "hooks/useAuth";
 import { Routes } from "constants/routes";
 
-const PrivateRouteLayoutSwitch = (props: RouteProps) => {
-    const { children, ...routeProps } = props;
+interface PrivateRouteProps extends Omit<RouteProps, "component"> {
+    component: React.ElementType;
+}
+
+const PrivateRoute = (props: PrivateRouteProps): JSX.Element => {
+    const { component: Component, ...routeProps } = props;
     const { isAuth } = useAuth();
     return (
         <Route
             {...routeProps}
-            render={(routeComponentProps) =>
+            render={(props) =>
                 isAuth ? (
-                    <Switch {...routeComponentProps}>{children}</Switch>
+                    <Component {...props} />
                 ) : (
                     <Redirect
                         to={{
                             pathname: Routes.login,
-                            state: { from: routeComponentProps.location },
+                            state: { from: props.location },
                         }}
                     />
                 )
@@ -26,4 +30,4 @@ const PrivateRouteLayoutSwitch = (props: RouteProps) => {
     );
 };
 
-export default PrivateRouteLayoutSwitch;
+export default PrivateRoute;

@@ -4,7 +4,7 @@ import { Router, Switch, Route } from "react-router-dom";
 import { Routes } from "constants/routes";
 import history from "utils/history";
 
-import { PublicRoute, PrivateRouteLayoutSwitch } from "containers/Routes";
+import { PublicRoute, PrivateRoute } from "containers/Routes";
 
 // Public Pages
 // const Login = lazy(() => import("./Login"));
@@ -18,62 +18,12 @@ const Pages = () => {
     return (
         <Router history={history}>
             <Switch>
+                {/* Public routes */}
                 <PublicRoute path={Routes.login} component={Login} />
                 <PublicRoute path={Routes.register} component={Register} />
-                {/* <PublicRoute
-                        path={Routes.forgotPassword}
-                        component={ForgotPassword}
-                    />
-                    <PublicRoute
-                        path={Routes.setPassword}
-                        component={SetPassword}
-                    /> */}
-                <PrivateRouteLayoutSwitch path={Routes.index}>
-                    <Route exact path={Routes.index} component={Home} />
-                </PrivateRouteLayoutSwitch>
 
-                {/* <PrivateRouteLayoutSwitch
-                        path={Routes.index}
-                        layoutComponent={DashboardLayout}
-                    >
-                        <Route exact path={Routes.index} component={Home} />
-                        <Route
-                            exact
-                            path={Routes.profile}
-                            component={Profile}
-                        />
-                        <Route
-                            exact
-                            path={Routes.applications}
-                            component={Applications}
-                        />
-                        <Route exact path={Routes.search} component={Search} />
-                        <Route
-                            exact
-                            path={Routes.reports}
-                            component={Reports}
-                        />
-                        <Route
-                            exact
-                            path={Routes.admins}
-                            component={Administrators}
-                        />
-                        <Route
-                            exact
-                            path={Routes.adminForm}
-                            component={AdminForm}
-                        />
-                        <Route
-                            exact
-                            path={Routes.leadsWelcome}
-                            component={LeadsWelcome}
-                        />
-                        <Route
-                            exact
-                            path={Routes.leadsContent}
-                            component={LeadsContent}
-                        />
-                    </PrivateRouteLayoutSwitch> */}
+                {/* Private routes */}
+                <PrivateRoute exact path={Routes.index} component={Home} />
             </Switch>
         </Router>
     );

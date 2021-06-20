@@ -5,6 +5,7 @@ import * as yup from "yup";
 import { Routes } from "constants/routes";
 import { register } from "api/auth";
 import history from "utils/history";
+import { FACULTY_OPTIONS, YEAR_OPTIONS } from "constants/options";
 
 import { Button, Heading } from "@commitUI/index";
 import { Input, Select } from "components/Form";
@@ -67,28 +68,6 @@ const Register = () => {
         })
         .defined();
 
-    const FACULTY_OPTIONS = [
-        { label: "Business", value: "Business" },
-        { label: "Computing", value: "Computing" },
-        { label: "Dentistry", value: "Dentistry" },
-        { label: "Design & Environment", value: "Design & Environment" },
-        { label: "Engineering", value: "Engineering" },
-        { label: "Humanities and Sciences", value: "Humanities and Sciences" },
-        { label: "Law", value: "Law" },
-        { label: "Medicine", value: "Medicine" },
-        { label: "Nursing", value: "Nursing" },
-        { label: "Pharmacy", value: "Pharmacy" },
-        { label: "Music", value: "Music" },
-    ];
-
-    const YEAR_OPTIONS = [
-        { label: 1, value: 1 },
-        { label: 2, value: 2 },
-        { label: 3, value: 3 },
-        { label: 4, value: 4 },
-        { label: 5, value: 5 },
-    ];
-
     const handleRegister = (
         values: Values,
         formikHelpers: FormikHelpers<Values>
@@ -145,14 +124,6 @@ const Register = () => {
                             />
                         </div>
 
-                        {/* <Input
-                    value={value2}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        setValue2(event.target.value)
-                    }
-                    label="Faculty"
-                    style={{ marginBottom: 16 }}
-                /> */}
                         <Select
                             name="faculties"
                             label="Faculty"
@@ -183,10 +154,6 @@ const Register = () => {
                     <LinkButton to={Routes.login} type="text">
                         Already have an account? Sign in.
                     </LinkButton>
-                    {/* <span> • </span>
-                    <Button type="text" className={styles.btnRight}>
-                        Sign Up
-                    </Button> */}
                 </div>
             </div>
         </>
