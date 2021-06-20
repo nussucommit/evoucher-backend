@@ -13,6 +13,28 @@ import logo2 from "assets/images/logo2.jpeg";
 const Register = () => {
     const [value, setValue] = useState("");
     const [value2, setValue2] = useState("");
+
+    const FACULTY_OPTIONS = [
+        { label: "Business", value: 1 },
+        { label: "Computing", value: 2 },
+        { label: "Dentistry", value: 3 },
+        { label: "Engineering", value: 4 },
+        { label: "Humanities and Science", value: 5 },
+        { label: "Law", value: 6 },
+        { label: "Medicine", value: 7 },
+        { label: "Music", value: 8 },
+    ];
+
+    const YEAR_OPTIONS = [
+        { label: 1, value: 1 },
+        { label: 2, value: 2 },
+        { label: 3, value: 3 },
+        { label: 4, value: 4 },
+        { label: 5, value: 5 },
+    ];
+
+    const handleRegister = () => {};
+
     return (
         <>
             <Navbar />
@@ -32,17 +54,27 @@ const Register = () => {
                     label="Name"
                     className={styles.input}
                 />
-                {/* <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                > */}
-                <Input
-                    value={value2}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        setValue2(event.target.value)
-                    }
-                    label="NUSNET ID"
-                    className={styles.input}
-                />
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        marginBottom: 16,
+                    }}
+                >
+                    <Input
+                        value={value2}
+                        onChange={(
+                            event: React.ChangeEvent<HTMLInputElement>
+                        ) => setValue2(event.target.value)}
+                        label="NUSNET ID"
+                    />
+
+                    <Select
+                        label="Year"
+                        options={YEAR_OPTIONS}
+                        className={styles.register}
+                    />
+                </div>
 
                 {/* <Input
                     value={value2}
@@ -52,7 +84,13 @@ const Register = () => {
                     label="Faculty"
                     style={{ marginBottom: 16 }}
                 /> */}
-                <Select label="Faculty" className={styles.select} />
+                <Select
+                    label="Faculty"
+                    options={FACULTY_OPTIONS}
+                    isMulti
+                    isSearchable
+                    className={styles.select}
+                />
                 {/* </div> */}
                 <Input
                     value={value2}
