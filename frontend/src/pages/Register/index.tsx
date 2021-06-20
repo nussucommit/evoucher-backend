@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { Formik, Form, FormikHelpers } from "formik";
 import * as yup from "yup";
 
 import { Routes } from "constants/routes";
+import { register } from "api/auth";
+import history from "utils/history";
 
 import { Button, Heading } from "@commitUI/index";
 import { Input, Select } from "components/Form";
@@ -66,14 +68,17 @@ const Register = () => {
         .defined();
 
     const FACULTY_OPTIONS = [
-        { label: "Business", value: 1 },
-        { label: "Computing", value: 2 },
-        { label: "Dentistry", value: 3 },
-        { label: "Engineering", value: 4 },
-        { label: "Humanities and Science", value: 5 },
-        { label: "Law", value: 6 },
-        { label: "Medicine", value: 7 },
-        { label: "Music", value: 8 },
+        { label: "Business", value: "Business" },
+        { label: "Computing", value: "Computing" },
+        { label: "Dentistry", value: "Dentistry" },
+        { label: "Design & Environment", value: "Design & Environment" },
+        { label: "Engineering", value: "Engineering" },
+        { label: "Humanities and Sciences", value: "Humanities and Sciences" },
+        { label: "Law", value: "Law" },
+        { label: "Medicine", value: "Medicine" },
+        { label: "Nursing", value: "Nursing" },
+        { label: "Pharmacy", value: "Pharmacy" },
+        { label: "Music", value: "Music" },
     ];
 
     const YEAR_OPTIONS = [
@@ -88,9 +93,19 @@ const Register = () => {
         values: Values,
         formikHelpers: FormikHelpers<Values>
     ) => {
-        alert(JSON.stringify(values));
-        console.log(values);
+        register({
+            username: values.nusnetID,
+            password: values.password,
+            name: values.name,
+            year: values.year.value as number,
+            faculty1: values.faculties[0].value as string,
+            faculty2:
+                values.faculties.length === 2
+                    ? (values.faculties[1].value as string)
+                    : "",
+        });
         formikHelpers.setSubmitting(false);
+        history.push("/login");
     };
 
     return (
@@ -108,30 +123,29 @@ const Register = () => {
                     validationSchema={validationSchema}
                     onSubmit={handleRegister}
                 >
-                    {({ values }) => (
-                        <Form>
+                    <Form>
+                        <Input
+                            name="name"
+                            label="Name"
+                            className={styles.input}
+                        />
+
+                        <div className={styles.halfInputContainer}>
                             <Input
-                                name="name"
-                                label="Name"
-                                className={styles.input}
+                                name="nusnetID"
+                                label="NUSNET ID"
+                                className={styles.halfField}
                             />
 
-                            <div className={styles.halfInputContainer}>
-                                <Input
-                                    name="nusnetID"
-                                    label="NUSNET ID"
-                                    className={styles.halfField}
-                                />
+                            <Select
+                                name="year"
+                                label="Year"
+                                options={YEAR_OPTIONS}
+                                className={styles.halfField}
+                            />
+                        </div>
 
-                                <Select
-                                    name="year"
-                                    label="Year"
-                                    options={YEAR_OPTIONS}
-                                    className={styles.halfField}
-                                />
-                            </div>
-
-                            {/* <Input
+                        {/* <Input
                     value={value2}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         setValue2(event.target.value)
@@ -139,32 +153,31 @@ const Register = () => {
                     label="Faculty"
                     style={{ marginBottom: 16 }}
                 /> */}
-                            <Select
-                                name="faculties"
-                                label="Faculty"
-                                options={FACULTY_OPTIONS}
-                                isMulti
-                                isSearchable
-                                limitPick={2}
-                                className={styles.select}
-                            />
-                            {/* </div> */}
-                            <Input
-                                name="password"
-                                type="password"
-                                label="Password"
-                                className={styles.input}
-                            />
+                        <Select
+                            name="faculties"
+                            label="Faculty"
+                            options={FACULTY_OPTIONS}
+                            isMulti
+                            isSearchable
+                            limitPick={2}
+                            className={styles.select}
+                        />
+                        {/* </div> */}
+                        <Input
+                            name="password"
+                            type="password"
+                            label="Password"
+                            className={styles.input}
+                        />
 
-                            <Button
-                                // onClick={handleSubmit}
-                                className={styles.btn}
-                                isSubmit
-                            >
-                                Sign Up
-                            </Button>
-                        </Form>
-                    )}
+                        <Button
+                            className={styles.btn}
+                            isSubmit
+                            // Click handler is handled by the onSubmit props in the parent Formik component
+                        >
+                            Sign Up
+                        </Button>
+                    </Form>
                 </Formik>
                 <div className={styles.linkTextContainer}>
                     <LinkButton to={Routes.login} type="text">

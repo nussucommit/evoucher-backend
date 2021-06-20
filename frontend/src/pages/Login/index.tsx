@@ -1,9 +1,14 @@
 import React, { useState } from "react";
+import { Formik, Form, FormikHelpers } from "formik";
+import * as yup from "yup";
 
 import { Routes } from "constants/routes";
 import { login } from "api/auth";
+import history from "utils/history";
+import useAuth from "hooks/useAuth";
 
-import { Input, Button, Heading } from "@commitUI/index";
+import { Button, Heading } from "@commitUI/index";
+import { Input } from "components/Form";
 import Navbar from "components/Navbar";
 import LinkButton from "components/LinkButton";
 
@@ -11,18 +16,44 @@ import styles from "./Login.module.css";
 import logo from "../../assets/images/logo.png";
 import logo2 from "assets/images/logo2.jpeg";
 
+interface Values {
+    nusnet: string;
+    password: string;
+}
+
 const Login = () => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [data, setData] = useState({
-        access: "",
-        refresh: "",
+    const initialValues: Values = {
+        nusnet: "",
+        password: "",
+    };
+
+    const validationSchema: yup.SchemaOf<Values> = yup.object({
+        nusnet: yup.string().required("Required"),
+        password: yup.string().required("Required"),
     });
 
-    const handleLogin = async () => {
-        console.log("login");
-        const res = await login({ username, password });
-        console.log(res);
+    const { login: localLogin } = useAuth(); // Local session login
+
+    const handleLogin = async (
+        values: Values,
+        formikHelpers: FormikHelpers<Values>
+    ) => {
+        try {
+            const { data: token } = await login({
+                username: values.nusnet,
+                password: values.password,
+            });
+            localLogin(token);
+            formikHelpers.setSubmitting(false);
+            history.push("/");
+        } catch (e) {
+            // To-do: Make an alert card like on twitter to display the error message
+            formikHelpers.setFieldError(
+                "password",
+                "Wrong username or password."
+            );
+            console.log(e);
+        }
     };
 
     return (
@@ -37,29 +68,34 @@ const Login = () => {
                 <Heading level={1} className={styles.heading}>
                     Sign In
                 </Heading>
+                <Formik
+                    initialValues={initialValues}
+                    validationSchema={validationSchema}
+                    onSubmit={handleLogin}
+                >
+                    <Form>
+                        <Input
+                            name="nusnet"
+                            label="NUSNET ID"
+                            className={styles.input}
+                        />
 
-                <Input
-                    value={username}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        setUsername(event.target.value)
-                    }
-                    label="NUSNET ID"
-                    className={styles.input}
-                />
+                        <Input
+                            name="password"
+                            label="Password"
+                            type="password"
+                            className={styles.input}
+                        />
 
-                <Input
-                    value={password}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        setPassword(event.target.value)
-                    }
-                    label="Password"
-                    type="password"
-                    className={styles.input}
-                />
-
-                <Button className={styles.btn} onClick={() => handleLogin()}>
-                    Log In
-                </Button>
+                        <Button
+                            className={styles.btn}
+                            isSubmit
+                            // Click handler is handled by the onSubmit props in the parent Formik component
+                        >
+                            Log In
+                        </Button>
+                    </Form>
+                </Formik>
 
                 <div className={styles.linkTextContainer}>
                     <Button type="text">Forgot password?</Button>

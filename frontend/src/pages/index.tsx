@@ -4,12 +4,13 @@ import { Router, Switch, Route } from "react-router-dom";
 import { Routes } from "constants/routes";
 import history from "utils/history";
 
-import { PublicRoute } from "containers/Routes";
+import { PublicRoute, PrivateRouteLayoutSwitch } from "containers/Routes";
 
 // Public Pages
 // const Login = lazy(() => import("./Login"));
 import Login from "./Login";
 import Register from "./Register";
+import Home from "./Home";
 
 // Protected Pages
 
@@ -27,6 +28,9 @@ const Pages = () => {
                         path={Routes.setPassword}
                         component={SetPassword}
                     /> */}
+                <PrivateRouteLayoutSwitch path={Routes.index}>
+                    <Route exact path={Routes.index} component={Home} />
+                </PrivateRouteLayoutSwitch>
 
                 {/* <PrivateRouteLayoutSwitch
                         path={Routes.index}

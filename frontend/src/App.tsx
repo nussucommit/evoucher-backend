@@ -1,54 +1,38 @@
-import React, { useState } from "react";
-import logo from "./logo.svg";
+import React, { useState, useCallback } from "react";
+
+import { AuthContext } from "hooks/useAuth";
+import { deleteToken, getToken, saveToken } from "utils/auth";
+import { Routes } from "constants/routes";
+import session, { SessionStorageKey } from "utils/sessionStorage";
+
 import "./@commitUI/assets/css/index.css";
 import "./App.css";
-import { Input } from "@commitUI/index";
-import Login from "pages/Login";
 import Pages from "pages";
 
-import { BrowserRouter as Router } from "react-router-dom";
-
 function App() {
+    const [isAuth, setIsAuth] = useState(Boolean(getToken()));
+
+    const login = useCallback((token: Token, next?: Routes) => {
+        saveToken(token);
+        session.removeItem(SessionStorageKey.sessionTimedOut);
+        setIsAuth(true);
+    }, []);
+
+    const logout = useCallback(() => {
+        deleteToken();
+        setIsAuth(false);
+    }, []);
+
     return (
-        <Router>
+        <AuthContext.Provider
+            value={{
+                isAuth,
+                login,
+                logout,
+            }}
+        >
             <Pages />
-
-            {/* <header className="App-header">
-                <div style={{ width: "20%", flexDirection: "column" }}>
-                    <Button className="test">Test</Button>
-                    <Button className="test" type="text">
-                        Test
-                    </Button>
-                    <Button className="test" type="danger">
-                        Danger
-                    </Button>
-                    <Button className="test" type="success">
-                        Success
-                    </Button>
-                    <Button className="test" type="secondary">
-                        Secondary
-                    </Button>
-                    <Button className="test" type="outlined">
-                        Outlined
-                    </Button>
-                    <Button className="test" size="small">
-                        Small
-                    </Button>
-
-                    <Heading level={1} className="text">
-                        H1
-                    </Heading>
-
-                    <Text className="text" size="xs" bold>
-                        Text
-                    </Text>
-
-                    <Text className="text" size="xs" semibold>
-                        Text
-                    </Text>
-                </div>
-            </header> */}
-        </Router>
+        </AuthContext.Provider>
     );
 }
 
