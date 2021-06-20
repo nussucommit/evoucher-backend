@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { Formik, Form, FormikHelpers } from "formik";
+import * as yup from "yup";
 
 import { Routes } from "constants/routes";
 
-import { Input, Button, Select, Heading } from "@commitUI/index";
+import { Button, Heading } from "@commitUI/index";
+import { Input, Select } from "components/Form";
 import Navbar from "components/Navbar";
 import LinkButton from "components/LinkButton";
 
@@ -10,9 +13,57 @@ import styles from "./Register.module.css";
 import logo from "../../assets/images/logo.png";
 import logo2 from "assets/images/logo2.jpeg";
 
+type Option = {
+    value: string | number;
+    label: string;
+};
+
+interface Values {
+    name: string;
+    nusnetID: string;
+    year: Option;
+    faculties: Option[];
+    password: string;
+}
+
 const Register = () => {
-    const [value, setValue] = useState("");
-    const [value2, setValue2] = useState("");
+    const initialValues: Values = {
+        name: "",
+        nusnetID: "",
+        year: {
+            label: "",
+            value: "",
+        },
+        faculties: [],
+        password: "",
+    };
+
+    const validationSchema: yup.SchemaOf<Values> = yup
+        .object({
+            name: yup.string().required("Required"),
+            nusnetID: yup.string().required("Required"),
+            year: yup
+                .object()
+                .shape({
+                    value: yup.mixed().required("Required"),
+                    label: yup.string(),
+                })
+                .required("Required"),
+            faculties: yup
+                .array()
+                .of(
+                    yup.object().shape({
+                        value: yup.mixed().required("Required"),
+                        label: yup.string().required("Required"),
+                    })
+                )
+                .test({
+                    message: "Please pick a faculty",
+                    test: (arr) => Boolean(arr) && arr!.length > 0,
+                }),
+            password: yup.string().required("Required"),
+        })
+        .defined();
 
     const FACULTY_OPTIONS = [
         { label: "Business", value: 1 },
@@ -33,7 +84,14 @@ const Register = () => {
         { label: 5, value: 5 },
     ];
 
-    const handleRegister = () => {};
+    const handleRegister = (
+        values: Values,
+        formikHelpers: FormikHelpers<Values>
+    ) => {
+        alert(JSON.stringify(values));
+        console.log(values);
+        formikHelpers.setSubmitting(false);
+    };
 
     return (
         <>
@@ -45,38 +103,35 @@ const Register = () => {
                 </div>
 
                 <Heading className={styles.heading}>Sign Up</Heading>
-
-                <Input
-                    value={value}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        setValue(event.target.value)
-                    }
-                    label="Name"
-                    className={styles.input}
-                />
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        marginBottom: 16,
-                    }}
+                <Formik
+                    initialValues={initialValues}
+                    validationSchema={validationSchema}
+                    onSubmit={handleRegister}
                 >
-                    <Input
-                        value={value2}
-                        onChange={(
-                            event: React.ChangeEvent<HTMLInputElement>
-                        ) => setValue2(event.target.value)}
-                        label="NUSNET ID"
-                    />
+                    {({ values }) => (
+                        <Form>
+                            <Input
+                                name="name"
+                                label="Name"
+                                className={styles.input}
+                            />
 
-                    <Select
-                        label="Year"
-                        options={YEAR_OPTIONS}
-                        className={styles.register}
-                    />
-                </div>
+                            <div className={styles.halfInputContainer}>
+                                <Input
+                                    name="nusnetID"
+                                    label="NUSNET ID"
+                                    className={styles.halfField}
+                                />
 
-                {/* <Input
+                                <Select
+                                    name="year"
+                                    label="Year"
+                                    options={YEAR_OPTIONS}
+                                    className={styles.halfField}
+                                />
+                            </div>
+
+                            {/* <Input
                     value={value2}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         setValue2(event.target.value)
@@ -84,24 +139,33 @@ const Register = () => {
                     label="Faculty"
                     style={{ marginBottom: 16 }}
                 /> */}
-                <Select
-                    label="Faculty"
-                    options={FACULTY_OPTIONS}
-                    isMulti
-                    isSearchable
-                    className={styles.select}
-                />
-                {/* </div> */}
-                <Input
-                    value={value2}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        setValue2(event.target.value)
-                    }
-                    label="Password"
-                    className={styles.input}
-                />
+                            <Select
+                                name="faculties"
+                                label="Faculty"
+                                options={FACULTY_OPTIONS}
+                                isMulti
+                                isSearchable
+                                limitPick={2}
+                                className={styles.select}
+                            />
+                            {/* </div> */}
+                            <Input
+                                name="password"
+                                type="password"
+                                label="Password"
+                                className={styles.input}
+                            />
 
-                <Button className={styles.btn}>Sign Up</Button>
+                            <Button
+                                // onClick={handleSubmit}
+                                className={styles.btn}
+                                isSubmit
+                            >
+                                Sign Up
+                            </Button>
+                        </Form>
+                    )}
+                </Formik>
                 <div className={styles.linkTextContainer}>
                     <LinkButton to={Routes.login} type="text">
                         Already have an account? Sign in.

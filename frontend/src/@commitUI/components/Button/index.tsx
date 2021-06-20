@@ -18,6 +18,7 @@ export interface Props
     icon?: React.ReactNode;
     type?: "danger" | "success" | "outlined" | "text" | "primary" | "secondary";
     vCenter?: boolean;
+    isSubmit?: boolean;
 }
 
 export const Button = ({
@@ -28,6 +29,7 @@ export const Button = ({
     vCenter,
     children,
     disabled,
+    isSubmit,
     ...buttonProps
 }: Props) => {
     const cn = cx(
@@ -44,7 +46,12 @@ export const Button = ({
         className
     );
     return (
-        <button className={cn} disabled={Boolean(disabled)} {...buttonProps}>
+        <button
+            {...buttonProps}
+            className={cn}
+            disabled={Boolean(disabled)}
+            type={isSubmit ? "submit" : "button"}
+        >
             {children}
         </button>
     );

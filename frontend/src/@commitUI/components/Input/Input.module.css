@@ -33,6 +33,10 @@
           box-shadow: 0 0 0 3px #79b1ff;
 }
 
+.container input.inputError {
+  border: var(--danger) 1px solid;
+}
+
 .container label {
   position: absolute;
   pointer-events: none;
@@ -55,8 +59,17 @@
   color: #0a53e4;
 }
 
+.container:focus-within label.labelError {
+  color: var(--danger) !important;
+}
+
 .container .filled {
   -webkit-transform: translate(0, 12px) scale(0.8);
           transform: translate(0, 12px) scale(0.8);
+}
+
+.container .error {
+  color: var(--danger);
+  margin-top: var(--spacing-2xs);
 }
 /*# sourceMappingURL=Input.module.css.map */

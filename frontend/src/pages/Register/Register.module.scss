@@ -14,6 +14,12 @@
     margin-bottom: var(--spacing-md);
 }
 
+.halfInputContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
 .linkTextContainer {
     display: flex;
     flex-direction: column;
@@ -59,8 +65,8 @@
     margin-top: var(--spacing-base);
 }
 
-.register {
-    width: 50%;
+.halfField {
+    width: 49%;
 }
 
 .select {

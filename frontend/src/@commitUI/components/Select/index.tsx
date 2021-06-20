@@ -1,40 +1,60 @@
-import React from "react";
+import React, { ElementRef } from "react";
 import ReactSelect, { components, Props } from "react-select";
 import cx from "classnames";
 
+import { Text } from "../Text";
+
 import styles from "./Select.module.css";
 
-interface SelectProps extends Omit<Props, "components" | "placeholder"> {
+export interface SelectProps extends Omit<Props, "components" | "placeholder"> {
     label: string;
     id?: string;
+    error?: string;
+    limitPick?: number;
 }
 
 export const Select = ({
     label,
+    onChange,
+    onBlur,
+    value,
     options,
     isMulti,
     isSearchable = false,
-    id,
+    error,
+    limitPick = 9999,
     ...props
 }: SelectProps) => {
+    const currLength = value.length || 0;
+
     return (
         <ReactSelect
+            {...props}
+            blurInputOnSelect
+            onChange={onChange}
+            onBlur={onBlur}
             components={{
                 Control: ({ children, ...rest }) => (
-                    <Control label={label} {...rest}>
+                    <Control label={label} error={error} {...rest}>
                         {children}
                     </Control>
                 ),
             }}
             placeholder=""
-            options={options}
+            autoBlur
+            options={currLength < limitPick ? options : []}
+            noOptionsMessage={() =>
+                currLength < limitPick ? "No options" : "Limit reached"
+            }
             isMulti={isMulti}
             isSearchable={isSearchable}
             styles={{
-                control: (styles, { isFocused, isDisabled, hasValue }) => ({
+                control: (styles, { isFocused, hasValue }) => ({
                     ...styles,
-                    height: "54px",
-                    border: "#d2d2d7 1px solid",
+                    minHeight: "54px",
+                    border: error
+                        ? "rgb(250, 74, 87) 1px solid"
+                        : "#d2d2d7 1px solid",
                     borderRadius: "8px",
                     fontSize: 16,
                     outline: "none",
@@ -62,18 +82,27 @@ export const Select = ({
                     fontSize: 16,
                 }),
             }}
-            {...props}
         />
     );
 };
 
 const Control = (props: any): JSX.Element => {
+    const error =
+        JSON.stringify(props.error).charAt(0) === '"'
+            ? props.error
+            : JSON.stringify(props.error).slice(10, -2);
+
     return (
         <div>
             <Label isFloating={props.isFocused} isFilled={props.hasValue}>
                 {props.label}
             </Label>
             <components.Control {...props} />
+            {Boolean(props.error) && (
+                <Text size="xs" semibold className={styles.error}>
+                    {error}
+                </Text>
+            )}
         </div>
     );
 };

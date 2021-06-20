@@ -25,4 +25,9 @@
   -webkit-transform: translate(0, 12px) scale(0.8);
           transform: translate(0, 12px) scale(0.8);
 }
+
+.error {
+  color: var(--danger);
+  margin-top: 12px;
+}
 /*# sourceMappingURL=Select.module.css.map */

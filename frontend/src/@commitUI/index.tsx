@@ -10,4 +10,6 @@ export {
 } from "./components/Sidebar";
 export { Nav, NavLink, NavMenu } from "./components/Navbar";
 export { Input } from "./components/Input";
+export type { ExtendedInputProps as InputProps } from "./components/Input";
 export { Select } from "./components/Select";
+export type { SelectProps } from "./components/Select";
