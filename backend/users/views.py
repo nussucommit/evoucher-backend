@@ -1,10 +1,12 @@
 from rest_framework import status,generics, permissions, mixins
+from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth import authenticate, update_session_auth_hash, login
+from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
-from .serializer import RegisterSerializer, UserSerializer
+from .serializer import RegisterSerializer, UserSerializer, LogoutSerializer
 from datetime import datetime, timedelta
 
 import jwt
@@ -19,10 +21,19 @@ class RegisterApi(generics.GenericAPIView):
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
-        print(user)
+
         return Response({
             "message": "User Created Successfully.  Now perform Login to get your token",
         })
+
+class UserLogoutView(APIView):
+    """Logout view for users"""
+
+    def post(self, request):
+        refresh = request.data.get("refresh_token")
+        token = RefreshToken(refresh)
+        token.blacklist()
+        return Response({"detail": "OK"}, status.HTTP_200_OK)
 
 
 @api_view(['POST'])

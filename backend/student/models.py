@@ -21,7 +21,7 @@ class Student(models.Model):
     vouchers = models.ManyToManyField(Voucher, related_name='students_vouchers', through='Redeems')
 
     def __str__(self):
-        return "{}: {}".format(self.nusnet_id, self.name)
+        return "{} ({})".format(self.name, self.nusnet_id)
 
 class InFaculty(models.Model):
     faculty = models.ForeignKey(Faculty, related_name='faculty_to_student', on_delete=models.CASCADE)
