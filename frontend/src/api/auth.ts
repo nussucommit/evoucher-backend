@@ -7,7 +7,7 @@ export const login = (data: { username: string; password: string }) => {
 };
 
 export const logout = (data: { refresh_token: string }) =>
-    request.post<Token>(`/logout`, data);
+    request.post("/logout", data);
 
 export const register = (data: {
     username: string;
@@ -18,4 +18,11 @@ export const register = (data: {
     faculty2?: string;
 }) => {
     return request.post("/register", data);
+};
+
+export const changepassword = (data: {
+    old_password: string;
+    new_password: string;
+}) => {
+    return request.patch("/changepassword", data);
 };

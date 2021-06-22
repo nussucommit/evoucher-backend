@@ -1,5 +1,5 @@
 // See https://github.com/zeit/swr/blob/master/examples/axios-typescript/libs/useRequest.ts
-import useSWR, { ConfigInterface, responseInterface } from "swr";
+import useSWR, { SWRConfiguration, SWRResponse } from "swr";
 import { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 
 import axios from "api/request";
@@ -8,7 +8,7 @@ export type GetRequest = AxiosRequestConfig | null;
 
 interface Return<Data, Error>
     extends Pick<
-        responseInterface<AxiosResponse<Data>, AxiosError<Error>>,
+        SWRResponse<AxiosResponse<Data>, AxiosError<Error>>,
         "isValidating" | "revalidate" | "error" | "mutate"
     > {
     data: Data | undefined;
@@ -17,7 +17,7 @@ interface Return<Data, Error>
 
 export interface Config<Data = unknown, Error = unknown>
     extends Omit<
-        ConfigInterface<AxiosResponse<Data>, AxiosError<Error>>,
+        SWRConfiguration<AxiosResponse<Data>, AxiosError<Error>>,
         "initialData"
     > {
     initialData?: Data;

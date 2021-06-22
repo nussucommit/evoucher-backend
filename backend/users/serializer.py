@@ -38,20 +38,23 @@ class RegisterSerializer(serializers.ModelSerializer):
             
         return student
 
-class LogoutSerializer(serializers.ModelSerializer):
-    refresh_token = serializers.CharField(read_only=True)
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(write_only=True, required=True)
+    new_password = serializers.CharField(write_only=True, required=True)
 
     class Meta:
-        abstract = True
-
-    def create(self, validated_data):
-        return validated_data
-
-class ChangePasswordSerializer(serializers.Serializer):
-    model = User
-
-    old_password = serializers.CharField(required=True)
-    new_password = serializers.CharField(required=True)
+        model = User
+        field = ('old_password', 'new_password', 'new_password2')
+    
+    def validate_old_password(self, value):
+        user = self.context['request'].user
+        if not user.check_password(value):
+            raise serializers.ValidationError({"old_password": "Old password is incorrect"})
+        return value
+    
+    def update(self, instance, validated_data):
+        instance.set_password(validated_data['new_password'])
+        instance.save()
 
 # User serializer
 class UserSerializer(serializers.ModelSerializer):

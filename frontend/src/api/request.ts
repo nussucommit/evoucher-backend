@@ -31,11 +31,9 @@ request.interceptors.request.use(
         if (!config.headers["Authorization"]) {
             const token = getToken();
             if (token) {
-                console.log("here");
                 config.headers["Authorization"] = `Bearer ${token.access}`;
             }
         }
-        console.log(config);
         return config;
     },
     (error) => Promise.reject(error)

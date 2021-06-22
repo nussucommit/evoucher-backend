@@ -11,6 +11,7 @@ import { PublicRoute, PrivateRoute } from "containers/Routes";
 import Login from "./Login";
 import Register from "./Register";
 import Home from "./Home";
+import ChangePassword from "./ChangePassword";
 
 // Protected Pages
 
@@ -24,6 +25,11 @@ const Pages = () => {
 
                 {/* Private routes */}
                 <PrivateRoute exact path={Routes.index} component={Home} />
+                <PrivateRoute
+                    exact
+                    path={Routes.changePassword}
+                    component={ChangePassword}
+                />
             </Switch>
         </Router>
     );
