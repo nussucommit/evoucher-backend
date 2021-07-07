@@ -108,3 +108,9 @@ dist
 .tern-port
 
 *.pyc
+
+#venv environment
+evoucher-env/
+
+#vscode settings
+backend/.vscode/
