@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import { ChakraProvider } from "@chakra-ui/react";
 
 import { AuthContext } from "hooks/useAuth";
 import { deleteToken, getToken, saveToken } from "utils/auth";
@@ -24,15 +25,17 @@ function App() {
     }, []);
 
     return (
-        <AuthContext.Provider
-            value={{
-                isAuth,
-                login,
-                logout,
-            }}
-        >
-            <Pages />
-        </AuthContext.Provider>
+        <ChakraProvider>
+            <AuthContext.Provider
+                value={{
+                    isAuth,
+                    login,
+                    logout,
+                }}
+            >
+                <Pages />
+            </AuthContext.Provider>
+        </ChakraProvider>
     );
 }
 

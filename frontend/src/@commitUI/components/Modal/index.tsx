@@ -1,27 +1,33 @@
 import React from "react";
-import { Modal as AntModal, ModalProps } from "antd";
-
-import "antd/dist/antd.css";
-
-type Props = Omit<
+import {
+    Modal as ChakraModal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
     ModalProps,
-    | "closeIcon"
-    | "closable"
-    | "keyboard"
-    | "mask"
-    | "maskClosable"
-    | "centered"
-    | "maskStyle"
-    | "onCancel"
-> & {
-    onClose: () => void; // replaces onCancel
+} from "@chakra-ui/react";
+
+type Props = ModalProps & {
+    title: string;
     children: React.ReactNode;
+    footer?: React.ReactNode;
 };
 
-export const Modal = ({ children, onClose, ...props }: Props) => {
+export const Modal = ({ title, footer, children, ...props }: Props) => {
     return (
-        <AntModal {...props} onCancel={onClose}>
-            {children}
-        </AntModal>
+        <ChakraModal {...props}>
+            <ModalOverlay />
+            <ModalContent>
+                {Boolean(title) && <ModalHeader>{title}</ModalHeader>}
+
+                <ModalCloseButton />
+                <ModalBody>{children}</ModalBody>
+
+                {footer && <ModalFooter>{footer}</ModalFooter>}
+            </ModalContent>
+        </ChakraModal>
     );
 };
