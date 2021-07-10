@@ -1,2 +1,2 @@
-release: cd backend && python manage.py migrate
+release: cd backend && python3.8 manage.py migrate
 web: cd backend && gunicorn evoucher.wsgi --workers=3 --threads=6
