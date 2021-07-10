@@ -22,8 +22,8 @@ export const Modal = ({ title = " ", footer, children, ...props }: Props) => {
             <ModalOverlay />
             <ModalContent>
                 {Boolean(title) && <ModalHeader>{title}</ModalHeader>}
-
                 <ModalCloseButton />
+
                 <ModalBody>{children}</ModalBody>
 
                 {footer && <ModalFooter>{footer}</ModalFooter>}

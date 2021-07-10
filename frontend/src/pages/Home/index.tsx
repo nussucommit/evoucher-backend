@@ -4,6 +4,7 @@ import useAuth from "hooks/useAuth";
 import { useStudents, useStudentsAxios } from "api/student";
 import { logout } from "api/auth";
 import { getToken } from "utils/auth";
+import useModal from "hooks/useModal";
 
 import { Button, Modal } from "@commitUI/index";
 import Table from "components/Table";
@@ -153,6 +154,8 @@ const MOCK_VOUCHERS: Voucher[] = [
 
 const Home = () => {
     const { logout: localLogout } = useAuth();
+    const { isOpen, onClose, onOpen } = useModal();
+
     const dataSource = [
         {
             key: "1",
@@ -190,13 +193,12 @@ const Home = () => {
             key: "address",
         },
     ];
-    const [visible, setVisible] = useState(false);
 
     return (
         <div>
             <h1>Home</h1>
             <Table dataSource={dataSource} columns={columns} />;
-            <Button onClick={() => setVisible(true)}>Open Modal</Button>
+            <Button onClick={onOpen}>Open Modal</Button>
             <Button
                 onClick={() => {
                     const token = getToken();
@@ -208,8 +210,8 @@ const Home = () => {
                 Log out
             </Button>
             <Modal
-                isOpen={visible}
-                onClose={() => setVisible(false)}
+                isOpen={isOpen}
+                onClose={onClose}
                 footer={
                     <div style={{ display: "flex" }}>
                         <Button style={{ marginRight: 10 }}>Close</Button>
