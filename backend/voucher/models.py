@@ -4,7 +4,6 @@ import uuid
 
 # Create your models here.
 class Voucher(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     posted_date = models.DateTimeField(blank=False)
     available_date = models.DateTimeField(blank=False)
     expiry_date = models.DateTimeField(blank=False)
