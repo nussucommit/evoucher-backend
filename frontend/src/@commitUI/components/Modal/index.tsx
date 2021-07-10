@@ -11,12 +11,12 @@ import {
 } from "@chakra-ui/react";
 
 type Props = ModalProps & {
-    title: string;
+    title?: string;
     children: React.ReactNode;
     footer?: React.ReactNode;
 };
 
-export const Modal = ({ title, footer, children, ...props }: Props) => {
+export const Modal = ({ title = " ", footer, children, ...props }: Props) => {
     return (
         <ChakraModal {...props}>
             <ModalOverlay />

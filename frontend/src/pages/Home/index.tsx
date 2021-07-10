@@ -208,7 +208,6 @@ const Home = () => {
                 Log out
             </Button>
             <Modal
-                title="Basic Modal"
                 isOpen={visible}
                 onClose={() => setVisible(false)}
                 footer={
