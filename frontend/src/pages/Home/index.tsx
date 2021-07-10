@@ -155,6 +155,7 @@ const MOCK_VOUCHERS: Voucher[] = [
 const Home = () => {
     const { logout: localLogout } = useAuth();
     const { isOpen, onClose, onOpen } = useModal();
+    const { isOpen: isLoading, onToggle: toggleLoading } = useModal();
 
     const dataSource = [
         {
@@ -208,6 +209,9 @@ const Home = () => {
                 }}
             >
                 Log out
+            </Button>
+            <Button isLoading={isLoading} onClick={toggleLoading}>
+                Loading
             </Button>
             <Modal
                 isOpen={isOpen}

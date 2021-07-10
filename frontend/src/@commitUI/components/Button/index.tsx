@@ -1,4 +1,5 @@
 import React, { ButtonHTMLAttributes } from "react";
+import { Spinner } from "@chakra-ui/react";
 import cx from "classnames";
 
 import styles from "./Button.module.css";
@@ -19,6 +20,7 @@ export interface Props
     type?: "danger" | "success" | "outlined" | "text" | "primary" | "secondary";
     vCenter?: boolean;
     isSubmit?: boolean;
+    isLoading?: boolean;
 }
 
 export const Button = ({
@@ -30,6 +32,7 @@ export const Button = ({
     children,
     disabled,
     isSubmit,
+    isLoading = false,
     ...buttonProps
 }: Props) => {
     const cn = cx(
@@ -52,7 +55,7 @@ export const Button = ({
             disabled={Boolean(disabled)}
             type={isSubmit ? "submit" : "button"}
         >
-            {children}
+            {isLoading ? <Spinner size="xs" /> : children}
         </button>
     );
 };
