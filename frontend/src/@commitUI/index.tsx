@@ -13,3 +13,4 @@ export { Input } from "./components/Input";
 export type { ExtendedInputProps as InputProps } from "./components/Input";
 export { Select } from "./components/Select";
 export type { SelectProps } from "./components/Select";
+export { Modal } from "./components/Modal";
