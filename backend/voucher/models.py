@@ -1,9 +1,9 @@
 from django.db import models
 from organization.models import Organization
-import uuid
 
 # Create your models here.
 class Voucher(models.Model):
+    # please include uuidfield as the primary key instead.
     posted_date = models.DateTimeField(blank=False)
     available_date = models.DateTimeField(blank=False)
     expiry_date = models.DateTimeField(blank=False)

@@ -2,8 +2,7 @@ from django.db import models
 
 from faculty.models import Faculty
 from organization.models import Organization
-from voucher.models import Voucher, Code
-from django.contrib.auth.models import User
+from voucher.models import Voucher
 
 # Create your models here.
 class Student(models.Model):
@@ -22,9 +21,6 @@ class InFaculty(models.Model):
     faculty = models.ForeignKey(Faculty, related_name='faculty_to_student', on_delete=models.CASCADE)
     student = models.ForeignKey(Student, related_name='student_to_faculty', on_delete=models.CASCADE)
 
-    def __str__(self):
-        return "{} is in the faculty of {}".format(self.student, self.faculty)
-
     class Meta:
         unique_together = ('faculty', 'student')
 
@@ -42,12 +38,3 @@ class Redeems(models.Model):
 
     class Meta:
         unique_together = ('voucher', 'student')
-
-
-class IdCodeStudent(models.Model):
-    voucher = models.UUIDField()
-    code = models.ForeignKey(Code, on_delete=models.CASCADE)
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return "Voucher {} with code {} assigned to {}".format(self.voucher, self.code, self.student)
