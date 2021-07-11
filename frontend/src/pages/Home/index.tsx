@@ -9,6 +9,7 @@ import { useVoucher, useVouchers } from "api/voucher"
 import { Button } from "@commitUI/index"
 import VoucherCard, { VoucherCardSkeleton } from "components/VoucherCard"
 import VoucherModal from "components/VoucherModal"
+import Navbar from "components/Navbar"
 
 const Home = () => {
   const { logout: localLogout } = useAuth()
@@ -31,9 +32,8 @@ const Home = () => {
 
   return (
     <>
+      <Navbar />
       <div style={{ backgroundColor: "#fff", margin: 32 }}>
-        <h1>Home</h1>
-        {/* <Table dataSource={dataSource} columns={columns} />; */}
         <div
           style={{
             display: "grid",

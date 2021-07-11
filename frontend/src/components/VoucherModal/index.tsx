@@ -2,6 +2,7 @@ import React, { useState, useEffect, useLayoutEffect } from "react"
 import { Skeleton, SkeletonText } from "@chakra-ui/react"
 
 import usePrevious from "hooks/usePrevious"
+import { dateToString } from "utils/date"
 
 import { Modal, ModalProps, Heading, Text } from "@commitUI/index"
 
@@ -51,7 +52,9 @@ const VoucherModal = ({ voucher, isOpen, onClose, isValidating }: Props) => {
             <Text
               className={styles.provider}
             >{`Provided by ${voucher?.organization}`}</Text>
-            <Text>{`Promotion ends on ${voucher?.expiry_date}`}</Text>
+            <Text>{`Promotion ends on ${dateToString(
+              voucher?.expiry_date || ""
+            )}`}</Text>
           </div>
 
           <img src={voucher?.image} className={styles.img} alt="Voucher" />

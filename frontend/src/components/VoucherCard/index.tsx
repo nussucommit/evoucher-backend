@@ -1,8 +1,8 @@
 import React from "react"
-import cx from "classnames"
 import { Skeleton, SkeletonText } from "@chakra-ui/react"
 
 import { useVoucher } from "api/voucher"
+import { dateToString } from "utils/date"
 
 import { Card, CardProps, Text, Heading } from "@commitUI/index"
 
@@ -41,7 +41,9 @@ const VoucherCard = ({
 
           <div className={styles.description}>
             <Text>{`Provided by ${voucher?.organization}`}</Text>
-            <Text>{`Promotion ends on ${voucher?.expiry_date}`}</Text>
+            <Text>{`Promotion ends on ${dateToString(
+              voucher?.expiry_date || ""
+            )}`}</Text>
           </div>
 
           <Text>Flash this eVoucher to redeem</Text>
