@@ -1,11 +1,15 @@
 from rest_framework import status,generics, permissions, mixins
+from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth import authenticate, update_session_auth_hash, login
+from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
-from .serializer import RegisterSerializer, UserSerializer
+from .serializer import RegisterSerializer, UserSerializer, ChangePasswordSerializer
 from datetime import datetime, timedelta
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 import jwt
 from django.conf import settings
@@ -19,11 +23,44 @@ class RegisterApi(generics.GenericAPIView):
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
+
         return Response({
-            "user": UserSerializer(user, context=self.get_serializer_context()).data,
             "message": "User Created Successfully.  Now perform Login to get your token",
         })
 
+class UserLogoutView(APIView):
+    """Logout view for users"""
+
+    def post(self, request):
+        refresh = request.data.get("refresh_token")
+        token = RefreshToken(refresh)
+        token.blacklist()
+        return Response({"detail": "OK"}, status.HTTP_200_OK)
+
+class ChangePasswordView(generics.UpdateAPIView):
+    # authentication_classes = (JWTAuthentication,)
+    # permission_classes = (IsAuthenticated,)
+    serializer_class = ChangePasswordSerializer
+
+    def update(self, request, *args, **kwargs):
+        serializer = ChangePasswordSerializer(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        serializer.update(request.user, serializer.validated_data)
+        print(serializer.validated_data)
+        refresh = request.data.get("refresh_token")
+        token = RefreshToken(refresh)
+
+        print(token)
+        print(refresh)
+
+        response = {
+            'status': 'success',
+            'code': status.HTTP_200_OK,
+            'message': 'Password updated successfully',
+            'data': []
+        }
+
+        return Response(response)
 
 @api_view(['POST'])
 def change_password(request, pk):
