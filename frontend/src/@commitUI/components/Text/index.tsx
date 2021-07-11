@@ -17,6 +17,7 @@ export type Props = {
     type?:
         | "black"
         | "danger"
+        | "gray"
         | "light"
         | "lighter"
         | "lightest"
@@ -29,13 +30,11 @@ export type Props = {
 
 export const Text = (props: Props) => {
     const {
-        block,
         centered,
         children,
         className,
         ellipsize,
         noLeading,
-        paragraph,
         size,
         bold,
         semibold,
@@ -56,6 +55,7 @@ export const Text = (props: Props) => {
             [styles.md]: size === "md",
             [styles.lg]: size === "lg",
             [styles.xl]: size === "xl",
+            [styles.gray]: type === "gray",
             [styles.light]: type === "light",
             [styles.lighter]: type === "lighter",
             [styles.lightest]: type === "lightest",
@@ -68,7 +68,5 @@ export const Text = (props: Props) => {
         },
         className
     );
-    if (paragraph) return <p className={cn}>{children}</p>;
-    if (block) return <div className={cn}>{children}</div>;
-    return <span className={cn}>{children}</span>;
+    return <p className={cn}>{children}</p>;
 };

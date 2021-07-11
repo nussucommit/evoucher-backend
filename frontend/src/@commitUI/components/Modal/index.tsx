@@ -7,16 +7,21 @@ import {
     ModalFooter,
     ModalBody,
     ModalCloseButton,
-    ModalProps,
+    ModalProps as ChakraModalProps,
 } from "@chakra-ui/react";
 
-type Props = ModalProps & {
+export type ModalProps = ChakraModalProps & {
     title?: string;
     children: React.ReactNode;
     footer?: React.ReactNode;
 };
 
-export const Modal = ({ title = " ", footer, children, ...props }: Props) => {
+export const Modal = ({
+    title = " ",
+    footer,
+    children,
+    ...props
+}: ModalProps) => {
     return (
         <ChakraModal {...props}>
             <ModalOverlay />

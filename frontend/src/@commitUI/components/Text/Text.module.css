@@ -1,5 +1,5 @@
 .text {
-  color: var(--gray);
+  color: var(--black);
   font-size: var(--font-base);
 }
 
@@ -49,6 +49,10 @@
 .text.xl {
   font-size: var(--font-xl);
   line-height: var(--font-2xl);
+}
+
+.text.gray {
+  color: var(--gray);
 }
 
 .text.light {

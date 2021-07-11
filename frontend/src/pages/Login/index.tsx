@@ -61,8 +61,8 @@ const Login = () => {
             <Navbar />
             <div className={styles.container}>
                 <div className={styles.imgContainer}>
-                    <img src={logo2} alt="logo" height={60} />
-                    <img src={logo} alt="logo" height={80} />
+                    {/* <img src={logo2} alt="logo" height={10} />
+                    <img src={logo} alt="logo" height={10} /> */}
                 </div>
 
                 <Heading level={1} className={styles.heading}>

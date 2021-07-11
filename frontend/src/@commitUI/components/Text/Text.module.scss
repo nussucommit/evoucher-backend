@@ -1,5 +1,5 @@
 .text {
-    color: var(--gray);
+    color: var(--black);
     font-size: var(--font-base);
 
     &.centered {
@@ -48,6 +48,10 @@
     &.xl {
         font-size: var(--font-xl);
         line-height: var(--font-2xl);
+    }
+
+    &.gray {
+        color: var(--gray);
     }
 
     &.light {
