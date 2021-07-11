@@ -1,0 +1,13 @@
+.container {
+    background-color: var(--white);
+    height: auto;
+    border-radius: var(--border-radius);
+    margin: var(--spacing-base) var(--spacing-xs);
+    padding: 0;
+}
+
+.img {
+    height: 200px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}

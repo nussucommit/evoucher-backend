@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,UAAU,CAAC;EACP,gBAAgB,EAAE,YAAY;EAC9B,MAAM,EAAE,IAAI;EACZ,aAAa,EAAE,oBAAoB;EACnC,MAAM,EAAE,mBAAmB,CAAC,iBAAiB;EAC7C,OAAO,EAAE,CAAC;CACb;;AAED,AAAA,IAAI,CAAC;EACD,MAAM,EAAE,KAAK;EACb,sBAAsB,EAAE,GAAG;EAC3B,uBAAuB,EAAE,GAAG;CAC/B",
+    "sources": [
+        "VoucherCard.module.scss"
+    ],
+    "names": [],
+    "file": "VoucherCard.module.css"
+}

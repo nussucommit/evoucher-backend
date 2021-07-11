@@ -5,200 +5,67 @@ import { useStudents, useStudentsAxios } from "api/student";
 import { logout } from "api/auth";
 import { getToken } from "utils/auth";
 import useModal from "hooks/useModal";
+import { useVoucher, useVouchers } from "api/voucher";
 
 import { Button, Modal } from "@commitUI/index";
 import Table from "components/Table";
-
-const MOCK_VOUCHERS: Voucher[] = [
-    {
-        id: "1",
-        posted_date: "2021-04-12T08:06:12Z",
-        available_date: "2021-04-11T16:00:00Z",
-        expiry_date: "2021-04-22T16:00:00Z",
-        name: "test",
-        voucher_type: "Food",
-        description: "test",
-        counter: 0,
-        image:
-            "https://s3.ap-southeast-1.amazonaws.com/evoucher-bucket2/images/assets/github-icon.png?AWSAccessKeyId=AKIAXKP65BHU3UH3VKOZ&Signature=hid0PNRsoOZTZkxei5NtJfA2YQc%3D&Expires=1625920242",
-        code_uploaded: false,
-        organization: "org1",
-    },
-    {
-        id: "2",
-        posted_date: "2021-04-13T13:21:24Z",
-        available_date: "2021-04-14T16:00:00Z",
-        expiry_date: "2021-04-22T16:00:00Z",
-        name: "ddd",
-        voucher_type: "Food",
-        description: "fdfdafds",
-        counter: 0,
-        image:
-            "https://s3.ap-southeast-1.amazonaws.com/evoucher-bucket2/images/assets/email.png?AWSAccessKeyId=AKIAXKP65BHU3UH3VKOZ&Signature=NzXPd75KgirJk7IGFi9kdD5yPXo%3D&Expires=1625920242",
-        code_uploaded: false,
-        organization: "org1",
-    },
-    {
-        id: "3",
-        posted_date: "2021-04-14T05:18:40Z",
-        available_date: "2021-04-13T16:00:00Z",
-        expiry_date: "2021-04-21T16:00:00Z",
-        name: "hello",
-        voucher_type: "Sport",
-        description: "I am a testing thing",
-        counter: 0,
-        image:
-            "https://s3.ap-southeast-1.amazonaws.com/evoucher-bucket2/images/assets/photo_2021-01-03_19-53-44.jpg?AWSAccessKeyId=AKIAXKP65BHU3UH3VKOZ&Signature=jn750tbIhGTvyrmitvtTEG2XS0A%3D&Expires=1625920242",
-        code_uploaded: false,
-        organization: "org1",
-    },
-    {
-        id: "5",
-        posted_date: "2021-04-14T15:30:46Z",
-        available_date: "2021-04-13T16:00:00Z",
-        expiry_date: "2021-04-29T16:00:00Z",
-        name: "asasf",
-        voucher_type: "Food",
-        description: "asdasf",
-        counter: 0,
-        image:
-            "https://s3.ap-southeast-1.amazonaws.com/evoucher-bucket2/images/assets/sadasdasdad_jAqtGX0.png?AWSAccessKeyId=AKIAXKP65BHU3UH3VKOZ&Signature=tqUJfWQ8p0XpaBMnt%2BNsBNx9DXw%3D&Expires=1625920242",
-        code_uploaded: false,
-        organization: "org1",
-    },
-    {
-        id: "4",
-        posted_date: "2021-04-14T15:48:48Z",
-        available_date: "2021-04-13T16:00:00Z",
-        expiry_date: "2021-04-29T16:00:00Z",
-        name: "asdasf",
-        voucher_type: "Food",
-        description: "asdads",
-        counter: 0,
-        image:
-            "https://s3.ap-southeast-1.amazonaws.com/evoucher-bucket2/images/assets/sadasdasdad.png?AWSAccessKeyId=AKIAXKP65BHU3UH3VKOZ&Signature=MuRSprTsRh4YJwx2D89Z7E2sD8w%3D&Expires=1625920242",
-        code_uploaded: false,
-        organization: "org1",
-    },
-    {
-        id: "6",
-        posted_date: "2021-04-14T15:51:59Z",
-        available_date: "2021-04-13T16:00:00Z",
-        expiry_date: "2021-04-29T16:00:00Z",
-        name: "test2",
-        voucher_type: "Food",
-        description: "sfdsfgsfg",
-        counter: 0,
-        image:
-            "https://s3.ap-southeast-1.amazonaws.com/evoucher-bucket2/images/assets/house.png?AWSAccessKeyId=AKIAXKP65BHU3UH3VKOZ&Signature=eIqEU0hxikmwwCKH5DkY03zj5Ao%3D&Expires=1625920242",
-        code_uploaded: false,
-        organization: "org1",
-    },
-    {
-        id: "8",
-        posted_date: "2021-04-14T17:09:15Z",
-        available_date: "2021-04-14T16:00:00Z",
-        expiry_date: "2021-04-29T16:00:00Z",
-        name: "test",
-        voucher_type: "Food",
-        description: "fsfdsfda",
-        counter: 0,
-        image:
-            "https://s3.ap-southeast-1.amazonaws.com/evoucher-bucket2/images/assets/email.png?AWSAccessKeyId=AKIAXKP65BHU3UH3VKOZ&Signature=NzXPd75KgirJk7IGFi9kdD5yPXo%3D&Expires=1625920242",
-        code_uploaded: false,
-        organization: "org1",
-    },
-    {
-        id: "7",
-        posted_date: "2021-04-14T17:11:35Z",
-        available_date: "2021-04-14T16:00:00Z",
-        expiry_date: "2021-04-29T16:00:00Z",
-        name: "testtest3",
-        voucher_type: "Sport",
-        description: "testtest3",
-        counter: 0,
-        image:
-            "https://s3.ap-southeast-1.amazonaws.com/evoucher-bucket2/images/assets/sadasdasdad_oPjrHQn.png?AWSAccessKeyId=AKIAXKP65BHU3UH3VKOZ&Signature=pkgo67TAbq6AHG%2FFBOSll5Db4Ng%3D&Expires=1625920242",
-        code_uploaded: false,
-        organization: "org1",
-    },
-    {
-        id: "9",
-        posted_date: "2021-04-14T17:15:44Z",
-        available_date: "2021-04-14T16:00:00Z",
-        expiry_date: "2021-04-22T16:00:00Z",
-        name: "sfdsfd",
-        voucher_type: "Sport",
-        description: "sfdsfdsfda",
-        counter: 0,
-        image:
-            "https://s3.ap-southeast-1.amazonaws.com/evoucher-bucket2/images/assets/smartphone.png?AWSAccessKeyId=AKIAXKP65BHU3UH3VKOZ&Signature=Lst30b%2BNrW6i693pUP3TG4Z%2Fhx0%3D&Expires=1625920242",
-        code_uploaded: false,
-        organization: "org1",
-    },
-    {
-        id: "10",
-        posted_date: "2021-04-17T13:40:59Z",
-        available_date: "2021-04-17T16:00:00Z",
-        expiry_date: "2021-04-29T16:00:00Z",
-        name: "test",
-        voucher_type: "Food",
-        description: "fsdsfdsfda",
-        counter: 0,
-        image:
-            "https://s3.ap-southeast-1.amazonaws.com/evoucher-bucket2/images/assets/SeEduLogo.png?AWSAccessKeyId=AKIAXKP65BHU3UH3VKOZ&Signature=T0XL2G3lPWg9aA5drHQ3MLPKU2c%3D&Expires=1625920242",
-        code_uploaded: false,
-        organization: "org1",
-    },
-];
+import VoucherCard from "components/VoucherCard";
 
 const Home = () => {
     const { logout: localLogout } = useAuth();
     const { isOpen, onClose, onOpen } = useModal();
-    const { isOpen: isLoading, onToggle: toggleLoading } = useModal();
+    // const {data: vouchers} = useVouchers("placeholder");
+    const vouchers = [
+        { id: 59, voucher_id: 20, code_id: 103, email_id: 9 },
+        { id: 67, voucher_id: 24, code_id: 111, email_id: 9 },
+        { id: 68, voucher_id: 25, code_id: 112, email_id: 9 },
+        { id: 69, voucher_id: 26, code_id: 113, email_id: 9 },
+        { id: 70, voucher_id: 27, code_id: 114, email_id: 9 },
+        { id: 71, voucher_id: 28, code_id: 115, email_id: 9 },
+        { id: 72, voucher_id: 29, code_id: 116, email_id: 9 },
+        { id: 73, voucher_id: 30, code_id: 117, email_id: 9 },
+        { id: 74, voucher_id: 31, code_id: 118, email_id: 9 },
+        { id: 75, voucher_id: 32, code_id: 119, email_id: 9 },
+        { id: 76, voucher_id: 33, code_id: 120, email_id: 9 },
+        { id: 77, voucher_id: 34, code_id: 121, email_id: 9 },
+        { id: 78, voucher_id: 35, code_id: 122, email_id: 9 },
+        { id: 79, voucher_id: 36, code_id: 123, email_id: 9 },
+        { id: 80, voucher_id: 37, code_id: 124, email_id: 9 },
+        { id: 81, voucher_id: 38, code_id: 125, email_id: 9 },
+        { id: 82, voucher_id: 39, code_id: 126, email_id: 9 },
+        { id: 83, voucher_id: 40, code_id: 127, email_id: 9 },
+        { id: 84, voucher_id: 41, code_id: 128, email_id: 9 },
+        { id: 85, voucher_id: 42, code_id: 129, email_id: 9 },
+        { id: 86, voucher_id: 43, code_id: 130, email_id: 9 },
+        { id: 87, voucher_id: 44, code_id: 131, email_id: 9 },
+        { id: 116, voucher_id: 46, code_id: 160, email_id: 9 },
+    ];
+    const [openVoucher, setOpenVoucher] = useState<number>();
+    const { data: voucher } = useVoucher(openVoucher || 0);
 
-    const dataSource = [
-        {
-            key: "1",
-            name: "Mike",
-            age: 32,
-            address: "10 Downing Street",
-        },
-        {
-            key: "2",
-            name: "John",
-            age: 42,
-            address: "10 Downing Street",
-        },
-        {
-            key: "3",
-            name: "Jane",
-            age: 42,
-            address: "10 Downing Street",
-        },
-    ];
-    const columns = [
-        {
-            title: "Name",
-            dataIndex: "name",
-            key: "name",
-        },
-        {
-            title: "Age",
-            dataIndex: "age",
-            key: "age",
-        },
-        {
-            title: "Address",
-            dataIndex: "address",
-            key: "address",
-        },
-    ];
+    const openModal = (voucherID: number) => {
+        setOpenVoucher(voucherID);
+        onOpen();
+    };
 
     return (
-        <div>
+        <div style={{ backgroundColor: "#EDEDED" }}>
             <h1>Home</h1>
-            <Table dataSource={dataSource} columns={columns} />;
+            {/* <Table dataSource={dataSource} columns={columns} />; */}
+            <div
+                style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+                }}
+            >
+                {vouchers.length &&
+                    vouchers.map((voucher) => (
+                        <VoucherCard
+                            voucherID={voucher.voucher_id}
+                            onClick={() => openModal(voucher.voucher_id)}
+                        />
+                    ))}
+            </div>
             <Button onClick={onOpen}>Open Modal</Button>
             <Button
                 onClick={() => {
@@ -210,9 +77,7 @@ const Home = () => {
             >
                 Log out
             </Button>
-            <Button isLoading={isLoading} onClick={toggleLoading}>
-                Loading
-            </Button>
+
             <Modal
                 isOpen={isOpen}
                 onClose={onClose}
@@ -223,9 +88,9 @@ const Home = () => {
                     </div>
                 }
             >
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
+                <p>{voucher?.name}</p>
+                <p>{voucher?.description}</p>
+                <p>{voucher?.organization}</p>
             </Modal>
         </div>
     );

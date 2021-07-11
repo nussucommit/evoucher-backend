@@ -18,3 +18,10 @@ interface Voucher {
     image: string;
     code_uploaded: boolean;
 }
+
+interface CodeByEmail {
+    id: number;
+    voucher_id: number;
+    code_id: number;
+    email_id: number;
+}

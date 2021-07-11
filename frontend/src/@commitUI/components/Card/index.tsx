@@ -1,13 +1,25 @@
 import React from "react";
-import "./styles.css";
+import cx from "classnames";
 
-export interface Props {}
-const Card = (): JSX.Element => {
+import styles from "./Card.module.css";
+
+export interface CardProps {
+    children?: React.ReactNode;
+    className?: string;
+    style?: React.CSSProperties;
+    onClick?: React.MouseEventHandler<HTMLDivElement>;
+}
+
+export const Card = ({
+    style,
+    className,
+    children,
+    onClick,
+}: CardProps): JSX.Element => {
+    const cn = cx(styles.container, className);
     return (
-        <div className="container">
-            <h1>Card</h1>
+        <div className={cn} style={style} onClick={onClick}>
+            {children}
         </div>
     );
 };
-
-export default Card;
