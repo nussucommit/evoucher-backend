@@ -1,6 +1,0 @@
-@import "./fonts.css";
-@import "./variables.css";
-
-:root {
-    font-family: var(--font-family);
-}

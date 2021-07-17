@@ -1,8 +1,0 @@
-.container {
-  background-color: var(--white);
-  height: 20vh;
-  border-radius: var(--border-radius);
-  margin: 0 var(--spacing-xs);
-  padding: var(--spacing-xs) var(--spacing-base);
-}
-/*# sourceMappingURL=Card.module.css.map */

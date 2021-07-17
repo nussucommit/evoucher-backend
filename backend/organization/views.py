@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 # Create your views here.
@@ -29,3 +29,10 @@ def getOrgnamebyUname(request, pk):
     organization = Organization.objects.filter(username=pk)
     serializer = OrganizationName(organization, many=True)
     return Response(serializer.data)
+
+@api_view(['POST'])
+def verifyOrganization(request):
+    organization = Organization.objects.filter(username=request.data['username']).first()
+    if organization:
+        return Response({'status': 'found'}, status=status.HTTP_200_OK)
+    return Response({'status': 'not found'}, status=status.HTTP_404_NOT_FOUND)
