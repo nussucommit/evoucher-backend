@@ -1,9 +1,13 @@
+import uuid
+
 from django.db import models
+
 from organization.models import Organization
+from student.models import Student
 
 # Create your models here.
 class Voucher(models.Model):
-    # please include uuidfield as the primary key instead.
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     posted_date = models.DateTimeField(blank=False)
     available_date = models.DateTimeField(blank=False)
     expiry_date = models.DateTimeField(blank=False)
@@ -22,6 +26,7 @@ class Code(models.Model):
     code = models.CharField(max_length=128)
     voucher = models.ForeignKey(Voucher, on_delete=models.CASCADE)
     isAssigned = models.BooleanField(default=False)
+    isRedeemed = models.BooleanField(default=False)
 
     def __str__(self):
         return self.code
@@ -29,18 +34,11 @@ class Code(models.Model):
     class Meta:
         ordering = ['code']
 
-class Email(models.Model):
-    email = models.CharField(max_length=40)
-    #voucher = models.ForeignKey(Voucher, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.email
-
 
 class IdCodeEmail(models.Model):
     voucher = models.ForeignKey(Voucher, on_delete=models.CASCADE)
     code = models.ForeignKey(Code, on_delete=models.CASCADE)
-    email = models.ForeignKey(Email, on_delete=models.CASCADE)
+    email = models.CharField(max_length=128)
 
     def __str__(self):
         return "Voucher {}: {} assigned to {}".format(self.voucher, self.code, self.email)

@@ -5,8 +5,8 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 from django.http import JsonResponse
 
 # Create your views here.
-from voucher.models import Voucher, Email, Code, IdCodeEmail
-from voucher.serializers import VoucherSerializer, EmailSerializer, OrganizationInVoucher, VoucherTypes#, CodeSerializer
+from voucher.models import Voucher, Code, IdCodeEmail
+from voucher.serializers import VoucherSerializer, OrganizationInVoucher, VoucherTypes#, CodeSerializer
 from django.db.models import Q, Max
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
@@ -31,13 +31,7 @@ def upload_email_list(request):
     # initialClaimsLeft = voucher.counter
 
     for row in reader:
-        value = row['\ufeffemail']
-        email = None
-        if Email.objects.filter(email=value).count() == 0:
-            User.objects.create_user(value).save()
-            email = Email.objects.create(email=value)
-        else: 
-            email = Email.objects.get(email=value)
+        email = row['\ufeffemail']
         # if the voucher is yet to be assigned to this email
         if IdCodeEmail.objects.filter(email=email).filter(voucher=voucher).first() == None:
             assign_codes_to_emails(voucherID, email)
@@ -84,13 +78,7 @@ def upload_both_files(request):
     reader = csv.DictReader(decoded_file)
 
     for row in reader:
-        value = row['\ufeffemail']
-        email = None
-        if Email.objects.filter(email=value).count() == 0:
-            User.objects.create_user(value).save()
-            email = Email.objects.create(email=value)
-        else: 
-            email = Email.objects.get(email=value)
+        email = row['\ufeffemail']
         # if the voucher is yet to be assigned to this email
         if IdCodeEmail.objects.filter(email=email).filter(voucher=voucher).first() == None:
             assign_codes_to_emails(voucherID, email)
@@ -107,9 +95,7 @@ def get_num_codes(request, id):
 
 @api_view(['GET'])
 def get_codes_from_email(request, email):
-    email2 = Email.objects.get(email=email)
-    idCodeEmail = IdCodeEmail.objects.filter(email=email2).distinct('voucher').values()
-    print(idCodeEmail)
+    idCodeEmail = IdCodeEmail.objects.filter(email=email).distinct('voucher').values()
     return JsonResponse({"data": list(idCodeEmail)})
 
 @api_view(['GET'])

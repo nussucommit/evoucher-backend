@@ -1,11 +1,7 @@
 from rest_framework import  serializers
-from rest_framework.permissions import IsAuthenticated
-from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
-from django.contrib.auth.hashers import make_password
-from student.models import Student, InFaculty
-from faculty.models import Faculty
+from student.models import Student, InOrganization
+from organization.models import Organization
 
 # Register serializer
 class RegisterSerializer(serializers.ModelSerializer):
@@ -26,15 +22,15 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(username = validated_data['username'], password = validated_data['password'] )
         # Create new Student instance
         student = Student.objects.create(nusnet_id=validated_data['username'], name=validated_data['name'], year=validated_data['year'] )
-        # Get Faculty instance using its name, or create it if it's not yet available
-        fac1, created = Faculty.objects.get_or_create(name=validated_data['faculty1'])
-        # Create the Many-to-many instance of InFaculty
-        InFaculty.objects.create(faculty=fac1, student=student)
+        # Get Organization instance using its name, or create it if it's not yet available
+        fac1 = Organization.objects.get_or_create(name=validated_data['faculty1'])
+        # Create the Many-to-many instance of InOrganization
+        InOrganization.objects.create(organization=fac1[0], student=student)
         
         # Same thing but for the second faculty
         if validated_data['faculty2']:
-            fac2, created = Faculty.objects.get_or_create(name=validated_data['faculty2'])
-            InFaculty.objects.create(faculty=fac2, student=student)
+            fac2 = Organization.objects.get_or_create(name=validated_data['faculty2'])
+            InOrganization.objects.create(organization=fac2[0], student=student)
             
         return student
 
