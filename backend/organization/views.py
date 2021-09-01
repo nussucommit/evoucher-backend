@@ -26,8 +26,8 @@ def getOrgWoUname(request):
 
 @api_view(['GET'])
 def getOrgnamebyUname(request, pk):
-    organization = Organization.objects.filter(username=pk)
-    serializer = OrganizationName(organization, many=True)
+    organization = Organization.objects.get(username=pk)
+    serializer = OrganizationName(organization)
     return Response(serializer.data)
 
 @api_view(['POST'])

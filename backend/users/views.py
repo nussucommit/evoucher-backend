@@ -16,6 +16,18 @@ from django.conf import settings
 from users.auth_backend import PasswordlessAuthBackend
 from rest_framework_simplejwt.tokens import RefreshToken
 
+class UserView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer(queryset)
+
+    def retrieve(self, request, pk=None):
+        """
+        If provided 'pk' is "me" then return the current user.
+        """
+        if request.user and pk == 'me':
+            return Response(UserSerializer(request.user).data)
+        return super(UserView, self).retrieve(request, pk)
+
 #Register API
 class RegisterApi(generics.GenericAPIView):
     serializer_class = RegisterSerializer
