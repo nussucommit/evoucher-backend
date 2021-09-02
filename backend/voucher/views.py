@@ -22,8 +22,8 @@ from evoucher.pagination_settings import PaginationSettings
 @api_view(['POST'])
 def upload_email_list(request):
 
-    voucherID = int(request.data['id'])
-    voucher = Voucher.objects.get(id=voucherID)
+    voucherID = request.data['uuid']
+    voucher = Voucher.objects.get(uuid=voucherID)
 
     file = request.FILES['email_list']
     decoded_file = file.read().decode('utf-8').splitlines()
@@ -44,11 +44,11 @@ def upload_email_list(request):
 @api_view(['POST'])
 def upload_code_list(request):
 
-    voucherID = int(request.data['id'])
-    voucher = Voucher.objects.get(id=voucherID)
+    voucherID = request.data['uuid']
+    voucher = Voucher.objects.get(uuid=voucherID)
 
     file = request.FILES['code_list']
-    decoded_file = file.read().decode('utf-8').splitlines()
+    decoded_file = file.read().decode('utf-8-sig').splitlines()
     reader = csv.DictReader(decoded_file)
     # count = 0
     for row in reader:
@@ -104,9 +104,10 @@ def get_codes_by_code_list(request, id):
     return Response(data=code2.code)
 
 
-def assign_codes_to_emails(vid, email):
-    voucher = Voucher.objects.get(id=vid)
+def assign_codes_to_emails(voucher_id, email):
+    voucher = Voucher.objects.get(uuid = voucher_id)
     code = Code.objects.filter(voucher = voucher).filter(isAssigned = False).first()
+    print(code)
     count = 1
 
     if code == None:
