@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 # Create your views here.
 from organization.models import Organization
-from organization.serializers import OrganizationSerializer, OrganizationName
+from organization.serializers import OrganizationSerializer
 
 from evoucher.pagination_settings import PaginationSettings
 
@@ -21,13 +21,13 @@ class OrganizationDetail(generics.RetrieveUpdateDestroyAPIView):
 @api_view(['GET'])
 def getOrgWoUname(request):
     organization = Organization.objects.filter(username='')
-    serializer = OrganizationName(organization, many=True)
+    serializer = OrganizationSerializer(organization, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
 def getOrgnamebyUname(request, pk):
     organization = Organization.objects.get(username=pk)
-    serializer = OrganizationName(organization)
+    serializer = OrganizationSerializer(organization)
     return Response(serializer.data)
 
 @api_view(['POST'])
