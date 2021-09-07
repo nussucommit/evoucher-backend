@@ -29,7 +29,7 @@ DATABASES = {
 }
 
 sentry_sdk.init(
-    dsn="https://d5b9bdfc08814cbe8b146099775c94ab@o991487.ingest.sentry.io/5948549",
+    dsn="https://04910488757c4c718d6501f19fc058da@o991583.ingest.sentry.io/5948610",
     integrations=[DjangoIntegration()],
 
     # Set traces_sample_rate to 1.0 to capture 100%
