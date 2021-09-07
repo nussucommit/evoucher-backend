@@ -107,7 +107,6 @@ def get_codes_by_code_list(request, id):
 def assign_codes_to_emails(voucher_id, email):
     voucher = Voucher.objects.get(uuid = voucher_id)
     code = Code.objects.filter(voucher = voucher).filter(isAssigned = False).first()
-    print(code)
     count = 1
 
     if code == None:
