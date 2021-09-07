@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     's3direct',
     'storages',
     'silk',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 MIDDLEWARE = [
