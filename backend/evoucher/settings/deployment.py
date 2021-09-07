@@ -1,5 +1,7 @@
 import django_heroku
 import dj_database_url
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 from evoucher.settings.base import *
 
@@ -47,3 +49,18 @@ SESSION_COOKIE_SECURE = True
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
+sentry_sdk.init(
+    dsn="https://d5b9bdfc08814cbe8b146099775c94ab@o991487.ingest.sentry.io/5948549",
+    integrations=[DjangoIntegration()],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True,
+    environment="production",
+)
