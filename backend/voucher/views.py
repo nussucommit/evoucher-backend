@@ -87,6 +87,18 @@ def upload_both_files(request):
     # voucher.save()
     return Response(status=status.HTTP_201_CREATED)
 
+@api_view(['POST'])
+def assign_codes(request):
+    voucherID = request.data['voucher']
+    voucher = Voucher.objects.get(uuid=voucherID)
+
+    email = request.data['email']
+
+    if IdCodeEmail.objects.filter(email=email).filter(voucher=voucher).first() == None:
+        assign_codes_to_emails(voucherID, email)
+
+    return Response(status=status.HTTP_201_CREATED)
+
 @api_view(['GET'])
 def get_num_codes(request, id):
     voucher = Voucher.objects.get(id=id)
@@ -102,6 +114,19 @@ def get_codes_from_email(request, email):
 def get_codes_by_code_list(request, id):
     code2 = Code.objects.get(id=id)
     return Response(data=code2.code)
+
+@api_view(['GET'])
+def get_codes_by_voucher(request, id):
+    codes = Code.objects.filter(voucher=id).values()
+    return JsonResponse({"voucher": id, "data": list(codes)})
+
+@api_view(['GET'])
+def get_dynamic_voucher(request): #, email):
+    dynamic_vouchers = Voucher.objects.filter(voucher_type="Dinamically allocated").values()
+    redeemed_vouchers = Voucher.objects.filter(voucher_type="Dinamically allocated").values()
+    #unredeemed_vouchers = (list(dynamic_vouchers) - list(redeemed_vouchers))
+    #print(unredeemed_vouchers)
+    return JsonResponse({"data": list(dynamic_vouchers)})
 
 
 def assign_codes_to_emails(voucher_id, email):
