@@ -126,7 +126,7 @@ def get_dynamic_voucher(request, email):
     redeemed_vouchers_id = IdCodeEmail.objects.filter(email=email).values_list('voucher', flat=True)
     redeemed_vouchers = Voucher.objects.filter(uuid__in=list(redeemed_vouchers_id)).values()
     unredeemed_vouchers = dynamic_vouchers.difference(redeemed_vouchers)
-    return JsonResponse({"data": list(unredeemed_vouchers)})
+    return JsonResponse({"unredeemed": list(unredeemed_vouchers), "redeemed": list(redeemed_vouchers_id)})
 
 
 def assign_codes_to_emails(voucher_id, email):
