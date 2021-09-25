@@ -121,12 +121,12 @@ def get_codes_by_voucher(request, id):
     return JsonResponse({"voucher": id, "data": list(codes)})
 
 @api_view(['GET'])
-def get_dynamic_voucher(request): #, email):
+def get_dynamic_voucher(request, email):
     dynamic_vouchers = Voucher.objects.filter(voucher_type="Dinamically allocated").values()
-    redeemed_vouchers = Voucher.objects.filter(voucher_type="Dinamically allocated").values()
-    #unredeemed_vouchers = (list(dynamic_vouchers) - list(redeemed_vouchers))
-    #print(unredeemed_vouchers)
-    return JsonResponse({"data": list(dynamic_vouchers)})
+    redeemed_vouchers_id = IdCodeEmail.objects.filter(email=email).values_list('voucher', flat=True)
+    redeemed_vouchers = Voucher.objects.filter(uuid__in=list(redeemed_vouchers_id)).values()
+    unredeemed_vouchers = dynamic_vouchers.difference(redeemed_vouchers)
+    return JsonResponse({"data": list(unredeemed_vouchers)})
 
 
 def assign_codes_to_emails(voucher_id, email):

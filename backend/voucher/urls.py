@@ -16,5 +16,5 @@ urlpatterns = [
     path('voucher/<str:email>/getCodeByEmails/', get_codes_from_email, name='get-codes-from-email' ),
     path('voucher/<int:id>/getCodeByCodeList/', get_codes_by_code_list, name='get-codes-by-code_list' ),
     path('voucher/<str:id>/getCodeByVoucher/', get_codes_by_voucher, name='get-codes-by-voucher' ),
-    path('voucher/getDynamicVoucher/', get_dynamic_voucher, name='get-dynamic-voucher' )
+    path('voucher/getDynamicVoucher/<str:email>/', get_dynamic_voucher, name='get-dynamic-voucher' )
 ]
