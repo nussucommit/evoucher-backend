@@ -122,7 +122,8 @@ def get_codes_by_voucher(request, id):
 
 @api_view(['GET'])
 def get_dynamic_voucher(request, email):
-    dynamic_vouchers = Voucher.objects.filter(voucher_type="Dinamically allocated").values()
+    vouchers_with_codes = Code.objects.filter(isAssigned=False).order_by('voucher').distinct('voucher').values_list('voucher', flat=True)
+    dynamic_vouchers = Voucher.objects.filter(voucher_type="Dinamically allocated").values().filter(uuid__in=list(vouchers_with_codes)).values()
     redeemed_vouchers_id = IdCodeEmail.objects.filter(email=email).values_list('voucher', flat=True)
     redeemed_vouchers = Voucher.objects.filter(uuid__in=list(redeemed_vouchers_id)).values()
     unredeemed_vouchers = dynamic_vouchers.difference(redeemed_vouchers)
