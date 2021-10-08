@@ -1,8 +1,9 @@
 from rest_framework import status, generics, filters
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, parser_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny, IsAdminUser
 from django.http import JsonResponse
+from rest_framework.parsers import FormParser, JSONParser
 
 # Create your views here.
 from voucher.models import Voucher, Code, IdCodeEmail
@@ -35,9 +36,6 @@ def upload_email_list(request):
         # if the voucher is yet to be assigned to this email
         if IdCodeEmail.objects.filter(email=email).filter(voucher=voucher).first() == None:
             assign_codes_to_emails(voucherID, email)
-    
-    # voucher.counter = initialClaimsLeft
-    # voucher.save()
 
     return Response(status=status.HTTP_201_CREATED)
 
@@ -50,13 +48,22 @@ def upload_code_list(request):
     file = request.FILES['code_list']
     decoded_file = file.read().decode('utf-8-sig').splitlines()
     reader = csv.DictReader(decoded_file)
-    # count = 0
+
     for row in reader:
-        # count+= 1
         Code.objects.create(code=row['code'], voucher=voucher)
     
-    # voucher.counter = count
-    # voucher.save()
+    return Response(status=status.HTTP_201_CREATED)
+
+@api_view(['POST'])
+def upload_manual_codes(request, format=None):
+    voucherID = request.data['uuid']
+    voucher = Voucher.objects.get(uuid=voucherID)
+
+    for code, email in request.data.dict().items():
+        if code and code != 'uuid':
+            Code.objects.create(code=code, voucher=voucher)
+            assign_codes_to_emails(voucherID, email)
+
     return Response(status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
