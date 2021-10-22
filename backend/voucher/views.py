@@ -108,7 +108,7 @@ def assign_codes(request):
 
 @api_view(['GET'])
 def get_num_codes(request, id):
-    voucher = Voucher.objects.get(id=id)
+    voucher = Voucher.objects.get(uuid=id)
     num = Code.objects.filter(voucher = voucher).filter(isAssigned = False).count()
     return Response(data=num)
 
