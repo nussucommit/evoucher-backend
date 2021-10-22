@@ -114,8 +114,14 @@ def get_num_codes(request, id):
 
 @api_view(['GET'])
 def get_codes_from_email(request, email):
-    idCodeEmail = IdCodeEmail.objects.filter(email=email).distinct('voucher').values()
-    return JsonResponse({"data": list(idCodeEmail)})
+    idCodeEmail = list(IdCodeEmail.objects.filter(email=email).distinct('voucher').values())
+    codeIdArr = list(IdCodeEmail.objects.filter(email=email).distinct('voucher').values_list('code', flat=True))
+    codeArr = []
+    for id in codeIdArr:
+        codeArr.append(Code.objects.filter(id=id).values_list('code', flat=True)[0])
+    for i in range(0, len(idCodeEmail)):
+        idCodeEmail[i]["code_id"] = codeArr[i]
+    return JsonResponse({"data": idCodeEmail})
 
 @api_view(['GET'])
 def get_codes_by_code_list(request, id):
