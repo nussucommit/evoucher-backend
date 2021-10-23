@@ -119,7 +119,7 @@ def get_codes_from_email(request, email):
     codeArr = []
     for id in codeIdArr:
         codeArr.append(Code.objects.filter(id=id).values_list('code', flat=True)[0])
-    for i in range(0, len(idCodeEmail)):
+    for i in range(len(idCodeEmail)):
         idCodeEmail[i]["code_id"] = codeArr[i]
     return JsonResponse({"data": idCodeEmail})
 
