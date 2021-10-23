@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from rest_framework.parsers import FormParser, JSONParser
 
 # Create your views here.
+from student.models import Student, InOrganization
 from voucher.models import Voucher, Code, IdCodeEmail
 from voucher.serializers import VoucherSerializer, OrganizationInVoucher, VoucherTypes#, CodeSerializer
 from django.db.models import Q, Max
@@ -116,6 +117,14 @@ def get_num_codes(request, id):
 def get_codes_from_email(request, email):
     idCodeEmail = IdCodeEmail.objects.filter(email=email).distinct('voucher').values()
     return JsonResponse({"data": list(idCodeEmail)})
+
+@api_view(['GET'])
+def get_no_codes_from_email(request, email):
+    index_at = email.index('@')
+    nusnet_id = email[:index_at]
+    faculties = InOrganization.objects.filter(student__nusnet_id=nusnet_id).values_list('organization_id', flat=True)
+    noCodeQuerySet = Voucher.objects.filter(organization__in=list(faculties)).filter(voucher_type__iexact='No code').values()
+    return JsonResponse({"data": list(noCodeQuerySet)})
 
 @api_view(['GET'])
 def get_codes_by_code_list(request, id):
