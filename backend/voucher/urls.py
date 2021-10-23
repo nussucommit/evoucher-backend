@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf.urls import url
 
-from voucher.views import VoucherDetail, CreateVoucherList, upload_email_list, upload_code_list, upload_manual_codes, assign_codes, get_num_codes, CreateOrganizationInVoucherList, VoucherTypeList, get_codes_from_email, get_codes_by_code_list, get_codes_by_voucher, get_dynamic_voucher, upload_both_files
+from voucher.views import VoucherDetail, CreateVoucherList, upload_email_list, upload_code_list, upload_manual_codes, assign_codes, get_num_codes, CreateOrganizationInVoucherList, VoucherTypeList, get_codes_from_email, get_codes_by_code_list, get_codes_by_voucher, get_dynamic_voucher, upload_both_files, get_no_codes_from_email
 
 urlpatterns = [
     path('voucher/', CreateVoucherList.as_view()),
@@ -17,5 +17,6 @@ urlpatterns = [
     path('voucher/<str:email>/getCodeByEmails/', get_codes_from_email, name='get-codes-from-email' ),
     path('voucher/<int:id>/getCodeByCodeList/', get_codes_by_code_list, name='get-codes-by-code_list' ),
     path('voucher/<str:id>/getCodeByVoucher/', get_codes_by_voucher, name='get-codes-by-voucher' ),
-    path('voucher/getDynamicVoucher/<str:email>/', get_dynamic_voucher, name='get-dynamic-voucher' )
+    path('voucher/getDynamicVoucher/<str:email>/', get_dynamic_voucher, name='get-dynamic-voucher' ),
+    path('voucher/getNoCodeVoucher/<str:email>/', get_no_codes_from_email, name="get-no-codes-from-email")
 ]
