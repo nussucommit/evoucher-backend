@@ -49,9 +49,14 @@ def upload_code_list(request):
     file = request.FILES['code_list']
     decoded_file = file.read().decode('utf-8-sig').splitlines()
     reader = csv.DictReader(decoded_file)
+    code_count = 0
 
     for row in reader:
         Code.objects.create(code=row['code'], voucher=voucher)
+        code_count = code_count + 1
+
+    voucher.counter = voucher.counter + code_count
+    voucher.save()
     
     return Response(status=status.HTTP_201_CREATED)
 
@@ -105,18 +110,27 @@ def assign_codes(request):
     if IdCodeEmail.objects.filter(email=email).filter(voucher=voucher).first() == None:
         assign_codes_to_emails(voucherID, email)
 
+    voucher.counter = voucher.counter - 1
+    voucher.save()
+
     return Response(status=status.HTTP_201_CREATED)
 
 @api_view(['GET'])
 def get_num_codes(request, id):
-    voucher = Voucher.objects.get(id=id)
+    voucher = Voucher.objects.get(uuid=id)
     num = Code.objects.filter(voucher = voucher).filter(isAssigned = False).count()
     return Response(data=num)
 
 @api_view(['GET'])
 def get_codes_from_email(request, email):
-    idCodeEmail = IdCodeEmail.objects.filter(email=email).distinct('voucher').values()
-    return JsonResponse({"data": list(idCodeEmail)})
+    idCodeEmail = list(IdCodeEmail.objects.filter(email=email).distinct('voucher').values())
+    codeIdArr = list(IdCodeEmail.objects.filter(email=email).distinct('voucher').values_list('code', flat=True))
+    codeArr = []
+    for id in codeIdArr:
+        codeArr.append(Code.objects.filter(id=id).values_list('code', flat=True)[0])
+    for i in range(len(idCodeEmail)):
+        idCodeEmail[i]["code_id"] = codeArr[i]
+    return JsonResponse({"data": idCodeEmail})
 
 @api_view(['GET'])
 def get_no_codes_from_email(request, email):
