@@ -48,9 +48,14 @@ def upload_code_list(request):
     file = request.FILES['code_list']
     decoded_file = file.read().decode('utf-8-sig').splitlines()
     reader = csv.DictReader(decoded_file)
+    code_count = 0
 
     for row in reader:
         Code.objects.create(code=row['code'], voucher=voucher)
+        code_count = code_count + 1
+
+    voucher.counter = voucher.counter + code_count
+    voucher.save()
     
     return Response(status=status.HTTP_201_CREATED)
 
@@ -103,6 +108,9 @@ def assign_codes(request):
 
     if IdCodeEmail.objects.filter(email=email).filter(voucher=voucher).first() == None:
         assign_codes_to_emails(voucherID, email)
+
+    voucher.counter = voucher.counter - 1
+    voucher.save()
 
     return Response(status=status.HTTP_201_CREATED)
 
