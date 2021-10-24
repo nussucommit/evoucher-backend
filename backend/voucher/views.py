@@ -120,11 +120,18 @@ def get_codes_from_email(request, email):
 
 @api_view(['GET'])
 def get_no_codes_from_email(request, email):
+    is_eligible = False
+
     index_at = email.index('@')
     nusnet_id = email[:index_at]
     faculties = InOrganization.objects.filter(student__nusnet_id=nusnet_id).values_list('organization_id', flat=True)
-    noCodeQuerySet = Voucher.objects.filter(organization__in=list(faculties)).filter(voucher_type__iexact='No code').values()
-    return JsonResponse({"data": list(noCodeQuerySet)})
+
+    no_code_queryset = Voucher.objects.filter(voucher_type__iexact='No code').values()
+
+    # For every voucher, check if student's faculty is inside the list of the voucher's eligible faculties
+    eligible_no_code = list(filter(lambda voucher: any(faculty in voucher["eligible_faculties"] for faculty in list(faculties)), list(no_code_queryset)))
+    
+    return JsonResponse({"data": eligible_no_code})
 
 @api_view(['GET'])
 def get_codes_by_code_list(request, id):
