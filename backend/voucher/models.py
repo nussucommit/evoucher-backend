@@ -18,6 +18,7 @@ class Voucher(models.Model):
     counter = models.PositiveIntegerField(blank=False)
     image = models.ImageField(upload_to='')
     code_uploaded = models.BooleanField(default=False)
+    eligible_faculties = models.CharField(max_length=255, default='', blank=True)
 
     def __string__(self):
         return "{}: {}".format(self.voucher_id, self.name)

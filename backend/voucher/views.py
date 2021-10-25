@@ -137,8 +137,13 @@ def get_no_codes_from_email(request, email):
     index_at = email.index('@')
     nusnet_id = email[:index_at]
     faculties = InOrganization.objects.filter(student__nusnet_id=nusnet_id).values_list('organization_id', flat=True)
-    noCodeQuerySet = Voucher.objects.filter(organization__in=list(faculties)).filter(voucher_type__iexact='No code').values()
-    return JsonResponse({"data": list(noCodeQuerySet)})
+
+    no_code_queryset = Voucher.objects.filter(voucher_type__iexact='No code').values()
+
+    # For every voucher, check if student's faculty is inside the list of the voucher's eligible faculties
+    eligible_no_code = list(filter(lambda voucher: any(faculty in voucher["eligible_faculties"] for faculty in list(faculties)), list(no_code_queryset)))
+    
+    return JsonResponse({"data": eligible_no_code})
 
 @api_view(['GET'])
 def get_codes_by_code_list(request, id):
@@ -152,12 +157,19 @@ def get_codes_by_voucher(request, id):
 
 @api_view(['GET'])
 def get_dynamic_voucher(request, email):
+    index_at = email.index('@')
+    nusnet_id = email[:index_at]
+    faculties = InOrganization.objects.filter(student__nusnet_id=nusnet_id).values_list('organization_id', flat=True)
+
     vouchers_with_codes = Code.objects.filter(isAssigned=False).order_by('voucher').distinct('voucher').values_list('voucher', flat=True)
     dynamic_vouchers = Voucher.objects.filter(voucher_type="Dinamically allocated").values().filter(uuid__in=list(vouchers_with_codes)).values()
-    redeemed_vouchers_id = IdCodeEmail.objects.filter(email=email).values_list('voucher', flat=True)
-    redeemed_vouchers = Voucher.objects.filter(uuid__in=list(redeemed_vouchers_id)).values()
+    redeemed_vouchers_id = list(IdCodeEmail.objects.filter(email=email).values_list('voucher', flat=True))
+    redeemed_vouchers = Voucher.objects.filter(uuid__in=redeemed_vouchers_id).values()
+
     unredeemed_vouchers = dynamic_vouchers.difference(redeemed_vouchers)
-    return JsonResponse({"unredeemed": list(unredeemed_vouchers), "redeemed": list(redeemed_vouchers_id)})
+    eligible_unredeemed = list(filter(lambda voucher: any(faculty in voucher["eligible_faculties"] for faculty in list(faculties)), list(unredeemed_vouchers)))
+
+    return JsonResponse({"unredeemed": eligible_unredeemed, "redeemed": redeemed_vouchers_id})
 
 
 def assign_codes_to_emails(voucher_id, email):
