@@ -33,7 +33,7 @@ def upload_email_list(request):
     # initialClaimsLeft = voucher.counter
 
     for row in reader:
-        email = row['\ufeffemail']
+        email = row['\ufeffemail'].lower()
         # if the voucher is yet to be assigned to this email
         if IdCodeEmail.objects.filter(email=email).filter(voucher=voucher).first() == None:
             assign_codes_to_emails(voucherID, email)
@@ -91,7 +91,7 @@ def upload_both_files(request):
     reader = csv.DictReader(decoded_file)
 
     for row in reader:
-        email = row['\ufeffemail']
+        email = row['\ufeffemail'].lower()
         # if the voucher is yet to be assigned to this email
         if IdCodeEmail.objects.filter(email=email).filter(voucher=voucher).first() == None:
             assign_codes_to_emails(voucherID, email)
@@ -105,7 +105,7 @@ def assign_codes(request):
     voucherID = request.data['voucher']
     voucher = Voucher.objects.get(uuid=voucherID)
 
-    email = request.data['email']
+    email = request.data['email'].lower()
 
     if IdCodeEmail.objects.filter(email=email).filter(voucher=voucher).first() == None:
         assign_codes_to_emails(voucherID, email)
@@ -135,7 +135,7 @@ def get_codes_from_email(request, email):
 @api_view(['GET'])
 def get_no_codes_from_email(request, email):
     index_at = email.index('@')
-    nusnet_id = email[:index_at]
+    nusnet_id = email[:index_at].lower()
     faculties = InOrganization.objects.filter(student__nusnet_id=nusnet_id).values_list('organization_id', flat=True)
 
     no_code_queryset = Voucher.objects.filter(voucher_type__iexact='No code').values()
@@ -158,7 +158,7 @@ def get_codes_by_voucher(request, id):
 @api_view(['GET'])
 def get_dynamic_voucher(request, email):
     index_at = email.index('@')
-    nusnet_id = email[:index_at]
+    nusnet_id = email[:index_at].lower()
     faculties = InOrganization.objects.filter(student__nusnet_id=nusnet_id).values_list('organization_id', flat=True)
 
     vouchers_with_codes = Code.objects.filter(isAssigned=False).order_by('voucher').distinct('voucher').values_list('voucher', flat=True)
@@ -173,6 +173,7 @@ def get_dynamic_voucher(request, email):
 
 
 def assign_codes_to_emails(voucher_id, email):
+    email = email.lower()
     voucher = Voucher.objects.get(uuid = voucher_id)
     code = Code.objects.filter(voucher = voucher).filter(isAssigned = False).first()
     count = 1
