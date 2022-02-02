@@ -12,6 +12,6 @@ urlpatterns = [
     re_path(r"^logout$", UserLogoutView.as_view(), name="user-logout"),
     path('register', RegisterApi.as_view()),
     path('changepassword', ChangePasswordView.as_view(), name="user-changepassword"),
-    path('studentlogin', authenticator)
+    path('studentlogin', authenticator),
     path('resetpassword/', include('django_rest_passwordreset.urls', namespace='password_reset')),
 ]
