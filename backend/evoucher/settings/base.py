@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'storages',
     'silk',
     'rest_framework_simplejwt.token_blacklist',
+    'django_rest_passwordreset',
 ]
 
 MIDDLEWARE = [

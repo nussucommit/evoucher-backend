@@ -1,6 +1,6 @@
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from users.views import RegisterApi, change_password, UserLogoutView, ChangePasswordView, UserView
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 
 from users.views import authenticator
 
@@ -13,4 +13,5 @@ urlpatterns = [
     path('register', RegisterApi.as_view()),
     path('changepassword', ChangePasswordView.as_view(), name="user-changepassword"),
     path('studentlogin', authenticator)
+    path('resetpassword/', include('django_rest_passwordreset.urls', namespace='password_reset')),
 ]
