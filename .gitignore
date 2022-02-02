@@ -111,6 +111,7 @@ dist
 
 # venv environment
 evoucher-env/
+env/
 
 # vscode settings
 backend/.vscode/
