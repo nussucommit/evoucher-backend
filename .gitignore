@@ -109,8 +109,12 @@ dist
 
 *.pyc
 
-#venv environment
+# venv environment
 evoucher-env/
 
-#vscode settings
+# vscode settings
 backend/.vscode/
+
+# project files
+*.sublime-project
+*.sublim-workspace
