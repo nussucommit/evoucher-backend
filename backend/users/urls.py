@@ -15,3 +15,8 @@ urlpatterns = [
     path('studentlogin', authenticator),
     path('resetpassword/', include('django_rest_passwordreset.urls', namespace='password_reset')),
 ]
+
+'''
+Documentation for resetpassword endpoints:
+https://github.com/anexia-it/django-rest-passwordreset
+'''
