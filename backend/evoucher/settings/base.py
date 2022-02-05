@@ -153,3 +153,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_DIR, '../../../static')
+
+# SMTP settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = smtp.gmail.com
+
+EMAIL_USE_TLS = True
+
+EMAIL_PORT = 587
+
+EMAIL_HOST_USER = nussu.evoucher.dev@gmail.com
+
+EMAIL_HOST_PASSWORD = vzdceuzcmayocdqk
