@@ -195,6 +195,11 @@ class CreateVoucherList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         queryset = Voucher.objects.all()
+
+        redeemer = self.request.query_params.get('Student', None) # retrieve Student id from GET
+        queryset = queryset.exclude(redeemer_id__icontains = redeemer)
+        # Do not include redeemed vouchers in the list
+
         vouchertype = self.request.query_params.get('VoucherType', None)
         organization = self.request.query_params.get('Organization', None)
         faculty = self.request.query_params.get('Faculty', None)
@@ -202,10 +207,9 @@ class CreateVoucherList(generics.ListCreateAPIView):
         orderBy = self.request.query_params.get('OrderBy',None)
 
         q = Q()
+
         if faculty and faculty != 'null':
             q &= Q(name__icontains=faculty.lower())
-        # if organization and organization != 'null':
-        #     q &= Q(organization=organization)
         if vouchertype and vouchertype != 'null':
             q &= Q(voucher_type=vouchertype)
         if organization and organization != 'null':

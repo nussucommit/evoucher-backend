@@ -19,9 +19,13 @@ class Voucher(models.Model):
     image = models.ImageField(upload_to='')
     code_uploaded = models.BooleanField(default=False)
     eligible_faculties = models.CharField(max_length=255, default='', blank=True)
+    redeemer_id = models.ManyToManyField(Student, related_name='redeemed_users') #only allow single redemption
 
     def __string__(self):
         return "{}: {}".format(self.voucher_id, self.name)
+
+    def number_redeemed(self):
+        return self.redeemer_id.count() #can check this against voucher.counter remaining to audit
 
 class Code(models.Model):
     code = models.CharField(max_length=128)
