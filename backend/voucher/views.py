@@ -85,7 +85,7 @@ def upload_both_files(request):
     for row in reader:
         # count += 1
         Code.objects.create(code=row['code'], voucher=voucher)
-    
+
     file = request.FILES['email_list']
     decoded_file = file.read().decode('utf-8').splitlines()
     reader = csv.DictReader(decoded_file)
@@ -142,7 +142,7 @@ def get_no_codes_from_email(request, email):
 
     # For every voucher, check if student's faculty is inside the list of the voucher's eligible faculties
     eligible_no_code = list(filter(lambda voucher: any(faculty in voucher["eligible_faculties"] for faculty in list(faculties)), list(no_code_queryset)))
-    
+
     return JsonResponse({"data": eligible_no_code})
 
 @api_view(['GET'])
@@ -163,6 +163,7 @@ def get_dynamic_voucher(request, email):
 
     vouchers_with_codes = Code.objects.filter(isAssigned=False).order_by('voucher').distinct('voucher').values_list('voucher', flat=True)
     dynamic_vouchers = Voucher.objects.filter(voucher_type="Dinamically allocated").values().filter(uuid__in=list(vouchers_with_codes)).values()
+    #"dinamic" typo intentional?
     redeemed_vouchers_id = list(IdCodeEmail.objects.filter(email=email).values_list('voucher', flat=True))
     redeemed_vouchers = Voucher.objects.filter(uuid__in=redeemed_vouchers_id).values()
 
@@ -181,7 +182,7 @@ def assign_codes_to_emails(voucher_id, email):
     if code == None:
         count = 0
         code = Code.objects.create(code='N/A', voucher=voucher, isAssigned=True)
-    
+
     code.isAssigned = True
     code.save()
     IdCodeEmail.objects.create(voucher = voucher, email = email, code = code)
@@ -197,7 +198,7 @@ class CreateVoucherList(generics.ListCreateAPIView):
         queryset = Voucher.objects.all()
 
         redeemer = self.request.query_params.get('nusnet_id', None) # retrieve Student id from GET
-        queryset = queryset.exclude(redeemer_id__icontains = redeemer)
+        queryset = queryset.exclude(redeemer_id = redeemer)
         # Do not include redeemed vouchers in the list
 
         vouchertype = self.request.query_params.get('VoucherType', None)
