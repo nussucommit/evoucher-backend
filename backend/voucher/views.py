@@ -95,7 +95,7 @@ def upload_both_files(request):
         # if the voucher is yet to be assigned to this email
         if IdCodeEmail.objects.filter(email=email).filter(voucher=voucher).first() == None:
             assign_codes_to_emails(voucherID, email)
-    
+
     # voucher.counter = count
     # voucher.save()
     return Response(status=status.HTTP_201_CREATED)
@@ -196,7 +196,7 @@ class CreateVoucherList(generics.ListCreateAPIView):
     def get_queryset(self):
         queryset = Voucher.objects.all()
 
-        redeemer = self.request.query_params.get('Student', None) # retrieve Student id from GET
+        redeemer = self.request.query_params.get('nusnet_id', None) # retrieve Student id from GET
         queryset = queryset.exclude(redeemer_id__icontains = redeemer)
         # Do not include redeemed vouchers in the list
 
