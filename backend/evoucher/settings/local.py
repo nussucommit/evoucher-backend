@@ -24,7 +24,7 @@ CORS_ORIGIN_WHITELIST = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'evoucher',
+        'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'password',
         'HOST': 'localhost',
