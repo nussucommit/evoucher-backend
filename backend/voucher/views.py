@@ -57,7 +57,7 @@ def upload_code_list(request):
 
     voucher.counter = voucher.counter + code_count
     voucher.save()
-    
+
     return Response(status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
@@ -162,8 +162,7 @@ def get_dynamic_voucher(request, email):
     faculties = InOrganization.objects.filter(student__nusnet_id=nusnet_id).values_list('organization_id', flat=True)
 
     vouchers_with_codes = Code.objects.filter(isAssigned=False).order_by('voucher').distinct('voucher').values_list('voucher', flat=True)
-    dynamic_vouchers = Voucher.objects.filter(voucher_type="Dinamically allocated").values().filter(uuid__in=list(vouchers_with_codes)).values()
-    #"dinamic" typo intentional?
+    dynamic_vouchers = Voucher.objects.filter(voucher_type="Dynamically allocated").values().filter(uuid__in=list(vouchers_with_codes)).values()
     redeemed_vouchers_id = list(IdCodeEmail.objects.filter(email=email).values_list('voucher', flat=True))
     redeemed_vouchers = Voucher.objects.filter(uuid__in=redeemed_vouchers_id).values()
 
