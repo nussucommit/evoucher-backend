@@ -107,13 +107,16 @@ def assign_codes(request):
 
     email = request.data['email'].lower()
 
-    if IdCodeEmail.objects.filter(email=email).filter(voucher=voucher).first() == None:
+    if IdCodeEmail.objects.filter(email=email).filter(voucher=voucher).first() == None and request.user not in voucher.redeemer_id.all():
         assign_codes_to_emails(voucherID, email)
+        voucher.redeemer_id.add(request.user)
 
-    voucher.counter = voucher.counter - 1
-    voucher.save()
-
-    return Response(status=status.HTTP_201_CREATED)
+        voucher.counter = voucher.counter - 1
+        voucher.save()   
+    
+        return Response(status=status.HTTP_201_CREATED)
+    
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET'])
 def get_num_codes(request, id):
