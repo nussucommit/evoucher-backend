@@ -200,8 +200,6 @@ class CreateVoucherList(generics.ListCreateAPIView):
         queryset = Voucher.objects.all()
 
         redeemer = self.request.query_params.get('nusnet_id', None) # retrieve Student id from GET
-        queryset = queryset.exclude(redeemer_id = redeemer)
-        # Do not include redeemed vouchers in the list
 
         vouchertype = self.request.query_params.get('VoucherType', None)
         organization = self.request.query_params.get('Organization', None)
