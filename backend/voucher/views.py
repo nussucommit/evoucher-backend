@@ -57,7 +57,7 @@ def upload_code_list(request):
 
     voucher.counter = voucher.counter + code_count
     voucher.save()
-    
+
     return Response(status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
@@ -85,7 +85,7 @@ def upload_both_files(request):
     for row in reader:
         # count += 1
         Code.objects.create(code=row['code'], voucher=voucher)
-    
+
     file = request.FILES['email_list']
     decoded_file = file.read().decode('utf-8').splitlines()
     reader = csv.DictReader(decoded_file)
@@ -95,7 +95,7 @@ def upload_both_files(request):
         # if the voucher is yet to be assigned to this email
         if IdCodeEmail.objects.filter(email=email).filter(voucher=voucher).first() == None:
             assign_codes_to_emails(voucherID, email)
-    
+
     # voucher.counter = count
     # voucher.save()
     return Response(status=status.HTTP_201_CREATED)
@@ -107,13 +107,16 @@ def assign_codes(request):
 
     email = request.data['email'].lower()
 
-    if IdCodeEmail.objects.filter(email=email).filter(voucher=voucher).first() == None:
+    if IdCodeEmail.objects.filter(email=email).filter(voucher=voucher).first() == None and request.user not in voucher.redeemer_id.all():
         assign_codes_to_emails(voucherID, email)
+        voucher.redeemer_id.add(request.user)
 
-    voucher.counter = voucher.counter - 1
-    voucher.save()
-
-    return Response(status=status.HTTP_201_CREATED)
+        voucher.counter = voucher.counter - 1
+        voucher.save()   
+    
+        return Response(status=status.HTTP_201_CREATED)
+    
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET'])
 def get_num_codes(request, id):
@@ -142,7 +145,7 @@ def get_no_codes_from_email(request, email):
 
     # For every voucher, check if student's faculty is inside the list of the voucher's eligible faculties
     eligible_no_code = list(filter(lambda voucher: any(faculty in voucher["eligible_faculties"] for faculty in list(faculties)), list(no_code_queryset)))
-    
+
     return JsonResponse({"data": eligible_no_code})
 
 @api_view(['GET'])
@@ -162,7 +165,7 @@ def get_dynamic_voucher(request, email):
     faculties = InOrganization.objects.filter(student__nusnet_id=nusnet_id).values_list('organization_id', flat=True)
 
     vouchers_with_codes = Code.objects.filter(isAssigned=False).order_by('voucher').distinct('voucher').values_list('voucher', flat=True)
-    dynamic_vouchers = Voucher.objects.filter(voucher_type="Dinamically allocated").values().filter(uuid__in=list(vouchers_with_codes)).values()
+    dynamic_vouchers = Voucher.objects.filter(voucher_type="Dynamically allocated").values().filter(uuid__in=list(vouchers_with_codes)).values()
     redeemed_vouchers_id = list(IdCodeEmail.objects.filter(email=email).values_list('voucher', flat=True))
     redeemed_vouchers = Voucher.objects.filter(uuid__in=redeemed_vouchers_id).values()
 
@@ -181,7 +184,7 @@ def assign_codes_to_emails(voucher_id, email):
     if code == None:
         count = 0
         code = Code.objects.create(code='N/A', voucher=voucher, isAssigned=True)
-    
+
     code.isAssigned = True
     code.save()
     IdCodeEmail.objects.create(voucher = voucher, email = email, code = code)
@@ -195,6 +198,9 @@ class CreateVoucherList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         queryset = Voucher.objects.all()
+
+        redeemer = self.request.query_params.get('nusnet_id', None) # retrieve Student id from GET
+
         vouchertype = self.request.query_params.get('VoucherType', None)
         organization = self.request.query_params.get('Organization', None)
         faculty = self.request.query_params.get('Faculty', None)
@@ -202,10 +208,9 @@ class CreateVoucherList(generics.ListCreateAPIView):
         orderBy = self.request.query_params.get('OrderBy',None)
 
         q = Q()
+
         if faculty and faculty != 'null':
             q &= Q(name__icontains=faculty.lower())
-        # if organization and organization != 'null':
-        #     q &= Q(organization=organization)
         if vouchertype and vouchertype != 'null':
             q &= Q(voucher_type=vouchertype)
         if organization and organization != 'null':

@@ -20,3 +20,8 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# attempt to work around the psql fatal error
+from dotenv import load_dotenv
+
+load_dotenv()
